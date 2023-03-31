@@ -1,0 +1,40 @@
+.main_container{
+    width: 100vw;
+    height: 100vh;
+    background-color: blueviolet;
+}
+
+.header{
+    height: 10%;
+    width: 100%;
+    background-color: beige;
+}
+
+.body{
+    height: 90%;
+    width: 100%;
+    background-color: black;
+    display: flex;
+}
+
+.left{
+    height : 100%;
+    width : 50%;
+    background-color: blue;
+}
+.right {
+    height: 100%;
+    width: 50%;
+    background-color: brown;
+}
+
+.left2{
+    height : 100%;
+    width : 50%;
+    background-color:aquamarine;
+}
+.right2 {
+    height: 100%;
+    width: 50%;
+    background-color:black;
+}
