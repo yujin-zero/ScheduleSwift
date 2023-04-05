@@ -1,10 +1,150 @@
-.login_text{
-    width: 100vw;
-    height: 100vh;
-    background-color: blueviolet;
+
+.inner{
+    padding:0 30px
 }
 
-.login_backgroun_top_image{
+.login h1{
+    position: relative;
+    font-size: 0;
+    text-indent: -9999em;
+    display: block;
+    overflow: hidden;
+    background: url(../login_logo.png) 50% 50% no-repeat;
+    width: 150px;
+    height: 36px;
+    margin: auto;
+}
+
+.contents:before{
+    content:'';
+    background: url(../login_bg.png) 50% 50% no-repeat;
+    background-size: cover;
     width: 100%;
-    height: 50%;
+    height: 480px;
+    position: absolute;
+    top: 0;
+}
+
+.login_text{
+    position: relative;
+    max-width: 336px;
+    margin: auto;
+    text-align: center;
+    height: auto;
+}
+
+.login_text p{
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #fff;
+    padding-top: 15px;
+    text-align: center;
+    padding-bottom: 18px;
+}
+
+.login_text span+span{
+    padding-top: 5px;
+}
+.login_text span{
+    font-size: 14px;
+    line-height: 1.4;
+    color: #fff;
+    display: block;
+    word-break: keep-all;
+}
+
+.login_text span em{
+    color:#ffea9b;
+    font-style: normal;
+}
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.login_wrap{
+    width: 460px;
+    border-radius: 4px;
+    background: #fff;
+    position:relative;
+    padding: 30px 40px;
+    margin: 28px auto 0;
+    transition: all 0.5s;
+}
+
+.login_wrap .input_box input{
+    font-size: 16px;
+    letter-spacing: -1px;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+    color: #273c61;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.input_box p{
+    font-size: 14px;
+    color: #666666;
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.login_wrap .loginBtn{
+    display: block;
+    box-shadow: rgb(0, 0,0) 0px 3px 6px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 32px;
+    background: #c3002f;
+    height: 50px;
+    font-size: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.loginBtn span{
+    line-height: 50px;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.noti{
+    max-width: 460px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.noti p{
+    font-size: 14px;
+    letter-spacing: -.5px;
+    padding-bottom: 8px;
+    color: #666;
+}
+
+.noti li ul li{
+    font-size: 13px;
+    letter-spacing: -.5px;
+    padding-bottom: 5px;
+    text-indent: -8px;
+    padding-left: 8px;
+}
+
+li{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+    color:inherit;
+}
+
+.noti>li span{
+    color:#4d81d7;
+    border-bottom: 1px solid #4d81d7;
 }
