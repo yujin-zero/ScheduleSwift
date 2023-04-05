@@ -1,0 +1,74 @@
+.content_start{
+    width: 100%;
+    height: 88%;
+    background-color: antiquewhite;
+    display: flex;
+}
+
+
+.footer_start{
+    width: 100%;
+    height: 12%;
+    background-color: #334d61;  
+}
+
+.root{
+    width: 100vw;
+    height: 100vh;
+    
+}
+.left_start{
+    width: 25%;
+    background: #c30e2e;
+    position: relative;
+
+}
+.right_start{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #eeede3;
+    height: 100%;
+    padding-left: 9rem;
+
+}
+.logo_start{
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 10rem;
+    z-index: 1;
+    cursor: pointer;
+}
+.logo2_start{
+    position: absolute;
+    right: -7.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15rem;
+    object-fit: contain;
+}
+.action-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-weight: 500;
+}
+.font-large{
+    font-size: 2.5rem;
+}
+.font-medium{
+    font-size: 1.75rem;
+}
+#login-button{
+    width: 80%;
+    height: 4rem;
+    background-color: #c30e2e;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
