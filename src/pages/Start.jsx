@@ -18,9 +18,9 @@ const Start = () => {
                 </div>
                 <div className="right_start">
                     <div className="action-container">
-                    <span class="font-large">세종대학교 수강신청 도우미</span>
+                    <span class="font-large">세종대학교 수강신청 도와드림</span>
                     <span class="font-medium">Sejong University Application for classes</span>
-                    <span id="login-button" >로그인 / Login</span>
+                    <span id="login-button" onClick={() => navigate('/loginpage')}>로그인 / Login</span>
                     <span id="login-button" >회원가입 / Sign up</span>
 
                     </div>
