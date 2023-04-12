@@ -17,8 +17,8 @@ const Test = () => {
                 </div>
                 <div className="right">
                     <Button 
-                        name="Button1" 
-                        onClick={() => navigate('/test2')} 
+                        name="시작화면" 
+                        onClick={() => navigate('/start')} 
                     />
                     <Button 
                         name="Button2" 
