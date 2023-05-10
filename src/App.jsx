@@ -5,7 +5,12 @@ import Test2 from "./pages/Test2";
 import Start from "./pages/Start";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
+
 import Lectureapply from "./pages/Lectureapply"
+import RequestSeat from "./pages/RequestSeat"
+
+import Potal from "./pages/Potal";
+import Apply from "./pages/Apply";
 
 function App() {
   return (
@@ -16,8 +21,12 @@ function App() {
             <Route path="/test" element={<Test />}/>
             <Route path="/test2" element={<Test2 />}/>
             <Route path="/loginpage" element={<LoginPage />}/>
-            <Route path="/lecture" element={<Lectureapply />}/>
+            <Route path="/lectureapply" element={<Lectureapply />}/>
             <Route path="/joinpage" element={<JoinPage />} />
+             <Route path="/requestSeat" element={<RequestSeat />}/>
+            <Route path="/potal" element={<Potal/>}/>
+            <Route path="/apply" element={<Apply/>}/>
+
           </Routes>
         </div>
     </BrowserRouter>

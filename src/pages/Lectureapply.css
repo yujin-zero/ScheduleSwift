@@ -1,141 +1,138 @@
 
 .b1{
     position: relative;
-    width: 1600px;
+    width: 100%;
     height: 15px;
-    left: -5px;
-    top: 0px;
     background: #952535;
 }
 
 .b2{
-    position:absolute;
-    width: 1600px;
+    position:relative;
+    width: 100%;
     height: 100px;
-    left: -5px;
-    top: 15px;
     background: #D9D9D9;
 }
 
 .b2 h1{
-    position: absolute;
+    position: relative;
     width: 300px;
     height: 70px;
-    left: 30px;
     top: 25px;
+    margin-left: -20px;
     background: url(../login_logo.png) 50% 50% no-repeat;
     font-size: 0;
-    text-indent: -9999em;
-    display: block;
-    overflow: hidden;
-    margin: auto;
-}
-  
-.nav {
-    height: 80px;
-    overflow: hidden;
-    transition: 0.25s ease-in-out;
 }
 
-.nav:hover {
-    height: 200px;
-    cursor: pointer;
+.left{
+    position: absolute;
+    width: 35%;
+    height: 1000px;
+    background: none;
 }
 
-.nav .navContainer {
-    height: 77px;
-    display: flex;
-    margin: auto;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0;
-}
-.nav .navContainer .active {
-    background-color:#D9D9D9;
-    /* color: white; */
-}
-
-.nav .navContainer .none {
-    background-color: none;
-}
-
-.nav .navContainer li {
-    width: 200px;
+.semester{
+    width: 100%;
     height: 100%;
-    margin-top: 43px;
-    padding-left: 1150px;
-    list-style-type: none;
-    font-size: 19px;
-    color: #000000;
-    font-weight: 600;
-    display: flex;
-    align-items:center;
-    justify-content: center;
+    margin-left: 70px;
+    margin-top: 30px;
 }
 
-.nav .navContainer li p {
-    margin: 0;
-}
-
-.nav .detailMenu {
+.semester button{
+    width: 360px;
     height: 60px;
-    display: flex;
-    overflow: hidden;
+    margin-top: 23px;
+    font-size: 20px;
 }
 
-.nav .detailMenu ul {
-    list-style: none;
-    width: 1600px;
-    margin: 23px;
-    justify-content: space-around;
-    padding: 0;
-}
-
-.nav .detailMenu ul li {
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
-    border: 0;
-    padding-left: 100px;
-    word-spacing: 30px;
-    float: left;
-    color: #000000;
-    font-weight: 600;
-}
-
-.nav .detailMenu ul li:hover {
-    cursor: pointer;
-    color: #952535;
+.right{
+    position: absolute;
+    margin-left: 35%;
+    width:65%;
+    height: 1000px;
+    /* background: #FAF4C0; */
+    background: none;
 }
 
 .dept{
-    position: relative;
-    width: 1600px;
-    height: 50px;
-    top: 150px;
-    background: #FAF4C0;
+    display: flex;
+    width: 100%;
+    height:10%;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
-.box{
-    position: relative;
-    width: 11px;
-    display: inline-block;
-    height: 35px;
-    left: 200px;
-    top: -15px;
-    background: #D86079;
-    font-size: 0;
+.dept input{
+    width: 50%;
+    height: 30%;
+    margin-left: 10px;
 }
 
-.depternment{
-    position: relative;
-    display: inline;
-    width: 11px;
+.obj{
+    display: flex;
+    width: 70%;
+    height: 50%;
+    border: 1px solid black;
+    margin-left: 15%;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+.apply{
+    display: flex;
+    width: 100%;
+    height: 5%;
+    margin-top: 10px;
+    margin-left: 78%;
+}
+
+.apply button{
+    width: 62px;
+    height: 40px;
+    background-color: #952535;
+    color: #fff;
+    font-size: 20px;
+    border: 2px solid #952535;
+}
+
+.grade{
+    display: flex;
+    height: 10%;
+    align-items: center;
+    margin-left: 35%;
+}
+
+.small_rect{
+    display: flex;
+    width: 15px;
     height: 30px;
-    font-weight: 700px;
-    top:11px;
-    font-size: 25px;
-    left: 210px;
-    color: #000000;
+    background: #952535;
+    margin-right: 10px;
 }
+
+.rect{
+    display: flex;
+    width: 50%;
+    height: 30%;
+    margin-left: 10px;
+    background: #fff;
+    border: 1px solid #000000;
+}
+
+.grade span{
+    font-size: 20px;
+    text-align: center;
+}
+
+
+
+
+  
+
+
+
+
 
 

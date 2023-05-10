@@ -1,0 +1,232 @@
+.Potal_root{
+    width: 100vw;
+    height: 100vh;
+    background-color: #F8F8F8;
+}
+
+.potal_header{
+    width: 100%;
+    height: 10%;
+    background-color: #c30e2e;
+}
+
+.potal_header img{
+    margin-top: 1%;
+    margin-left: 1%;
+    width:17%;
+}
+
+#potal_logout{
+    width: 6rem;
+    height: 2rem;
+    background-color: #c30e2e;
+    float: right;
+    margin-right: 5%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 20px;
+    border: 2px solid #ffffff;
+    color: white;
+    margin-top: 1.25%;
+    cursor: pointer;
+}
+
+.potal_name{
+    width: 100%;
+    height: 15%;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);
+    display: flex;
+    
+}
+
+.potal_name_left{
+    width: 60%;
+    flex-direction: column;
+    margin-left: 5%;
+}
+
+.potal_name_left h2{
+    margin-top: 30px;
+}
+
+.potal_name_left p{
+    margin-top: -5px;
+}
+
+.potal_name_right{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.moment-box{
+    width: 300px;
+    float: right;
+    color: black;
+    background-color: white;
+    display: flex;
+    font-size: 50px;
+    font-weight: lighter;
+}
+
+#potal_Application{
+    width: 10rem;
+    height: 2.5rem;
+    background-color: #c30e2e;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 30px;
+    color: white;
+    margin-top: 1.25%;
+    cursor: pointer;
+    font-weight: bold;
+    float: right;
+    margin-right: 5%;
+}
+
+.potal_body{
+    width: 100%;
+    height: 75%;
+    display: flex;
+}
+
+.potal_timetable{
+    width: 40%;
+    height: 90%;
+    background-color: #ffffff;
+    margin-top: 2%;
+    margin-left: 2%;
+    border-radius: 30px;
+    border: 1px solid #D9D9D9;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.potal_timetable_header{
+    width:90%;
+    height: 10%;
+    background-color: white;
+    margin-top: -5%;
+    display: flex;
+}
+
+.potal_timetable_content{
+    width: 80%;
+    height: 80%;
+    margin-top: 2%;
+    background-color: white;
+    border: 1px solid black;
+    
+}
+
+#potal_interested{
+    width: 8rem;
+    height: 2rem;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 30px;
+    color: #c30e2e;
+    margin-top: 2%;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 55%;
+    border: 2px solid #c30e2e;
+    float: right;
+}
+
+.potal_right{
+    width: 54%;
+    height: 82%;
+    margin-left: 2%;
+    margin-top: 2%;
+    background-color: #F8F8F8;
+}
+
+.potal_information{
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #D9D9D9;
+}
+
+.potal_info1{
+    width: 97%;
+    height: 8%;
+    background-color: white;
+    margin-top: 3%;
+    margin-left: 3%;
+    display: flex;
+}
+
+.potal_info2{
+    width: 97%;
+    height: 22%;
+    background-color: white;
+    margin-top: 2%;
+    margin-left: 3%;
+}
+
+.potal_info3{
+    width: 97%;
+    height: 32%;
+    background-color: white;
+    margin-top: 3%;
+    margin-left: 3%;
+}
+
+.potal_info4{
+    width: 97%;
+    height: 17%;
+    background-color: white;
+    margin-top: 3%;
+    margin-left: 3%;
+}
+
+#potal_get{
+    width: 8rem;
+    height: 2rem;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 30px;
+    color: #c30e2e;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 70%;
+    border: 2px solid #c30e2e;
+    float: right;
+}
+
+.potal_grade{
+    width: 100%;
+    height: 10%;
+    margin-top: 1%;
+    background-color: #F8F8F8;
+    display: flex;
+}
+
+.potal_grade h4{
+    margin-left: 50%;
+}
+
+.potal_grade h3{
+    margin-left: 20%;
+}
+
+table{
+    width:85%;
+}
+
+td{
+    text-align: center;
+}
