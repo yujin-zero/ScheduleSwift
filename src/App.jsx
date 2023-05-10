@@ -6,6 +6,7 @@ import Start from "./pages/Start";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
 import Lectureapply from "./pages/Lectureapply"
+import RequestSeat from "./pages/RequestSeat"
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
             <Route path="/test" element={<Test />}/>
             <Route path="/test2" element={<Test2 />}/>
             <Route path="/loginpage" element={<LoginPage />}/>
-            <Route path="/lecture" element={<Lectureapply />}/>
+            <Route path="/lectureapply" element={<Lectureapply />}/>
             <Route path="/joinpage" element={<JoinPage />} />
+            <Route path="/requestSeat" element={<RequestSeat />}/>
           </Routes>
         </div>
     </BrowserRouter>

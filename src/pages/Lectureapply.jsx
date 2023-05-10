@@ -5,76 +5,72 @@ import "./Lectureapply.css"
 
 const Lectureapply = () => {
 
-  const menuLst = ["학년/학기"];
-  const [hide, setHide] = useState({
-    menu1: false
-  });
-
-  const mouseEvent = (menuName, bool) => {
-    const change = { ...hide };
-    change[menuName] = bool;
-    setHide(change);
-  };
-    
   return(
     <div className="lap">
       <div className="b1"></div>
 
       <div className="b2">
         <h1>세종 로고</h1>
+      </div>
+      
+      <div className="left">
+        <div className="semester">
+          <button>1학년 1학기</button>
+          <button>1학년 2학기</button>
+          <button>2학년 1학기</button>
+          <button>2학년 2학기</button>
+          <button>3학년 1학기</button>
+          <button>3학년 2학기</button>
+          <button>4학년 1학기</button>
+          <button>4학년 2학기</button>
 
-        <nav className="nav">
-          <ul className="navContainer">
-            {menuLst.map((v, idx) => (
-              <li
-                className={hide[v] ? "active" : "none"}
-                onMouseEnter={() => mouseEvent(v, true)}
-                onMouseLeave={() => mouseEvent(v, false)}
-              >
-                <p>{`학년/학기`}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="detailMenu">
-            {menuLst.map((v, idx) => (
-              <ul
-                onMouseEnter={() => mouseEvent(v, true)}
-                onMouseLeave={() => mouseEvent(v, false)}
-              >
-                <li>
-                  <p>1학년1학기</p>
-                </li>
-                <li>
-                  <p>1학년2학기</p>
-                </li>
-                <li>
-                  <p>2학년1학기</p>
-                </li>
-                <li>
-                  <p>2학년2학기</p>
-                </li>
-                <li>
-                  <p>3학년1학기</p>
-                </li>
-                <li>
-                  <p>3학년2학기</p>
-                </li>
-                <li>
-                  <p>4학년1학기</p>
-                </li>
-                <li>
-                  <p>4학년2학기</p>
-                </li>
-              </ul>
-            ))}
-          </div>
-        </nav>
+        </div>
+       
       </div>
 
-      <div className="dept">
-        <h1 className="box">네모</h1>
-        <span className="depternment">학과</span>
+      <div className="right">
+        <div className="dept">
+          <span className="small_rect"> </span>
+          <span>학과 검색</span>
+          <input 
+              maxLength='20'
+              className="dept_input"
+              type="text"
+              placeholder="학과 검색"/>
+        </div>
+
+        <div className="obj">
+          <span>학과 과목 목록</span>
+        </div>
+
+        <div className="apply">
+          <button>등록</button>
+        </div>
+
+        <div className="grade">
+          <span className="small_rect"> </span>
+          <span>수강 학점: </span>
+          <span className="rect"> </span>
+        </div>
+
+        <div className="grade">
+          <span className="small_rect"> </span>
+          <span>남은 학점: </span>
+          <span className="rect"> </span>
+        </div>
+
+        <div className="grade">
+          <span className="small_rect"> </span>
+          <span>학점 평균: </span>
+          <span className="rect"> </span>
+        </div>
+
+
       </div>
+
+     
+
+
     </div>
   )
 } 
