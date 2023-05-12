@@ -1,0 +1,152 @@
+.subjectInterest_root{
+    width: 100vw;
+    height: 100vh;
+}
+.subjectInterest_header{
+    width: 100%;
+    height: 10%;
+    background: #c30e2e;
+}
+.subjectInterest_header img{
+    width: 17%;
+    margin-left: 1%;
+    margin-top: 1%;
+}
+
+.subjectInterest_left{
+    position: absolute;
+    margin-left: -20px;
+    width: 70%;
+    height: 100%;
+    background: none;
+}
+
+.subjectInterest_dept{
+    display: flex;
+    width: 100%;
+    height: 5%;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.subjectInterest_dept input{
+    width: 50%;
+    height: 60%;
+    margin-left: 10px;
+}
+
+.si_rect{
+    display: flex;
+    width: 15px;
+    margin-left: 50px;
+    height: 30px;
+    background: #c30e2e;
+    margin-right: 10px;
+}
+
+.si_subjectlist{
+    display: flex;
+    margin-top: 6px;
+    width: 100%;
+    font-size: 20px;
+}
+
+.si_subjectlist span{
+    display: flex;
+    width: 90%;
+    height: 400px;
+    background: #fff;
+    border: 1px solid #000000;
+  
+    margin-left: 50px;
+}
+
+.includebtn{
+    position: relative;
+}
+
+.includebtn button{
+    display: flex;
+    width: 71px;
+    height: 40px;
+    margin-top: 12px;
+    margin-left: 88%;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    background: #c30e2e;
+    border: 2px solid #c30e2e;
+    color: #fff;
+}
+
+.mysubject{
+    display: flex;
+    font-size: 20px;
+}
+
+.mysb{
+    display: inline;
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+.gorequestSeat{
+    position: relative;
+}
+
+.gorequestSeat button{
+    width: 10rem;
+    height: 2.5rem;
+    background-color: #c30e2e;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    display: flex;
+    color: white;
+    border: none;
+    margin-top: 1.25%;
+    cursor: pointer;
+    font-weight: bold;
+    float: right;
+    margin-right: 5%;
+}
+
+.subjectInterest_right{
+    position: absolute;
+    margin-left: 70%;
+    width: 30%;
+    height: 100%;
+    background: none;
+}
+
+.time{
+    font-size: 20px;
+    margin-top: 40px;
+    position: fixed;
+}
+
+.mytime{
+    display: flex;
+    margin-top: -27px;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+.right_si_rect{
+    display: flex;
+    width: 15px;
+    height: 30px;
+    background: #c30e2e;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.timepart {
+    display: block;
+    margin-top: 10px;
+    width: 400px;
+    height: 600px;
+    font-size: 15px;
+    border: 1px solid #000000;
+}

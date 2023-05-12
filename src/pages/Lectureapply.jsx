@@ -1,34 +1,71 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Lectureapply.css"
 
 const Lectureapply = () => {
 
-  return(
-    <div className="lap">
-      <div className="b1"></div>
+  const [buttonText, setButtonText] = useState('1학년 1학기');
+  const [subList, setList] = useState('1-1과목목록');
 
-      <div className="b2">
-        <h1>세종 로고</h1>
+  const btn1_1 = () => {
+    setButtonText('1학년 1학기');
+    setList('1-1과목목록');
+  };
+  const btn1_2 = () => {
+    setButtonText('1학년 2학기');
+    setList('1-2과목목록');
+  };
+  const btn2_1 = () => {
+    setButtonText('2학년 1학기');
+    setList('2-1과목목록');
+  };
+  const btn2_2 = () => {
+    setButtonText('2학년 2학기');
+    setList('2-2과목목록');
+  };
+  const btn3_1 = () => {
+    setButtonText('3학년 1학기');
+    setList('3-1과목목록');
+  };
+  const btn3_2 = () => {
+    setButtonText('3학년 2학기');
+    setList('3-2과목목록');
+  };
+  const btn4_1 = () => {
+    setButtonText('4학년 1학기');
+    setList('4-1과목목록');
+  };
+  const btn4_2 = () => {
+    setButtonText('4학년 2학기');
+    setList('4-2과목목록');
+  };
+
+  return(
+    <div className="lectureapply_root">
+
+      <div className="lectureapply_header">
+        <img src="../dowadream.png"></img>
       </div>
       
       <div className="left">
         <div className="semester">
-          <button>1학년 1학기</button>
-          <button>1학년 2학기</button>
-          <button>2학년 1학기</button>
-          <button>2학년 2학기</button>
-          <button>3학년 1학기</button>
-          <button>3학년 2학기</button>
-          <button>4학년 1학기</button>
-          <button>4학년 2학기</button>
-
+          <button onClick={btn1_1}>1학년 1학기</button>
+          <button onClick={btn1_2}>1학년 2학기</button>
+          <button onClick={btn2_1}>2학년 1학기</button>
+          <button onClick={btn2_2}>2학년 2학기</button>
+          <button onClick={btn3_1}>3학년 1학기</button>
+          <button onClick={btn3_2}>3학년 2학기</button>
+          <button onClick={btn4_1}>4학년 1학기</button>
+          <button onClick={btn4_2}>4학년 2학기</button>
         </div>
        
       </div>
 
       <div className="right">
+        <div className="label">
+          <span>{buttonText}</span>
+        </div>
+        
         <div className="dept">
           <span className="small_rect"> </span>
           <span>학과 검색</span>
@@ -39,8 +76,8 @@ const Lectureapply = () => {
               placeholder="학과 검색"/>
         </div>
 
-        <div className="obj">
-          <span>학과 과목 목록</span>
+        <div className="objlist">
+          <span>{subList}</span>
         </div>
 
         <div className="apply">
