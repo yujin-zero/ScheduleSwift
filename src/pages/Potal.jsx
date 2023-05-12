@@ -28,7 +28,7 @@ const Potal = () => {
                 </div>
                 <div className="potal_name_right">
                     <Moment format={"HH:mm:ss"} className={'moment-box'}>{nowTime}</Moment>
-                    <span id="potal_Application"onClick={() => navigate('/')}>수강신청 하기</span>
+                    <span id="potal_Application"onClick={() => navigate('/apply')}>수강신청 하기</span>
                 </div>
                     
             </div>
@@ -46,7 +46,7 @@ const Potal = () => {
                     <div className="potal_information">
                         <div className="potal_info1">
                             <h3>취득 학점</h3>
-                            <span id="potal_get"onClick={() => navigate('/')}>취득학점 수정</span>
+                            <span id="potal_get"onClick={() => navigate('/lectureapply')}>취득학점 수정</span>
                         </div>
                         <div className="potal_info2">
                             <table>
