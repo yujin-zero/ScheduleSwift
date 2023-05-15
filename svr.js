@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -24,11 +25,30 @@ connection.connect((err) => {
     console.log('MySQL 연결 성공');
 });
 
-app.get('/login', (req,res) => {
+// 로그인 요청 처리
+app.post('/user/login', (req,res) => {
     const {id, password} = req.body;
     
-    
-})
+    // 학번과 비밀번호를 사용하여 회원 정보 검색
+    const query = 'select * from student where id = ? and password = ?';
+    connection.query(query, [id, password], (err,results) => {
+    if (err) {
+        console.error('MySQL query error: ',err);
+        res.status(500).json({error: 'Internal server error'});
+        return;
+    }
+
+    // 일치하는 사용자가 있는 경우
+    if (results.length > 0 ) {
+        // 토큰 생성
+        const token = jwt.sign({id},'secret_key');
+        res.json({token}); // 토큰을 클라이언트에게 응답으로 전송
+    } else {
+        // 사용자가 존재하지 않거나 비밀번호가 일치하지 않는 경우
+        res.status(401).json({error: "해당 사용자 없음"});
+    }
+});
+});
 
 // POST 요청 처리
 app.post('/data',(req,res) => {
