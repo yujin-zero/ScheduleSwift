@@ -39,8 +39,38 @@ const Potal = () => {
                         <span id="potal_interested"onClick={() => navigate('/subjectInterest')}>관심과목 수정</span>
                     </div>
                     <div className="potal_timetable_content">
-                        시간표
+                        
+                        <div className="tablebody">
+                            <table className="tablebody">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <div className="hours">
+                                                <div className="hour0">0교시</div>
+                                                <div className="hour1">1교시</div>
+                                                <div className="hour2">2교시</div>
+                                                <div className="hour3">3교시</div>
+                                                <div className="hour4">4교시</div>
+                                                <div className="hour5">5교시</div>
+                                                <div className="hour6">6교시</div>
+                                                <div className="hour7">7교시</div>
+                                                <div className="hour8">8교시</div>
+                                                <div className="hour8">9교시</div>
+                                                <div className="hour8">10교시</div>
+                                                <div className="hour8">11교시</div>
+                                                <div className="hour8">12교시</div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        
                     </div>
+
+
+
                 </div>
                 <div className="potal_right">
                     <div className="potal_information">

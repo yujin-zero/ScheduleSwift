@@ -105,9 +105,6 @@ const Lectureapply = () => {
 
       </div>
 
-     
-
-
     </div>
   )
 } 
