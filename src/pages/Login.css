@@ -106,12 +106,15 @@ body{
     text-align: center;
 }
 
-.loginBtn span{
-    line-height: 50px;
+.loginBtn{
     color: #fff;
     font-size: 25px;
     font-weight: 600;
     text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .noti{

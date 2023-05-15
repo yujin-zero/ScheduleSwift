@@ -117,8 +117,9 @@
 }
 
 .potal_timetable_content{
-    width: 80%;
-    height: 80%;
+    position: relative;
+    width: 90%;
+    height: 100%;
     margin-top: 2%;
     background-color: white;
     border: 1px solid black;
@@ -229,4 +230,93 @@ table{
 
 td{
     text-align: center;
+}
+
+.hour0{
+    height: 60px;
+    top: 480px;
+    line-height: 60px;
+}
+.hour1{
+    height: 60px;
+    top: 540;
+    line-height: 60px;
+}
+.hour2{
+    height: 60px;
+    top: 600;
+    line-height: 60px;
+}
+.hour3{
+    height: 60px;
+    top: 660;
+    line-height: 60px;
+}
+.hour4{
+    height: 60px;
+    top: 720;
+    line-height: 60px;
+}
+.hour5{
+    height: 60px;
+    top: 780;
+    line-height: 60px;
+}
+.hour6{
+    height: 60px;
+    top: 840;
+    line-height: 60px;
+}
+.hour7{
+    height: 60px;
+    top: 900;
+    line-height: 60px;
+}
+.hour8{
+    height: 60px;
+    top: 960;
+    line-height: 60px;
+}
+.hour9{
+    height: 60px;
+    top: 1020;
+    line-height: 60px;
+}
+.hour10{
+    height: 60px;
+    top: 1080;
+    line-height: 60px;
+}
+.hour11{
+    height: 60px;
+    top: 1140;
+    line-height: 60px;
+}
+.hour12{
+    height: 60px;
+    top: 1200;
+    line-height: 60px;
+}
+
+.tr td{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d6d6d6;
+    color: #a6a6a6;
+    font-weight: normal;
+    text-align: center;
+}
+
+table{
+    display: table;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: #a6a6a6;
+
+}
+
+.tablebody{
+    border-collapse: collapse;
+
 }
