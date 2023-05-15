@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Potal.css"
 import Moment from 'react-moment';
@@ -9,11 +9,11 @@ const Potal = () => {
     let navigate = useNavigate();
 
     const [nowTime,setNowTime]=useState(Date.now())
+    const [id, setId] = useState('');
 
     useInterval(()=>{
         setNowTime(Date.now())
     },1000)
-
 
     return(
         <div className="Potal_root">
