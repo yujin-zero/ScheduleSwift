@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import LoginBtn from "../components/LoginBtn";
 import "./Login.css"
+import axios from 'axios';
 
 const LoginPage = () => {
     let navigate = useNavigate();
+
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <div className="contents login">
