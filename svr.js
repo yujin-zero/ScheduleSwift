@@ -29,6 +29,7 @@ connection.connect((err) => {
 app.post('/user/login', (req,res) => {
     const {id, password} = req.body;
     
+    
     // 학번과 비밀번호를 사용하여 회원 정보 검색
     const query = 'select * from student where id = ? and password = ?';
     connection.query(query, [id, password], (err,results) => {
@@ -42,7 +43,8 @@ app.post('/user/login', (req,res) => {
     if (results.length > 0 ) {
         // 토큰 생성
         const token = jwt.sign({id},'secret_key');
-        res.json({token}); // 토큰을 클라이언트에게 응답으로 전송
+        res.json({token}); // 토큰을 클라이언트에게 응답으로 
+        
     } else {
         // 사용자가 존재하지 않거나 비밀번호가 일치하지 않는 경우
         res.status(401).json({error: "해당 사용자 없음"});
@@ -69,6 +71,40 @@ app.post('/data',(req,res) => {
         res.status(200).send('데이터 저장 성공');
     });
 });
+
+
+// 포털 헤더에 정보 띄우기 (이름, 학번, 학과)
+app.get('/user/info', (req,res) => {
+    
+    const userId = req.query.id;
+    
+    // 학번을 사용하여 회원 정보 검색
+    const query = 'select name, id, department from student where id = ?';
+    connection.query(query, userId, (err,results) => {
+    if (err) {
+        console.error('MySQL query error: ',err);
+        res.status(500).json({error: 'Internal server error'});
+        return;
+    }
+    
+
+    // 결과가 있을 경우 회원 정보를 응답으로 전송
+    if (results.length > 0 ) {
+        // const userInfo = {
+        //     name: results[0].name,
+        //     id: results[0].id,
+        //     department: results[0].department
+        // };
+        const userInfo = results[0];
+        res.json(userInfo);
+    }else{
+        // 해당 사용자가 없는 경우
+        res.status(404).json({error : '해당 사용자 없음'});
+    }
+});
+});
+
+  
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
