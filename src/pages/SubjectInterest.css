@@ -30,23 +30,28 @@
     margin-top: 30px;
 }
 
-.subjectInterest_dept input{
-    width: 50%;
-    height: 60%;
-    margin-left: 10px;
-}
 
 .si_rect{
     display: flex;
     width: 15px;
+    margin-top: 3px;
     margin-left: 50px;
     height: 30px;
     background: #c30e2e;
     margin-right: 10px;
 }
 
+.search_dept{
+    margin-top: 6px;
+}
+
+.join_input_content_si{
+    width: 75%;
+    margin-left: 10px;
+}
+
 .si_subjectlist{
-    display: flex;
+    position: absolute;
     margin-top: 6px;
     width: 100%;
     font-size: 20px;
@@ -58,12 +63,31 @@
     height: 400px;
     background: #fff;
     border: 1px solid #000000;
-  
     margin-left: 50px;
+}
+
+.dept_sub_list{
+    margin-left: 60px;
+    margin-top: -390px;
+}
+
+.si_subjectlist ul {
+    display: flex;
+    flex-direction: column;
+    margin-left: 60px;
+    margin-top: -390px;
+  }
+
+
+
+.mysubject{
+    margin-top: -10%;
 }
 
 .includebtn{
     position: relative;
+    margin-top: 43%;
+    height: 20%;
 }
 
 .includebtn button{
