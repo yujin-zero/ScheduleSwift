@@ -2,6 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const XLSX = require('xlsx');
 
 const app = express();
 
@@ -68,10 +70,12 @@ app.post('/data',(req,res) => {
         console.log('데이터 저장 성공');
         res.status(200).send('데이터 저장 성공');
     });
+
+
 });
+
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });
 
-// 대원님
