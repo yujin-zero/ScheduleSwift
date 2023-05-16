@@ -59,7 +59,7 @@
     margin-top: 54px;
 }
 
-.dept input{
+.department_input{
     width: 50%;
     height: 50%;
     margin-left: 10px;
@@ -68,12 +68,13 @@
 .objlist{
     position: relative;
     width: 90%;
-    height: 50%;
+    height: 30%;
     border: 1px solid black;
     font-size: 20px;
     justify-content: center;
     align-items: center;
     background: #fff;
+    overflow:scroll;
 }
 
 .apply{
@@ -91,6 +92,18 @@
     color: #fff;
     font-size: 20px;
     border: 2px solid #c30e2e;
+    cursor: pointer;
+}
+
+.apply_check{
+    position: relative;
+    width: 90%;
+    height: 30%;
+    border: 1px solid black;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
 }
 
 .grade{
@@ -128,12 +141,18 @@
     margin-top: 54px;
 }
 
+.objlist td {
+    text-align: center;
+}
 
+.objlist th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    border: 1px solid #444444;
+}
 
-  
-
-
-
-
-
+table {
+    width: 100%;
+}
 
