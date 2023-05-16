@@ -15,6 +15,18 @@
     width:17%;
 }
 
+.potal_info2 td{
+    text-align: center;
+}
+
+.potal_info3 td{
+    text-align: center;
+}
+
+.potal_info4 td{
+    text-align: center;
+}
+
 #potal_logout{
     width: 6rem;
     height: 2rem;

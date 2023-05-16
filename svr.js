@@ -2,8 +2,6 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const axios = require('axios');
-const XLSX = require('xlsx');
 
 const app = express();
 
@@ -72,9 +70,8 @@ app.post('/data',(req,res) => {
         console.log('데이터 저장 성공');
         res.status(200).send('데이터 저장 성공');
     });
-
-
 });
+
 
 // 포털 헤더에 정보 띄우기 (이름, 학번, 학과)
 app.get('/user/info', (req,res) => {
@@ -107,8 +104,24 @@ app.get('/user/info', (req,res) => {
 });
 });
 
+// 학과 선택하면 과목내용들 보여주기
+app.get('/api/courses',(req, res) => {
+    const {department} = req.query;
+    const query = 'select distinct subject, class, credit from course where department = ?';
+
+    connection.query(query,[department],(err,results) => {
+        if(err) {
+            console.error('MySQL query error:',err);
+            res.status(500).json({error: 'Internal server error'});
+            return;
+        }
+        res.json(results);
+    });
+});
   
+
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });
 
+// 대원님
