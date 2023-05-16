@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import LoginBtn from "../components/LoginBtn";
 import "./Login.css"
 import axios from 'axios';
 
@@ -22,6 +21,7 @@ const LoginPage = () => {
             const {token} = response.data;
             // 토큰을 로컬 스토리나 쿠키에 저장
 
+            localStorage.setItem('user_id',id);
             // 로그인에 성공하면 '/potal' 로 리다이렉트
             alert('로그인성공');
             navigate('/potal');
