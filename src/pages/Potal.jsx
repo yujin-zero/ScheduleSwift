@@ -4,16 +4,42 @@ import { useNavigate } from "react-router-dom";
 import "./Potal.css"
 import Moment from 'react-moment';
 import {useInterval} from "use-interval";
+import axios from 'axios';
 
 const Potal = () => {
     let navigate = useNavigate();
 
     const [nowTime,setNowTime]=useState(Date.now())
-    const [id, setId] = useState('');
+    // 이름, 학번, 학과
+    const [userInfo, setUserInfo] = useState('');
 
+    // 시간 설정
     useInterval(()=>{
         setNowTime(Date.now())
     },1000)
+
+    // 포탈 header에 이름 띄우기
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {  
+                const userId = localStorage.getItem('user_id');
+
+                // 백엔드 서버로 특정 정보를 요청
+                //const userId = '20003319';
+                const response = await axios.get('/user/info',{
+                    params: {id: userId} // 사용자 ID를 매개변수로 전달
+                });
+
+                // 응답에서 특정 정보를 받아옴
+                const userInfo = response.data;
+
+                setUserInfo(userInfo);
+            }catch(error) {
+                console.error('회원x 정보 가져오기 오류: ',error);
+            }
+        };
+        fetchUserInfo();
+    },[]);
 
     return(
         <div className="Potal_root">
@@ -23,8 +49,14 @@ const Potal = () => {
             </div>
             <div className="potal_name">
                 <div className="potal_name_left">
-                    <h2>소유진</h2>
-                    <p>20003324 소프트웨어학과</p>
+                    {userInfo ? (
+                        <div>
+                        <h2>{userInfo.name}</h2>
+                        <p>{userInfo.id} {userInfo.department}</p>
+                        </div>
+                    ) : (
+                        <h2>회원정보 없음 ...</h2>
+                    )}
                 </div>
                 <div className="potal_name_right">
                     <Moment format={"HH:mm:ss"} className={'moment-box'}>{nowTime}</Moment>
@@ -258,5 +290,5 @@ const Potal = () => {
         </div>
 
     );
-}
+};
 export default Potal;
