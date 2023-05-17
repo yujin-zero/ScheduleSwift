@@ -13,7 +13,7 @@ const Lectureapply = () => {
     // MySQL 데이터베이스에서 쿼리 실행
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/courses', {
+        const response = await axios.get('/api/courses_notime', {
           params: {department}
         });
         const data = response.data;
