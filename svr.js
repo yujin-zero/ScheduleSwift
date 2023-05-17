@@ -29,7 +29,6 @@ connection.connect((err) => {
 app.post('/user/login', (req,res) => {
     const {id, password} = req.body;
     
-    
     // 학번과 비밀번호를 사용하여 회원 정보 검색
     const query = 'select * from student where id = ? and password = ?';
     connection.query(query, [id, password], (err,results) => {
@@ -45,6 +44,7 @@ app.post('/user/login', (req,res) => {
         const token = jwt.sign({id},'secret_key');
         res.json({token}); // 토큰을 클라이언트에게 응답으로 
         
+    
     } else {
         // 사용자가 존재하지 않거나 비밀번호가 일치하지 않는 경우
         res.status(401).json({error: "해당 사용자 없음"});
@@ -107,7 +107,7 @@ app.get('/user/info', (req,res) => {
 // 학과 선택하면 과목내용들 보여주기
 app.get('/api/courses',(req, res) => {
     const {department} = req.query;
-    const query = 'select distinct subject, class, credit from course where department = ?';
+    const query = 'select distinct subject, class, credit, t_lecture from course where department = ?';
 
     connection.query(query,[department],(err,results) => {
         if(err) {
@@ -118,6 +118,7 @@ app.get('/api/courses',(req, res) => {
         res.json(results);
     });
 });
+
   
 
 app.listen(8080,() => {

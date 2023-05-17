@@ -53,18 +53,26 @@
 .si_subjectlist{
     position: absolute;
     margin-top: 6px;
-    width: 100%;
-    font-size: 20px;
-}
-
-.si_subjectlist span{
-    display: flex;
     width: 90%;
+    font-size: 20px;
+    overflow:scroll;
+    margin-left: 50px;
+    display: flex;
     height: 400px;
     background: #fff;
     border: 1px solid #000000;
-    margin-left: 50px;
+    text-align: center;
+    
 }
+
+.si_subjectlist tr th{
+    position: sticky;
+    top: 0;
+    background:#fff;
+    width: 10%;
+}
+
+
 
 .dept_sub_list{
     margin-left: 60px;

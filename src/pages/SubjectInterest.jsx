@@ -1,30 +1,38 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SubjectInterest.css"
+import axios from 'axios';
 
-const subjectsByDepartment={
-    소프트웨어학과:['c프로그래밍및실습','자료구조및실습','문제해결및실습:C++','멀티미디어프로그래밍','확률통계및프로그래밍','일반물리및시물레이션','운영체제','데이터베이스','오픈소스SW개론','수치해석','Capstone디자인(산학협력프로젝트)','가상현실','기계학습','졸업연구및진로1','현장실습12'],
-    컴퓨터공학과:['C프로그래밍및실습','고급C프로그래밍및실습','디지털시스템','자료구조및실습','웹프로그래밍','확률통계및프로그래밍','문제해결및실습:C++','K-MOOC:모두를위한머신러닝','운영체제','컴퓨터그래픽스','신호및시스템','C#프로그래밍','데이터베이스','프로그래밍언어의개념','Capstone디자인(산학협력프로젝트)','영상처리','HCI개론','무선통신','소프트웨어특강1', '기계학습','졸업연구및진로1','현장실습12'],
-    데이터사이언스학과:['C프로그래밍및실습','자료구조및실습','데이터분석개론','웹프로그래밍','확률통계및프로그래밍','데이터베이스','K-MOOC:기계학습','운영체제','의사결정분석','Capstone디자인(산학협력프로젝트)','졸업연구및진로1','텍스트마이닝','고급데이터처리','현장실습12'],
-};
 
 const SubjectInterest = () => {
     let navigate = useNavigate();
 
-    const [selectDepartment, setSelectDepartment]=useState('');
-    const [subjects, setSubjects] = useState([]);
+    const [department, setDepartment] = useState('');
+    const [courses, setCourses] = useState([]);
 
-    const handleDepartmentChange = (event) => {
-        const department = event.target.value;
-        setSelectDepartment(department);
-        setSubjects(subjectsByDepartment[department]);
 
+    const handleDropdownChange = (event) => {
+        setDepartment(event.target.value);
+      }
+
+
+    useEffect(() => {
+        // MySQL 데이터베이스에서 쿼리 실행
+        const fetchData = async () => {
+        try {
+            const response = await axios.get('/api/courses', {
+            params: {department}
+            });
+            const data = response.data;
+            setCourses(data);
+        }catch(error) {
+            console.error('Error fetching courses:',error);
+        }
     };
+    
+    fetchData();
+  },[department]);
 
-    const handleSubjectSelect = (subject) => {
-        // 선택한 과목 처리
-        console.log("선택한 과목:", subject);
-    };
 
     return(
       <div className="subjectInterest_root">
@@ -36,7 +44,7 @@ const SubjectInterest = () => {
             <div className="subjectInterest_dept">
                 <span className="si_rect"> </span>
                 <span className="serch_dept">학과 검색</span>
-                    <select id="department" className="join_input_content_si" value={selectDepartment} onChange={handleDepartmentChange}>
+                    <select id="department" className="join_input_content_si" value={department} onChange={handleDropdownChange}>
                     <option value="">-- 학과를 선택해주세요. --</option>
                     <option value="소프트웨어학과">소프트웨어학과</option>
                     <option value="컴퓨터공학과">컴퓨터공학과</option>
@@ -78,21 +86,38 @@ const SubjectInterest = () => {
             </div>
 
             <div className="si_subjectlist">
-                <div>
-                    <span className="si_rect"></span>
-                        {subjects.length === 0 ? (
-                            <p className="dept_sub_list">과목이 없습니다.</p>
-                        ) : (
-                    <ul>
-                    {subjects.map((subject, index) => (
-                        <li key={index} onClick={() => handleSubjectSelect(subject)}>
-                        {subject}
-                        </li>
-                    ))}
-                    </ul>
-                )}
-
-                </div>   
+                <table>
+                    <thead>
+                    <tr>
+                        <th>선택</th>
+                        <th>과목명</th>
+                        <th>이수구분</th>
+                        <th>학점</th>
+                        <th>요일 및 강의시간</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {courses.length > 0 ? (
+                        courses.map((courses,index) => (
+                        <tr key={index}>
+                            <td>
+                            <input type="checkbox"/>
+                            </td>
+                            <td>{courses.subject}</td>
+                            <td>{courses.class}</td>
+                            <td>{courses.credit}</td>
+                            <td>{courses.t_lecture}</td>
+                        </tr>
+                        ))
+                    ) : (
+                        <tr>
+                        <td colSpan="4">No courses available</td>
+                        </tr>
+                    )
+                    }
+                    </tbody>
+                </table>
+      
             </div>
 
             <div className="includebtn">
