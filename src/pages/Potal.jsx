@@ -72,17 +72,21 @@ const Potal = () => {
                             <span id="potal_interested"onClick={() => navigate('/subjectInterest')}>관심과목 수정</span>
                         </div>
                         <div className="potal_timetable_content">
-                            <div className="tablehead">
-                                <table> 
-                                    <tr>
-                                        <td className="non"></td>
-                                        <th className="mon">월</th>
-                                        <th className="thu">화</th>
-                                        <th className="wed">수</th>
-                                        <th className="thr">목</th>
-                                        <th className="fri">금</th>
-                                    </tr>
-                                </table>
+
+                            <div className="mytimetable">
+                                <div className="tablehead">
+                                    <table> 
+                                        <tr>
+                                            <td className="non"></td>
+                                            <th className="mon"><span>월</span></th>
+                                            <th className="thu"><span>화</span></th>
+                                            <th className="wed"><span>수</span></th>
+                                            <th className="thr"><span>목</span></th>
+                                            <th className="fri"><span>금</span></th>
+                                        </tr>
+                                    </table>
+                                </div>
+
                             </div>
 
                             <div className="tablebody">
@@ -90,22 +94,34 @@ const Potal = () => {
                                         <tr>
                                             <th>
                                                 <div className="hours">
-                                                    <div className="hour9">9</div>
-                                                    <div className="hour10">10</div>
-                                                    <div className="hour11">11</div>
-                                                    <div className="hour12">12</div>
-                                                    <div className="hour1">1</div>
-                                                    <div className="hour2">2</div>
-                                                    <div className="hour3">3</div>
-                                                    <div className="hour4">4</div>
-                                                    <div className="hour5">5</div>
-                                                    <div className="hour6">6</div>
-                                                    <div className="hour7">7</div>
-                                                    <div className="hour8">8</div>
+                                                    <div className="hour9"><span>9</span></div>
+                                                    <div className="hour10"><span>10</span></div>
+                                                    <div className="hour11"><span>11</span></div>
+                                                    <div className="hour12"><span>12</span></div>
+                                                    <div className="hour1"><span>1</span></div>
+                                                    <div className="hour2"><span>2</span></div>
+                                                    <div className="hour3"><span>3</span></div>
+                                                    <div className="hour4"><span>4</span></div>
+                                                    <div className="hour5"><span>5</span></div>
+                                                    <div className="hour6"><span>6</span></div>
+                                                    <div className="hour7"><span>7</span></div>
+                                                    <div className="hour8"><span>8</span></div>
                                                 </div>
                                             </th>
                                             <th>
                                                 <div className="grids_mon">
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
@@ -135,11 +151,35 @@ const Potal = () => {
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
 
                                                 </div>
                                             </th>
                                             <th>
                                                 <div className="grids_wed">
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
@@ -169,11 +209,35 @@ const Potal = () => {
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
 
                                                 </div>
                                             </th>
                                             <th>
                                                 <div className="grids_fri">
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
+                                                    <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
                                                     <div className="grid"></div>
@@ -194,7 +258,7 @@ const Potal = () => {
                                 </table>
 
                             </div>
-                            
+
                         </div>
                     </div>
 
