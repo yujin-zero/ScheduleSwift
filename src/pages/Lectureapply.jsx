@@ -8,6 +8,20 @@ const Lectureapply = () => {
   const [department, setDepartment] = useState('');
   const [buttonText, setButtonText] = useState('1학년 1학기');
   const [subList, setList] = useState('1-1과목목록');
+  const id = localStorage.getItem('user_id');
+  const [semester, setSemester] = useState('1-1');
+  const [subject, setSubject] = useState('');
+  const [credit, setCredit] = useState('');
+  const [class1,setClass1] = useState('');
+
+  // 체크된 index들을 담을 함수
+  const [checkedCourses, setCheckedCourses] = useState([]);
+
+  const [courses, setCourses] = useState([]);
+
+  const handleDropdownChange = (event) => {
+    setDepartment(event.target.value);
+  }
 
   useEffect(() => {
     // MySQL 데이터베이스에서 쿼리 실행
@@ -30,41 +44,97 @@ const Lectureapply = () => {
   const btn1_1 = () => {
     setButtonText('1학년 1학기');
     setList('1-1과목목록');
+    setSemester('1-1');
   };
   const btn1_2 = () => {
     setButtonText('1학년 2학기');
     setList('1-2과목목록');
+    setSemester('1-2');
   };
   const btn2_1 = () => {
     setButtonText('2학년 1학기');
     setList('2-1과목목록');
+    setSemester('2-1');
   };
   const btn2_2 = () => {
     setButtonText('2학년 2학기');
     setList('2-2과목목록');
+    setSemester('2-2');
   };
   const btn3_1 = () => {
     setButtonText('3학년 1학기');
     setList('3-1과목목록');
+    setSemester('3-1');
   };
   const btn3_2 = () => {
     setButtonText('3학년 2학기');
     setList('3-2과목목록');
+    setSemester('3-2');
   };
   const btn4_1 = () => {
     setButtonText('4학년 1학기');
     setList('4-1과목목록');
+    setSemester('4-1');
   };
   const btn4_2 = () => {
     setButtonText('4학년 2학기');
     setList('4-2과목목록');
+    setSemester('4-2');
   };
 
-  const [courses, setCourses] = useState([]);
+  
 
-  const handleDropdownChange = (event) => {
-    setDepartment(event.target.value);
+
+  // 체크박스 변경 이벤트 처리 함수
+  const handleCheckboxChange = (index) => {
+    if (checkedCourses.includes(index)) { // 이미 선택되어있었으면
+      setCheckedCourses(checkedCourses.filter((item) => item !== index));
+    }else { // 선택 안되어있었으면 추가
+      setCheckedCourses([...checkedCourses, index]);
+    }
+    // alert(checkedCourses); 이전상태가 출력되지만 잘 되는걸 알 수는 있다.
+  };
+  // 현재까지 체크된 인덱스 값들이 checkedCourses에 다 저장되어있음.
+
+
+
+  // 등록버튼이 눌렸을 때.
+  const handle_apply = (event) => {
+    event.preventDefault();
+    //alert("등록버튼이 눌림");
+
+    const selectedCourses = checkedCourses.map(index=>courses[index]);
+    //alert(selectedCourses);
+    selectedCourses.map(courses => {
+      //alert('시작');
+      const {subject, class1, credit} = courses;
+
+      const data = {id, subject, semester, credit, department, class1};
+      //alert(id);
+      //alert(subject);
+      //alert(semester);
+      //alert(credit);
+      //alert(department);
+      //alert(class1);
+
+      axios.post('/apply/course',data)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+    })
+    
+    
+
+    //subject, credit, class1 ... 
+    
+
+      alert('수강과목이 등록되었습니다!');
   }
+
 
   return(
     <div className="lectureapply_root">
@@ -197,10 +267,13 @@ const Lectureapply = () => {
                 courses.map((courses,index) => (
                   <tr key={index}>
                     <td>
-                      <input type="checkbox"/>
+                      <input 
+                        type="checkbox"
+                        //checked = {checkedCourses.includes(index)} // 체크되어있으면 체크표시
+                        onChange={() => handleCheckboxChange(index)}/>
                     </td>
                     <td>{courses.subject}</td>
-                    <td>{courses.class}</td>
+                    <td>{courses.class1}</td>
                     <td>{courses.credit}</td>
                   </tr>
                 ))
@@ -216,7 +289,7 @@ const Lectureapply = () => {
         </div>
 
         <div className="apply">
-          <button>등록</button>
+          <button onClick={handle_apply}>등록</button>
         </div>
 
         <div className="dept">

@@ -107,7 +107,7 @@ app.get('/user/info', (req,res) => {
 // 학과 선택하면 과목내용들 보여주기
 app.get('/api/courses',(req, res) => {
     const {department} = req.query;
-    const query = 'select distinct subject, class, credit, t_lecture from course where department = ?';
+    const query = 'select distinct subject, class1, credit, t_lecture from course where department = ?';
 
     connection.query(query,[department],(err,results) => {
         if(err) {
@@ -121,7 +121,7 @@ app.get('/api/courses',(req, res) => {
 
 app.get('/api/courses_notime',(req, res) => {
     const {department} = req.query;
-    const query = 'select distinct subject, class, credit from course where department = ?';
+    const query = 'select distinct subject, class1, credit from course where department = ?';
 
     connection.query(query,[department],(err,results) => {
         if(err) {
@@ -133,10 +133,26 @@ app.get('/api/courses_notime',(req, res) => {
     });
 });
 
-  
+// 수강한 과목 등록
+app.post('/apply/course',(req,res) => {
+    // 전송된 데이터 가져오기
+    const {id, subject, semester, credit, department, class1} = req.body;
+
+    // 데이터베이스에 저장할 데이터
+    const data = {id, subject, semester, credit, department, class1};
+
+    // 데이터베이스에 데이터 저장
+    connection.query('insert into getGrade set ?',data,(err,result) => {
+        if (err) {
+            console.error('MySQL 쿼리 오류: '+err.stack);
+            return;
+        }
+
+        console.log('데이터 저장 성공');
+        res.status(200).send('데이터 저장 성공');
+    });
+});
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });
-
-// 대원님
