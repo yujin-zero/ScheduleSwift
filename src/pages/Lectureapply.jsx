@@ -10,9 +10,6 @@ const Lectureapply = () => {
   const [subList, setList] = useState('1-1과목목록');
   const id = localStorage.getItem('user_id');
   const [semester, setSemester] = useState('1-1');
-  const [subject, setSubject] = useState('');
-  const [credit, setCredit] = useState('');
-  const [class1,setClass1] = useState('');
 
   // 체크된 index들을 담을 함수
   const [checkedCourses, setCheckedCourses] = useState([]);
@@ -21,6 +18,7 @@ const Lectureapply = () => {
 
   const handleDropdownChange = (event) => {
     setDepartment(event.target.value);
+    setCheckedCourses([]); // 과를 바꿀때마다 선택된 값 초기화
   }
 
   useEffect(() => {
@@ -120,19 +118,15 @@ const Lectureapply = () => {
       axios.post('/apply/course',data)
         .then((res) => {
           console.log(res.data);
+          alert('수강과목이 등록되었습니다!');
         })
         .catch((err) => {
           console.error(err);
         });
 
     })
-    
-    
 
-    //subject, credit, class1 ... 
-    
-
-      alert('수강과목이 등록되었습니다!');
+      
   }
 
 
@@ -269,7 +263,7 @@ const Lectureapply = () => {
                     <td>
                       <input 
                         type="checkbox"
-                        //checked = {checkedCourses.includes(index)} // 체크되어있으면 체크표시
+                        checked = {checkedCourses.includes(index)} // 체크되어있으면 체크표시
                         onChange={() => handleCheckboxChange(index)}/>
                     </td>
                     <td>{courses.subject}</td>

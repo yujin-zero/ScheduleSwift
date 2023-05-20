@@ -141,16 +141,32 @@ app.post('/apply/course',(req,res) => {
     // 데이터베이스에 저장할 데이터
     const data = {id, subject, semester, credit, department, class1};
 
-    // 데이터베이스에 데이터 저장
-    connection.query('insert into getGrade set ?',data,(err,result) => {
+    // 중복 여부 확인을 위한 select 쿼리 실행 (현재는 이미 들은 과목 또 등록가능)
+    connection.query('select * from getGrade where id=? and subject=? and semester=? and credit=? and department=? and class1=?',
+    [id, subject, semester, credit, department, class1],
+    (err,rows) => {
         if (err) {
             console.error('MySQL 쿼리 오류: '+err.stack);
             return;
         }
 
-        console.log('데이터 저장 성공');
-        res.status(200).send('데이터 저장 성공');
-    });
+        if (rows.length >0) {
+            // 이미 해당 데이터가 존재하는 경우
+            console.log('이미 데이터가 존재합니다');
+            res.status(200).send('이미 데이터가 존재합니다');
+        }else {
+            // 데이터베이스에 데이터 저장
+            connection.query('insert into getGrade set ?',data,(err,result) => {
+            if (err) {
+                console.error('MySQL 쿼리 오류: '+err.stack);
+                return;
+            }
+            console.log('데이터 저장 성공');
+            res.status(200).send('데이터 저장 성공');
+        });
+    }
+}
+);
 });
 
 app.listen(8080,() => {
