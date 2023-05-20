@@ -156,6 +156,17 @@
     border: 1px solid #444444;
 }
 
+.apply_check td {
+    text-align: center;
+}
+
+.apply_check th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    border: 1px solid #444444;
+}
+
 table {
     width: 100%;
 }
