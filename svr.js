@@ -169,6 +169,22 @@ app.post('/apply/course',(req,res) => {
 );
 });
 
+// 수강한 과목 보여주기 (학번, 학기에 따라)
+app.post('/api/getGrade', (req,res) => {
+    const {id, semester} = req.body;
+    const query = 'select subject, class1, credit from getGrade where id =? and semester = ?';
+    //console.log(id);
+    //console.log(semester);
+    connection.query(query,[id, semester],(err,results) => {
+        if(err) {
+            console.error('MySQL query error:',err);
+            res.status(500).json({error: 'Internal server error'});
+            return;
+        }
+        res.json(results);
+    });
+});
+
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });

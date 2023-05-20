@@ -15,12 +15,15 @@ const Lectureapply = () => {
   const [checkedCourses, setCheckedCourses] = useState([]);
 
   const [courses, setCourses] = useState([]);
+  const [getGrade, setGetGrade] = useState([]);
 
   const handleDropdownChange = (event) => {
     setDepartment(event.target.value);
     setCheckedCourses([]); // 과를 바꿀때마다 선택된 값 초기화
   }
 
+
+  // 학과 검색을 누를 때 마다 과목목록 나오게 실행
   useEffect(() => {
     // MySQL 데이터베이스에서 쿼리 실행
     const fetchData = async () => {
@@ -34,9 +37,24 @@ const Lectureapply = () => {
         console.error('Error fetching courses:',error);
       }
     };
-    
     fetchData();
   },[department]);
+
+  // 수강한 과목
+  useEffect(() => {
+    const fetchData = async() => {
+      try {
+          const response = await axios.post('/api/getGrade',{id,semester} );
+          const data = response.data;
+          setGetGrade(data);
+       }catch(error) {
+          console.error('Error fetching courses:',error);
+        }
+    };
+    //alert(id);
+    //alert(semester);
+    fetchData();
+  },[semester]);
 
 
   const btn1_1 = () => {
@@ -118,13 +136,27 @@ const Lectureapply = () => {
       axios.post('/apply/course',data)
         .then((res) => {
           console.log(res.data);
-          alert('수강과목이 등록되었습니다!');
         })
         .catch((err) => {
           console.error(err);
         });
 
     })
+    alert('수강과목이 등록되었습니다!');
+
+    // 등록된 사항을 바로 보여주도록
+    const fetchData = async() => {
+      try {
+          const response = await axios.post('/api/getGrade',{id,semester} );
+          const data = response.data;
+          setGetGrade(data);
+       }catch(error) {
+          console.error('Error fetching courses:',error);
+        }
+    };
+    //alert(id);
+    //alert(semester);
+    fetchData();
 
       
   }
@@ -292,8 +324,40 @@ const Lectureapply = () => {
         </div>
 
         <div className="apply_check">
-          <span>{subList}</span>
+          <table>
+            <thead>
+              <tr>
+                <th>선택</th>
+                <th>과목명</th>
+                <th>이수구분</th>
+                <th>학점</th>
+              </tr>
+            </thead>
+            <tbody>
+                {getGrade.length > 0 ? (
+                getGrade.map((getGrade,index) => (
+                  <tr key={index}>
+                    <td>
+                      <input 
+                        type="checkbox"/>
+                    </td>
+                    <td>{getGrade.subject}</td>
+                    <td>{getGrade.class1}</td>
+                    <td>{getGrade.credit}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No courses available</td>
+                </tr>
+              )
+              }
+            
+            </tbody>
+          </table>
         </div>
+
+
 
         <div className="grade">
           <span className="small_rect"> </span>
