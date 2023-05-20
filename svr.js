@@ -119,6 +119,7 @@ app.get('/api/courses',(req, res) => {
     });
 });
 
+
 app.get('/api/courses_notime',(req, res) => {
     const {department} = req.query;
     const query = 'select distinct subject, class, credit from course where department = ?';
@@ -133,10 +134,10 @@ app.get('/api/courses_notime',(req, res) => {
     });
 });
 
+
   
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });
 
-// 대원님
