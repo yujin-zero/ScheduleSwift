@@ -9,11 +9,29 @@ const SubjectInterest = () => {
 
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
+    const [selectedCourses, setSelectedCourses] = useState([]);
+    const [showSelectedCourses, setShowSelectedCourses] = useState(false);
 
-
+    //dropdown
     const handleDropdownChange = (event) => {
         setDepartment(event.target.value);
-      }
+    }
+
+
+    const handleCheckboxChange = (event, course) => {
+        if (event.target.checked) {
+          setSelectedCourses(prevSelectedCourses => [...prevSelectedCourses, course]);
+        } 
+        else {
+          setSelectedCourses(prevSelectedCourses =>
+            prevSelectedCourses.filter(selectedCourse => selectedCourse !== course)
+          );
+        }
+    };
+
+    const handleAddCourse = () => {
+        setShowSelectedCourses(true);
+    };
 
 
     useEffect(() => {
@@ -31,7 +49,8 @@ const SubjectInterest = () => {
     };
     
     fetchData();
-  },[department]);
+    },[department]);
+
 
 
     return(
@@ -133,42 +152,45 @@ const SubjectInterest = () => {
             </div>
 
             <div className="si_subjectlist">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>선택</th>
-                        <th>과목명</th>
-                        <th>이수구분</th>
-                        <th>학점</th>
-                        <th>요일 및 강의시간</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {courses.length > 0 ? (
-                        courses.map((courses,index) => (
-                        <tr key={index}>
-                            <td>
-                            <input type="checkbox"/>
-                            </td>
-                            <td>{courses.subject}</td>
-                            <td>{courses.class}</td>
-                            <td>{courses.credit}</td>
-                            <td>{courses.t_lecture}</td>
-                        </tr>
-                        ))
-                    ) : (
-                        <tr>
-                        <td colSpan="4">No courses available</td>
-                        </tr>
-                    )
-                    }
-                    </tbody>
-                </table>
-      
+                <div className="tb">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>선택</th>
+                                <th>과목명</th>
+                                <th>이수구분</th>
+                                <th>학점</th>
+                                <th>요일 및 강의시간</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {courses.length > 0 ? (
+                                courses.map((course,index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <input type="checkbox" 
+                                        onChange={event => handleCheckboxChange(event, course)}/>
+                                    </td>
+                                    <td>{course.subject}</td>
+                                    <td>{course.class}</td>
+                                    <td>{course.credit}</td>
+                                    <td>{course.t_lecture}</td>
+                                </tr>
+                                 ))
+                            ) : (
+                            <tr>
+                            <td colSpan="4">No courses available</td>
+                            </tr>
+                        )
+                        }
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div className="includebtn">
-                <button>담기</button>
+                <button onClick={handleAddCourse}>담기</button>
             </div>
 
             <div className="mysubject">
@@ -176,9 +198,76 @@ const SubjectInterest = () => {
                 <span className="mysb">담은 과목</span>
             </div>
 
-            <div className="si_subjectlist">
-                <span></span>
+            {/* <div className="my_subjectlist">
+                <div className="tb">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>선택</th>
+                                <th>과목명</th>
+                                <th>이수구분</th>
+                                <th>학점</th>
+                                <th>요일 및 강의시간</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {selectedCourses.map((course, index) => (
+                                <tr key={index}>
+                                <td>
+                                    <input
+                                    type="checkbox"
+                                    onChange={event => handleCheckboxChange(event, course)}
+                                    />
+                                </td>
+                                <td>{course.subject}</td>
+                                <td>{course.class}</td>
+                                <td>{course.credit}</td>
+                                <td>{course.t_lecture}</td>
+                                </tr>
+                            ))}
+                         
+                        </tbody>
+                    </table>
+                </div>
+            </div> */}
+
+
+            
+            <div className="my_subjectlist">
+                
+                    <div className="tb">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>과목명</th>
+                            <th>이수구분</th>
+                            <th>학점</th>
+                            <th>요일 및 강의시간</th>
+                        </tr>
+                        </thead>
+                        {showSelectedCourses && (
+                        <tbody>
+                            {selectedCourses.length > 0 ? (
+                                selectedCourses.map((course, index) => (
+                                <tr key={index}>
+                                    <td>{course.subject}</td>
+                                    <td>{course.class}</td>
+                                    <td>{course.credit}</td>
+                                    <td>{course.t_lecture}</td>
+                                </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                <td colSpan="5">No courses selected</td>
+                                </tr>
+                            )}
+                        </tbody>
+                        )}
+                    </table>
+                    </div>
             </div>
+
         </div>
 
         <div className="subjectInterest_right">

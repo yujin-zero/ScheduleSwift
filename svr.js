@@ -119,6 +119,7 @@ app.get('/api/courses',(req, res) => {
     });
 });
 
+
 app.get('/api/courses_notime',(req, res) => {
     const {department} = req.query;
     const query = 'select distinct subject, class1, credit from course where department = ?';
@@ -132,6 +133,7 @@ app.get('/api/courses_notime',(req, res) => {
         res.json(results);
     });
 });
+
 
 // 수강한 과목 등록
 app.post('/apply/course',(req,res) => {
@@ -185,6 +187,8 @@ app.post('/api/getGrade', (req,res) => {
     });
 });
 
+
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });
+

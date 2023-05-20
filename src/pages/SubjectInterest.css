@@ -62,7 +62,6 @@
     background: #fff;
     border: 1px solid #000000;
     text-align: center;
-    
 }
 
 .si_subjectlist tr th{
@@ -72,6 +71,14 @@
     width: 10%;
 }
 
+.si_subjectlist .tb{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: -40%;
+    margin-left: -5%;
+}
 
 
 .dept_sub_list{
@@ -79,18 +86,17 @@
     margin-top: -390px;
 }
 
-.si_subjectlist ul {
+/* .si_subjectlist ul {
     display: flex;
     flex-direction: column;
     margin-left: 60px;
     margin-top: -390px;
-  }
-
-
+} */
 
 .mysubject{
     margin-top: -10%;
 }
+
 
 .includebtn{
     position: relative;
@@ -122,6 +128,40 @@
     margin-top: 3px;
     font-weight: bold;
 }
+
+.my_subjectlist{
+    position: absolute;
+    margin-top: 10px;
+    width: 90%;
+    font-size: 20px;
+    overflow:scroll;
+    margin-left: 50px;
+    display: flex;
+    height: 400px;
+    background: #fff;
+    border: 1px solid #000000;
+    text-align: center;
+}
+
+.my_subjectlist tr th{
+    position: sticky;
+    top: 0;
+    background:#fff;
+    width: 10%;
+}
+
+.my_subjectlist .tb{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: -5%;
+}
+
+.si_subjectlist .tb input{
+    background: #c30e2e;
+}
+
 
 .gorequestSeat{
     position: relative;
