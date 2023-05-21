@@ -171,6 +171,7 @@ app.post('/apply/course',(req,res) => {
 );
 });
 
+
 // 수강한 과목 보여주기 (학번, 학기에 따라)
 app.post('/api/getGrade', (req,res) => {
     const {id, semester} = req.body;
@@ -187,6 +188,61 @@ app.post('/api/getGrade', (req,res) => {
     });
 });
 
+
+// 과목 담기
+app.post('/apply/mycourse', (req, res) => {
+    // 전송된 데이터 가져오기
+    const { id, department,subject,t_lecture,class1,credit } = req.body;
+
+    // 데이터베이스에 저장할 데이터
+    const data = { id, department,subject,t_lecture,class1,credit};
+
+    // 중복 여부 확인을 위한 select 쿼리 실행 (현재는 이미 들은 과목 또 등록 가능)
+    connection.query(
+        'SELECT * FROM addSubject WHERE id=? AND department=? AND subject=? AND t_lecture=? AND class1=? AND credit=?',
+        [id, department, subject, t_lecture,class1,credit],
+        (err, rows) => {
+            if (err) {
+                console.error('MySQL 쿼리 오류: ' + err.stack);
+                res.status(500).send('데이터베이스 오류');
+                return;
+            }
+
+            if (rows.length > 0) {
+                // 이미 해당 데이터가 존재하는 경우
+                console.log('이미 데이터가 존재합니다');
+                res.status(200).send('이미 데이터가 존재합니다');
+            } else {
+                // 데이터베이스에 데이터 저장
+                connection.query('INSERT INTO addSubject SET ?', data, (err, result) => {
+                    if (err) {
+                        console.error('MySQL 쿼리 오류: ' + err.stack);
+                        res.status(500).send('데이터베이스 오류');
+                        return;
+                    }
+                    console.log('데이터 저장 성공');
+                    res.status(200).send('데이터 저장 성공');
+                });
+            }
+        }
+    );
+});
+
+
+// 담은과목 보여주기
+app.post('/api/addSubject', (req, res) => {
+    const { id } = req.body;
+    const query =
+      'SELECT subject,class1,credit, t_lecture FROM addSubject WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        console.error('MySQL query error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(results);
+    });
+  });
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');

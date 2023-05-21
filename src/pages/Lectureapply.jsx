@@ -98,8 +98,6 @@ const Lectureapply = () => {
     setSemester('4-2');
   };
 
-  
-
 
   // 체크박스 변경 이벤트 처리 함수
   const handleCheckboxChange = (index) => {
@@ -113,7 +111,7 @@ const Lectureapply = () => {
   // 현재까지 체크된 인덱스 값들이 checkedCourses에 다 저장되어있음.
 
 
-
+  
   // 등록버튼이 눌렸을 때.
   const handle_apply = (event) => {
     event.preventDefault();
@@ -157,8 +155,6 @@ const Lectureapply = () => {
     //alert(id);
     //alert(semester);
     fetchData();
-
-      
   }
 
 
