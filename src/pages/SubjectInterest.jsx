@@ -3,37 +3,24 @@ import { useNavigate } from "react-router-dom";
 import "./SubjectInterest.css"
 import axios from 'axios';
 
-
 const SubjectInterest = () => {
     let navigate = useNavigate();
 
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
-    const [selectedCourses, setSelectedCourses] = useState([]);
-    const [showSelectedCourses, setShowSelectedCourses] = useState(false);
+    const id = localStorage.getItem('user_id');
+    
 
-    //dropdown
+    // 체크된 과목들을 담을 함수
+    const [checkedCourses, setCheckedCourses] = useState([]);
+    const [addSubject, setAddSubject] = useState([]);
+    
     const handleDropdownChange = (event) => {
         setDepartment(event.target.value);
+        setCheckedCourses([]);
     }
 
-
-    const handleCheckboxChange = (event, course) => {
-        if (event.target.checked) {
-          setSelectedCourses(prevSelectedCourses => [...prevSelectedCourses, course]);
-        } 
-        else {
-          setSelectedCourses(prevSelectedCourses =>
-            prevSelectedCourses.filter(selectedCourse => selectedCourse !== course)
-          );
-        }
-    };
-
-    const handleAddCourse = () => {
-        setShowSelectedCourses(true);
-    };
-
-
+    // 학과 검색을 누를 때 마다 과목목록 나오게 실행
     useEffect(() => {
         // MySQL 데이터베이스에서 쿼리 실행
         const fetchData = async () => {
@@ -47,11 +34,75 @@ const SubjectInterest = () => {
             console.error('Error fetching courses:',error);
         }
     };
-    
     fetchData();
     },[department]);
 
 
+    // 담은 과목
+    useEffect(() => {
+        const fetchData = async() => {
+        try {
+            const response = await axios.post('/api/addSubject',{id} );
+            const data = response.data;
+            setAddSubject(data);
+        }catch(error) {
+            console.error('Error fetching courses:',error);
+            }
+        };
+        //alert(id);
+        //alert(semester);
+        fetchData();
+    },[id]);
+
+
+    // 체크박스 변경 이벤트 처리 함수
+    const handleCheckboxChange = (index) => {
+    if (checkedCourses.includes(index)) { // 이미 선택되어있었으면
+        setCheckedCourses(checkedCourses.filter((item) => item !== index));
+    }else { // 선택 안되어있었으면 추가
+        setCheckedCourses([...checkedCourses, index]);
+    }
+    };
+    // 현재까지 체크된 인덱스 값들이 checkedCourses에 다 저장되어있음.
+
+
+
+    //담기버튼이 눌렸을 때
+    const handle_add = (event) => {
+        event.preventDefault();
+
+        //선택한 과목정보 가져오기
+        const selectedCourses = checkedCourses.map(index => courses[index]);
+
+        selectedCourses.forEach(courses => {
+            const { subject,class1, credit, t_lecture } = courses;
+            const data = { id, department, subject,t_lecture, class1, credit };
+
+            axios.post('/apply/mycourse', data)
+                .then((res) => {
+                    console.log(res.data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
+
+    alert('수강과목이 담겼습니다!');
+
+    fetchData();
+    };
+
+    // 등록된 사항을 바로 보여주도록
+    const fetchData = async () => {
+        try {
+        const response = await axios.post('/api/addSubject', { id });
+        const data = response.data;
+        setAddSubject(data); // setAddSubject는 addSubject 상태 변수가 있어야 함
+        } catch (error) {
+        console.error('Error fetching courses:', error);
+        }
+    };
+    
 
     return(
       <div className="subjectInterest_root">
@@ -166,16 +217,17 @@ const SubjectInterest = () => {
 
                         <tbody>
                             {courses.length > 0 ? (
-                                courses.map((course,index) => (
+                                courses.map((courses,index) => (
                                 <tr key={index}>
                                     <td>
                                         <input type="checkbox" 
-                                        onChange={event => handleCheckboxChange(event, course)}/>
+                                        checked = {checkedCourses.includes(index)}
+                                        onChange={()=> handleCheckboxChange(index)}/>
                                     </td>
-                                    <td>{course.subject}</td>
-                                    <td>{course.class}</td>
-                                    <td>{course.credit}</td>
-                                    <td>{course.t_lecture}</td>
+                                    <td>{courses.subject}</td>
+                                    <td>{courses.class1}</td>
+                                    <td>{courses.credit}</td>
+                                    <td>{courses.t_lecture}</td>
                                 </tr>
                                  ))
                             ) : (
@@ -190,71 +242,39 @@ const SubjectInterest = () => {
             </div>
 
             <div className="includebtn">
-                <button onClick={handleAddCourse}>담기</button>
+                <button onClick={handle_add}>담기</button>
             </div>
 
             <div className="mysubject">
                 <span className="si_rect"></span>
                 <span className="mysb">담은 과목</span>
             </div>
-
-            {/* <div className="my_subjectlist">
-                <div className="tb">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>선택</th>
-                                <th>과목명</th>
-                                <th>이수구분</th>
-                                <th>학점</th>
-                                <th>요일 및 강의시간</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {selectedCourses.map((course, index) => (
-                                <tr key={index}>
-                                <td>
-                                    <input
-                                    type="checkbox"
-                                    onChange={event => handleCheckboxChange(event, course)}
-                                    />
-                                </td>
-                                <td>{course.subject}</td>
-                                <td>{course.class}</td>
-                                <td>{course.credit}</td>
-                                <td>{course.t_lecture}</td>
-                                </tr>
-                            ))}
-                         
-                        </tbody>
-                    </table>
-                </div>
-            </div> */}
-
-
             
             <div className="my_subjectlist">
-                
                     <div className="tb">
                     <table>
                         <thead>
                         <tr>
+                            <th>선택</th>
                             <th>과목명</th>
                             <th>이수구분</th>
                             <th>학점</th>
                             <th>요일 및 강의시간</th>
                         </tr>
                         </thead>
-                        {showSelectedCourses && (
+                    
                         <tbody>
-                            {selectedCourses.length > 0 ? (
-                                selectedCourses.map((course, index) => (
+                            {addSubject.length > 0 ? (
+                                addSubject.map((addSubject, index) => (
                                 <tr key={index}>
-                                    <td>{course.subject}</td>
-                                    <td>{course.class}</td>
-                                    <td>{course.credit}</td>
-                                    <td>{course.t_lecture}</td>
+                                    <td>
+                                        <input
+                                        type="checkbox"/>
+                                    </td>
+                                    <td>{addSubject.subject}</td>
+                                    <td>{addSubject.class1}</td>
+                                    <td>{addSubject.credit}</td>
+                                    <td>{addSubject.t_lecture}</td>
                                 </tr>
                                 ))
                             ) : (
@@ -263,7 +283,6 @@ const SubjectInterest = () => {
                                 </tr>
                             )}
                         </tbody>
-                        )}
                     </table>
                     </div>
             </div>
