@@ -32,6 +32,7 @@ app.post('/user/login', (req,res) => {
     // 학번과 비밀번호를 사용하여 회원 정보 검색
     const query = 'select * from student where id = ? and password = ?';
     connection.query(query, [id, password], (err,results) => {
+    
     if (err) {
         console.error('MySQL query error: ',err);
         res.status(500).json({error: 'Internal server error'});
@@ -43,7 +44,6 @@ app.post('/user/login', (req,res) => {
         // 토큰 생성
         const token = jwt.sign({id},'secret_key');
         res.json({token}); // 토큰을 클라이언트에게 응답으로 
-        
     
     } else {
         // 사용자가 존재하지 않거나 비밀번호가 일치하지 않는 경우
@@ -242,7 +242,65 @@ app.post('/api/addSubject', (req, res) => {
       }
       res.json(results);
     });
-  });
+});
+
+
+// 수강신청한 과목 정보를 데이터베이스에 저장
+app.post('/api/apply_course', (req, res) => {
+    // 전송된 데이터 가져오기
+    const { id,department, subject, class1, t_lecture, credit, seat } = req.body;
+
+    // 데이터베이스에 저장할 데이터
+    const data = { id, department,subject, class1, t_lecture, credit, seat };
+
+    // 데이터베이스에 데이터 저장
+    connection.query('INSERT INTO final_subject SET ?', data, (err, result) => {
+        if (err) {
+            console.error('MySQL 쿼리 오류: ' + err.stack);
+            res.status(500).json({ error: '데이터베이스 오류' });
+            return;
+        }
+        console.log('데이터 저장 성공');
+        res.status(200).json({ message: '데이터 저장 성공' });
+    });
+});
+
+// 수강신청한 과목 정보를 데이터베이스에서 삭제
+app.delete('/api/delete_course/:department', (req, res) => {
+    const department = req.params.department;
+
+    // 데이터베이스에서 해당 department를 가진 과목 정보 삭제
+    connection.query('DELETE FROM final_subject WHERE department = ?', [department], (err, result) => {
+        if (err) {
+            console.error('MySQL 쿼리 오류: ' + err.stack);
+            res.status(500).json({ error: '데이터베이스 오류' });
+            return;
+        }
+        if (result.affectedRows === 0) {
+            // 삭제할 과목이 존재하지 않을 경우
+            res.status(404).json({ error: '과목을 찾을 수 없습니다' });
+        } else {
+            console.log('데이터 삭제 성공');
+            res.status(200).json({ message: '데이터 삭제 성공' });
+        }
+    });
+});
+
+  
+// 수강신청화면에서 과목 목록 보여주기
+app.post('/api/final_subject', (req, res) => {
+    const { id } = req.body;
+    const query =
+      'SELECT subject, class1, t_lecture, credit,seat FROM final_subject WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        console.error('MySQL query error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(results);
+    });
+});
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
