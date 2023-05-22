@@ -103,8 +103,10 @@ const Lectureapply = () => {
   const handleCheckboxChange = (index) => {
     if (checkedCourses.includes(index)) { // 이미 선택되어있었으면
       setCheckedCourses(checkedCourses.filter((item) => item !== index));
-    }else { // 선택 안되어있었으면 추가
-      setCheckedCourses([...checkedCourses, index]);
+    }
+
+    else { // 선택 안되어있었으면 추가
+    setCheckedCourses([...checkedCourses, index]);
     }
     // alert(checkedCourses); 이전상태가 출력되지만 잘 되는걸 알 수는 있다.
   };
@@ -138,7 +140,6 @@ const Lectureapply = () => {
         .catch((err) => {
           console.error(err);
         });
-
     })
     alert('수강과목이 등록되었습니다!');
 
@@ -148,7 +149,8 @@ const Lectureapply = () => {
           const response = await axios.post('/api/getGrade',{id,semester} );
           const data = response.data;
           setGetGrade(data);
-       }catch(error) {
+       }
+       catch(error) {
           console.error('Error fetching courses:',error);
         }
     };
@@ -165,7 +167,7 @@ const Lectureapply = () => {
         <img src="../dowadream.png"></img>
       </div>
       
-      <div className="left">
+      <div className="lectureapply_left">
         <div className="semester">
           <button onClick={btn1_1}>1학년 1학기</button>
           <button onClick={btn1_2}>1학년 2학기</button>
@@ -179,14 +181,14 @@ const Lectureapply = () => {
        
       </div>
 
-      <div className="right">
+      <div className="lectureapply_right">
         <div className="label">
           <span>{buttonText}</span>
         </div>
         
         <div className="dept">
           <span className="small_rect"> </span>
-          <span>학과 검색</span>
+          <span className="sub">학과 검색</span>
           <select id="dropdown" className="department_input" value={department} onChange={handleDropdownChange}>
               <option value="">-- 학과를 선택해주세요. --</option>
               <option value="대양휴머니티칼리지">대양휴머니티칼리지</option>
@@ -274,7 +276,7 @@ const Lectureapply = () => {
           </select>
         </div>
 
-        <div className="objlist">
+        <div className="deptlist">
           <table>
             <thead>
               <tr>
@@ -314,12 +316,12 @@ const Lectureapply = () => {
           <button onClick={handle_apply}>등록</button>
         </div>
 
-        <div className="dept">
+        <div className="course">
           <span className="small_rect"> </span>
-          <span>수강한 과목</span>
+          <span className="sub">수강한 과목</span>
         </div>
 
-        <div className="apply_check">
+        <div className="course_taken">
           <table>
             <thead>
               <tr>
@@ -354,7 +356,7 @@ const Lectureapply = () => {
         </div>
 
 
-
+        {/* 
         <div className="grade">
           <span className="small_rect"> </span>
           <span>수강 학점: </span>
@@ -371,7 +373,7 @@ const Lectureapply = () => {
           <span className="small_rect"> </span>
           <span>학점 평균: </span>
           <span className="rect"> </span>
-        </div>
+        </div> */}
 
 
       </div>

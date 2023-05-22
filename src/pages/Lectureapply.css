@@ -14,18 +14,11 @@
     margin-top: 1%;
 }
 
-.left{
+.lectureapply_left{
     position: absolute;
     width: 35%;
-    height: 1000px;
+    margin-left: 40px;
     background: none;
-}
-
-.semester{
-    width: 100%;
-    height: 100%;
-    margin-left: 70px;
-    margin-top: 30px;
 }
 
 .semester button{
@@ -35,21 +28,26 @@
     font-size: 20px;
 }
 
-.right{
+.lectureapply_right{
     position: absolute;
-    margin-left: 35%;
+    margin-left: 32%;
     width:65%;
-    height: 1000px;
     background: none;
+}
+
+.label{
+    font-size: 25px;
+    margin-top: 36px;
+    font-weight: bold;
 }
 
 .dept{
     display: flex;
     width: 100%;
-    font-weight: bold;
     height: 5%;
+    font-weight: bold;
     font-size: 20px;
-    margin-top: 54px;
+    margin-top: 20px;
 }
 
 .sem{
@@ -60,63 +58,131 @@
 }
 
 .department_input{
-    width: 50%;
-    height: 50%;
+    width: 40%;
+    height: 25px;
     margin-left: 10px;
+    margin-top: 2px;
 }
 
-.objlist{
-    position: relative;
-    width: 90%;
-    height: 30%;
+.deptlist{
+    width: 100%;
+    height: 240px;
     border: 1px solid black;
-    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
     background: #fff;
-    overflow:scroll;
+    overflow: scroll;
+}
+.deptlist table{
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.objlist thead tr th{
+.deptlist thead tr{
+    position: sticky;
+    border: 1px solid #2d2d2d;
+    border-left: none; 
+    border-right: none;
+    border-top: none;
+}
+
+.deptlist thead tr th{
     margin-left: 40px;
-    
 } 
 
+.deptlist td {
+    text-align: center;
+}
+
+.deptlist th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+}
 
 .apply{
     display: flex;
     width: 100%;
-    height: 5%;
+    height: 4%;
     margin-top: 10px;
-    margin-left: 78%;
 }
 
 .apply button{
-    width: 62px;
-    height: 40px;
+    width: 60px;
+    height: 30px;
+    font-size: 18px;
     background-color: #c30e2e;
     color: #fff;
-    font-size: 20px;
     border: 2px solid #c30e2e;
     cursor: pointer;
+    margin-left: 94%;
 }
 
-.apply_check{
-    position: relative;
-    width: 90%;
-    height: 30%;
-    border: 1px solid black;
+.course{
+    display: flex;
+    width: 100%;
+    height: 5%;
+    font-weight: bold;
     font-size: 20px;
+}
+
+.sub{
+    margin-top: 3px;
+}
+
+.course_taken{
+    width: 100%;
+    height: 214px;
+    border: 1px solid black;
     justify-content: center;
     align-items: center;
     background: #fff;
+    margin-top: 10px;
+    overflow: scroll;
 }
 
-.grade{
+.course_taken table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+.course_taken thead tr{
+    position: sticky;
+    border: 1px solid #2d2d2d;
+    border-left: none; 
+    border-right: none;
+    border-top: none;
+}
+
+.course_taken thead tr th{
+    margin-left: 40px; 
+} 
+
+.course_taken td {
+    text-align: center;
+}
+
+.course_taken th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+}
+
+
+
+/* .grade{
     display: flex;
     font-weight: bold;
     height: 10%;
     align-items: center;
     margin-left: 35%;
 }
+
+.grade span{
+    text-align: center;
+} */
 
 .small_rect{
     display: flex;
@@ -126,7 +192,6 @@
     margin-right: 10px;
 }
 
-
 .rect{
     display: flex;
     width: 50%;
@@ -135,39 +200,4 @@
     border: 1px solid #000000;
 }
 
-.grade span{
-    font-size: 20px;
-    text-align: center;
-}
-
-.label{
-    font-size: 34px;
-    margin-top: 54px;
-}
-
-.objlist td {
-    text-align: center;
-}
-
-.objlist th {
-    position: sticky;
-    top: 0;
-    background-color: #fff;
-    border: 1px solid #444444;
-}
-
-.apply_check td {
-    text-align: center;
-}
-
-.apply_check th {
-    position: sticky;
-    top: 0;
-    background-color: #fff;
-    border: 1px solid #444444;
-}
-
-table {
-    width: 100%;
-}
 
