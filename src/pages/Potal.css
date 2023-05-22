@@ -1,33 +1,33 @@
-.Potal_root{
+.Potal_root {
     width: 100vw;
     height: 100vh;
 }
 
-.potal_header{
+.potal_header {
     width: 100%;
     height: 10%;
     background-color: #c30e2e;
 }
 
-.potal_header img{
+.potal_header img {
     margin-top: 1%;
     margin-left: 1%;
-    width:17%;
+    width: 17%;
 }
 
-.potal_info2 td{
+.potal_info2 td {
     text-align: center;
 }
 
-.potal_info3 td{
+.potal_info3 td {
     text-align: center;
 }
 
-.potal_info4 td{
+.potal_info4 td {
     text-align: center;
 }
 
-#potal_logout{
+#potal_logout {
     width: 6rem;
     height: 2rem;
     background-color: #c30e2e;
@@ -43,37 +43,36 @@
     cursor: pointer;
 }
 
-.potal_name{
+.potal_name {
     width: 100%;
     height: 15%;
     background-color: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    
 }
 
-.potal_name_left{
+.potal_name_left {
     width: 60%;
     flex-direction: column;
     margin-left: 5%;
 }
 
-.potal_name_left h2{
+.potal_name_left h2 {
     margin-top: 30px;
 }
 
-.potal_name_left p{
+.potal_name_left p {
     margin-top: -5px;
 }
 
-.potal_name_right{
+.potal_name_right {
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.moment-box{
+.moment-box {
     width: 300px;
     float: right;
     color: black;
@@ -83,7 +82,7 @@
     font-weight: lighter;
 }
 
-#potal_Application{
+#potal_Application {
     width: 10rem;
     height: 2.5rem;
     background-color: #c30e2e;
@@ -99,51 +98,51 @@
     margin-right: 5%;
 }
 
-.potal_body{
+.potal_body {
     width: 100%;
     height: 75%;
     display: flex;
 }
 
-.potal_left{
+.potal_left {
     width: 46%;
     height: 100%;
 }
 
-.potal_timetable{
+.potal_timetable {
     width: 100%;
     height: 150%;
     background-color: #ffffff;
     margin-top: 2%;
     margin-left: 2%;
     border-radius: 30px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
 }
 
-.mytimetable{
+.mytimetable {
     position: absolute;
     display: flex;
     height: 80%;
     width: 200px;
 }
 
-.potal_timetable_header{
+.potal_timetable_header {
     position: relative;
-    width:90%;
+    width: 90%;
     height: 10%;
-    background-color: white;
+    background-color: transparent;
     margin-top: -120%;
     display: flex;
 }
-.potal_timetable_header h3{
+.potal_timetable_header h3 {
     margin-top: 30px;
 }
 
-.potal_timetable_content{
+.potal_timetable_content {
     position: absolute;
     display: flex;
     width: 40%;
@@ -158,7 +157,7 @@
     margin-top: -4px;
 }
 
-.tablehead tr td{
+.tablehead tr td {
     position: absolute;
     width: 58px;
     font-size: 12px;
@@ -170,7 +169,7 @@
     border: 1px solid #d6d6d6;
 }
 
-.tablehead tr th{
+.tablehead tr th {
     position: absolute;
     width: 96px;
     font-size: 12px;
@@ -181,13 +180,12 @@
     border: 1px solid #d6d6d6;
 }
 
-.tablehead tr th span{
+.tablehead tr th span {
     position: absolute;
     display: flex;
-
 }
 
-.mon{
+.mon {
     width: 23px;
     font-size: 12px;
     height: 30px;
@@ -196,7 +194,7 @@
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
 }
-.thu{
+.thu {
     position: absolute;
     font-size: 12px;
     height: 30px;
@@ -206,7 +204,7 @@
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
 }
-.wed{
+.wed {
     position: absolute;
     width: 45px;
     font-size: 12px;
@@ -217,7 +215,7 @@
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
 }
-.thr{
+.thr {
     position: absolute;
     width: 45px;
     font-size: 12px;
@@ -228,7 +226,7 @@
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
 }
-.fri{
+.fri {
     position: absolute;
     width: 45px;
     font-size: 12px;
@@ -240,7 +238,7 @@
     border: 1px solid #d6d6d6;
 }
 
-#potal_interested{
+#potal_interested {
     width: 8rem;
     height: 2rem;
     background-color: #ffffff;
@@ -257,24 +255,23 @@
     float: right;
 }
 
-
-.potal_right{
+.potal_right {
     width: 54%;
     height: 82%;
     margin-left: 2%;
     margin-top: 2%;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
 }
 
-.potal_information{
+.potal_information {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
     border-radius: 20px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
 }
 
-.potal_info1{
+.potal_info1 {
     width: 97%;
     height: 8%;
     background-color: white;
@@ -283,7 +280,7 @@
     display: flex;
 }
 
-.potal_info2{
+.potal_info2 {
     width: 97%;
     height: 22%;
     background-color: white;
@@ -291,7 +288,7 @@
     margin-left: 3%;
 }
 
-.potal_info3{
+.potal_info3 {
     width: 97%;
     height: 32%;
     background-color: white;
@@ -299,7 +296,7 @@
     margin-left: 3%;
 }
 
-.potal_info4{
+.potal_info4 {
     width: 97%;
     height: 17%;
     background-color: white;
@@ -307,7 +304,7 @@
     margin-left: 3%;
 }
 
-#potal_get{
+#potal_get {
     width: 8rem;
     height: 2rem;
     background-color: #ffffff;
@@ -323,27 +320,27 @@
     float: right;
 }
 
-.potal_grade{
+.potal_grade {
     width: 100%;
     height: 10%;
     margin-top: 1%;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     display: flex;
 }
 
-.potal_grade h4{
+.potal_grade h4 {
     margin-left: 50%;
 }
 
-.potal_grade h3{
+.potal_grade h3 {
     margin-left: 20%;
 }
 
-table{
-    width:85%;
+table {
+    width: 85%;
 }
 
-.hours{
+.hours {
     position: absolute;
     margin-top: 27px;
     margin-left: -4px;
@@ -351,13 +348,13 @@ table{
     height: 100%;
 }
 
-.hours span{
+.hours span {
     display: flex;
     margin-left: 38px;
     margin-top: -13px;
 }
 
-.hour9{
+.hour9 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -370,9 +367,8 @@ table{
     display: table-cell;
     letter-spacing: -0.5px;
     line-height: 60px;
-
 }
-.hour10{
+.hour10 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -387,7 +383,7 @@ table{
     margin-top: 59px;
     line-height: 60px;
 }
-.hour11{
+.hour11 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -402,7 +398,7 @@ table{
     margin-top: 120px;
     line-height: 60px;
 }
-.hour12{
+.hour12 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -418,7 +414,7 @@ table{
     top: 660;
     line-height: 60px;
 }
-.hour1{
+.hour1 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -434,7 +430,7 @@ table{
     top: 720;
     line-height: 60px;
 }
-.hour2{
+.hour2 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -450,7 +446,7 @@ table{
     top: 780;
     line-height: 60px;
 }
-.hour3{
+.hour3 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -466,7 +462,7 @@ table{
     top: 840;
     line-height: 60px;
 }
-.hour4{
+.hour4 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -482,7 +478,7 @@ table{
     top: 900;
     line-height: 60px;
 }
-.hour5{
+.hour5 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -498,7 +494,7 @@ table{
     margin-top: 480px;
     line-height: 60px;
 }
-.hour6{
+.hour6 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -515,7 +511,7 @@ table{
     line-height: 60px;
 }
 
-.hour7{
+.hour7 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -531,7 +527,7 @@ table{
     top: 1020;
     line-height: 60px;
 }
-.hour8{
+.hour8 {
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -548,11 +544,11 @@ table{
     line-height: 60px;
 }
 
-.tablebody{
+.tablebody {
     margin-left: 7px;
 }
 
-.grids_mon{
+.grids_mon {
     position: absolute;
     margin-top: 27px;
     width: 60px;
@@ -561,7 +557,7 @@ table{
     flex-direction: column;
     margin-left: 54px;
 }
-.grids_thu{
+.grids_thu {
     position: absolute;
     margin-top: 27px;
     width: 60px;
@@ -570,7 +566,7 @@ table{
     flex-direction: column;
     margin-left: 150px;
 }
-.grids_wed{
+.grids_wed {
     position: absolute;
     margin-top: 27px;
     width: 60px;
@@ -579,7 +575,7 @@ table{
     flex-direction: column;
     margin-left: 246px;
 }
-.grids_thr{
+.grids_thr {
     position: absolute;
     margin-top: 27px;
     width: 60px;
@@ -588,7 +584,7 @@ table{
     flex-direction: column;
     margin-left: 342px;
 }
-.grids_fri{
+.grids_fri {
     position: absolute;
     margin-top: 27px;
     width: 60px;
@@ -598,28 +594,17 @@ table{
     margin-left: 438px;
 }
 
-.grid{
+.grid {
     border: 1px solid #d6d6d6;
     display: table-cell;
     height: 30px;
     font-size: 10px;
     border-width: 1px;
-    color: #a6a6a6;
+    color: gray;
     text-align: center;
     width: 100px;
     box-sizing: border-box;
     border-top: 1px solid #e3e3e3;
     font-size: 12px;
-    line-height: 60px;
-
-    
-} 
-
-
-
-
-
-
-
-
-
+    line-height: 30px;
+}

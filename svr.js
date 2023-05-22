@@ -244,6 +244,21 @@ app.post('/api/addSubject', (req, res) => {
     });
   });
 
+// 관심과목 보여주기 (증원요청에서)
+app.post('/user/addSubject', (req, res) => {
+    const { id } = req.body;
+    const query =
+      'SELECT class1,subject,department,t_lecture,credit FROM addSubject WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        console.error('MySQL query error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+      res.json(results);
+    });
+  });
+
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');
 });
