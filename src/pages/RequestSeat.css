@@ -57,6 +57,7 @@
     margin-top: 12px;
     margin-left: 50px;
     border-collapse: collapse;
+    text-align: center;
 }
 
 /* .listObj tr th{
@@ -65,6 +66,7 @@
 
 .rebtn{
     position: relative;
+    
 }
 
 .rebtn button{
@@ -77,6 +79,7 @@
     background: #c30e2e;
     border: 2px solid #c30e2e;
     color: #fff;
+    cursor: pointer;
 }
 
 .request{
@@ -87,7 +90,7 @@
 
 .requestSeat_right{
     position: absolute;
-    margin-left: 70%;
+    margin-left: 75%;
     width: 30%;
     height: 100%;
 }
