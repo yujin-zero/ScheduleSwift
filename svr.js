@@ -107,7 +107,7 @@ app.get('/user/info', (req,res) => {
 // 학과 선택하면 과목내용들 보여주기
 app.get('/api/courses',(req, res) => {
     const {department} = req.query;
-    const query = 'select distinct subject, class1, credit, t_lecture, seat from course where department = ?';
+    const query = 'select distinct subject, class1, credit, t_lecture,seat from course where department = ?';
 
     connection.query(query,[department],(err,results) => {
         if(err) {
@@ -248,13 +248,13 @@ app.post('/api/addSubject', (req, res) => {
 // 수강신청한 과목 정보를 데이터베이스에 저장
 app.post('/api/apply_course', (req, res) => {
     // 전송된 데이터 가져오기
-    const { id,department, subject, class1, t_lecture, credit, seat } = req.body;
+    const {id,department, subject, class1, t_lecture, credit, seat } = req.body;
 
     // 데이터베이스에 저장할 데이터
     const data = { id, department,subject, class1, t_lecture, credit, seat };
 
     // 데이터베이스에 데이터 저장
-    connection.query('INSERT INTO final_subject SET ?', data, (err, result) => {
+    connection.query('INSERT INTO my_subject SET ?', data, (err, result) => {
         if (err) {
             console.error('MySQL 쿼리 오류: ' + err.stack);
             res.status(500).json({ error: '데이터베이스 오류' });
@@ -265,33 +265,54 @@ app.post('/api/apply_course', (req, res) => {
     });
 });
 
-// 수강신청한 과목 정보를 데이터베이스에서 삭제
-app.delete('/api/delete_course/:department', (req, res) => {
-    const department = req.params.department;
-
-    // 데이터베이스에서 해당 department를 가진 과목 정보 삭제
-    connection.query('DELETE FROM final_subject WHERE department = ?', [department], (err, result) => {
-        if (err) {
-            console.error('MySQL 쿼리 오류: ' + err.stack);
-            res.status(500).json({ error: '데이터베이스 오류' });
-            return;
-        }
-        if (result.affectedRows === 0) {
-            // 삭제할 과목이 존재하지 않을 경우
-            res.status(404).json({ error: '과목을 찾을 수 없습니다' });
-        } else {
-            console.log('데이터 삭제 성공');
-            res.status(200).json({ message: '데이터 삭제 성공' });
-        }
+// 담은 과목 정보를 데이터베이스에서 삭제
+app.post('/api/delete_course_si', (req, res) => {
+    const { subject } = req.body;
+    
+    // 데이터베이스에서 해당 subject 값을 가진 과목 정보 삭제
+    connection.query('DELETE FROM addSubject WHERE subject = ?', [subject], (err, result) => {
+      if (err) {
+        console.error('MySQL 쿼리 오류: ' + err.stack);
+        res.status(500).json({ error: '데이터베이스 오류' });
+        return;
+      }
+      if (result.affectedRows === 0) {
+        // 삭제할 과목이 존재하지 않을 경우
+        res.status(404).json({ error: '과목을 찾을 수 없습니다' });
+      } else {
+        console.log('데이터 삭제 성공');
+        res.status(200).json({ message: '데이터 삭제 성공' });
+      }
     });
 });
 
+
+// 수강신청한 과목 정보를 데이터베이스에서 삭제
+app.post('/api/delete_course', (req, res) => {
+    const { subject } = req.body;
+    
+    // 데이터베이스에서 해당 subject 값을 가진 과목 정보 삭제
+    connection.query('DELETE FROM my_subject WHERE subject = ?', [subject], (err, result) => {
+      if (err) {
+        console.error('MySQL 쿼리 오류: ' + err.stack);
+        res.status(500).json({ error: '데이터베이스 오류' });
+        return;
+      }
+      if (result.affectedRows === 0) {
+        // 삭제할 과목이 존재하지 않을 경우
+        res.status(404).json({ error: '과목을 찾을 수 없습니다' });
+      } else {
+        console.log('데이터 삭제 성공');
+        res.status(200).json({ message: '데이터 삭제 성공' });
+      }
+    });
+});
   
 // 수강신청화면에서 과목 목록 보여주기
-app.post('/api/final_subject', (req, res) => {
+app.post('/api/my_subject', (req, res) => {
     const { id } = req.body;
     const query =
-      'SELECT subject, class1, t_lecture, credit,seat FROM final_subject WHERE id = ?';
+      'SELECT subject, class1, t_lecture, credit,seat FROM my_subject WHERE id = ?';
     connection.query(query, [id], (err, results) => {
       if (err) {
         console.error('MySQL query error:', err);
@@ -315,7 +336,49 @@ app.post('/user/addSubject', (req, res) => {
       }
       res.json(results);
     });
+});
+
+// //학점 테이블 정보가져오기
+// app.post('/api/grauation', (req, res) => {
+//     // 전송된 데이터 가져오기
+//     const {id,department, subject, class1, t_lecture, credit, seat } = req.body;
+
+//     // 데이터베이스에 저장할 데이터
+//     const data = { id, department, subject, class1, t_lecture, credit, seat };
+
+//     // 데이터베이스에 데이터 저장
+//     connection.query('select INTO grauation SET ?', data, (err, result) => {
+//         if (err) {
+//             console.error('MySQL 쿼리 오류: ' + err.stack);
+//             res.status(500).json({ error: '데이터베이스 오류' });
+//             return;
+//         }
+//         console.log('데이터 저장 성공');
+//         res.status(200).json({ message: '데이터 저장 성공' });
+//     });
+// });
+
+// 졸업 학점 화면에 띄우기
+app.get('/user/graduation', (req, res) => {
+    const userDept = req.user.department; // 사용자의 학과 정보를 가져옵니다.
+  
+    const query = 'SELECT f FROM graduation WHERE department = ?';
+    connection.query(query, [userDept], (err, results) => {
+      if (err) {
+        console.error('MySQL query error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+  
+      if (results.length > 0) {
+        const graduationF = results[0].f;
+        res.json({ f: graduationF });
+      } else {
+        res.status(404).json({ error: '해당 학과의 졸업 학점 정보가 없습니다.' });
+      }
+    });
   });
+
 
 
 // 수강한 과목 삭제

@@ -14,10 +14,12 @@ const Apply = () => {
 
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
-    const [final_subject, set_final_subject] = useState([]);
+    const [my_subject, set_my_subject] = useState([]);
     const id = localStorage.getItem('user_id');
-    const [selectedCourses, setSelectedCourses] = useState([]);
-
+    const [selectedCourse, setSelectedCourses] = useState([]);
+    const [selectedIndices, set_selectedIndices] = useState([]);
+    
+    
     const handleDropdownChange = (event) => {
         setDepartment(event.target.value);
     }
@@ -39,15 +41,14 @@ const Apply = () => {
         fetchData();
     },[department]);
 
-   
 
     // 수강신청 한 과목을 보여줌
     useEffect(() => {
         const fetchData = async() => {
         try {
-            const response = await axios.post('/api/final_subject',{id} );
+            const response = await axios.post('/api/my_subject',{id} );
             const data = response.data;
-            set_final_subject(data);
+            set_my_subject(data);
         }
         catch(error) {
             console.error('Error fetching courses:',error);
@@ -60,68 +61,59 @@ const Apply = () => {
 
   
     // 신청버튼이 눌렸을 때.
-    const handleButtonClick = (index) => {
-        // 선택한 과목의 정보를 가져옵니다.
+    const handleButtonClick = async (index) => {
+        // 선택한 과목의 정보를 가져오기
         const selectedCourse = courses[index];
-
-        // 선택한 과목이 이미 신청한 목록에 있는지 확인합니다.
-        const isAlreadySelected = selectedCourses.some(course => course.subject === selectedCourse.subject);
-
-        // 데이터베이스에 과목 정보를 저장합니다.
+        // 데이터베이스에 과목 정보를 저장
         const { subject, class1, t_lecture, credit, seat } = selectedCourse;
-        const data = { id, department,subject, class1, t_lecture, credit, seat };
-
-        axios.post('/api/apply_course', data)
-        .then((res) => {
-            console.log(res.data);
-            // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줍니다.
-            setSelectedCourses(prevCourses => [...prevCourses, selectedCourse]);
+        const data = { id, department, subject, class1, t_lecture, credit, seat };
+        try {
+            await axios.post('/api/apply_course', data);
+            // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
+            setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
             alert('수강신청 되었습니다!');
-        })
-        .catch((err) => {
+        } catch (err) {
             console.error(err);
             alert('수강신청에 실패했습니다.');
-        });
-    
-        // 등록된 사항을 바로 보여주도록
-        const fetchData = async () => {
-            try {
-                const response = await axios.post('/api/final_subject', { id });
-                const data = response.data;
-                setSelectedCourses(data);
-            } 
-            catch (error) {
-                console.error('Error fetching courses:', error);
+        }
+
+         // 등록된 사항을 바로 보여주도록
+        const fetchData = async() => {
+        try {
+            const response = await axios.post('/api/my_subject',{id} );
+            const data = response.data;
+            set_my_subject(data);
+        }
+        catch(error) {
+            console.error('Error fetching courses:',error);
             }
         };
+        //alert(id);
+        //alert(semester);
         fetchData();
     };
 
-    //삭제버튼을 눌렀을때
-    const handleButtonClick_delete = (index) => {
-        const department = final_subject[index].department; // 삭제할 과목의 department
-      
-        fetch(`/api/delete_course/${department}`, {
-          method: 'DELETE',
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data.message); // 성공 또는 실패 메시지 출력
-            // 필요한 경우 추가 작업 수행
-      
-            // 삭제 요청이 성공한 경우, 화면에서 해당 과목 정보를 제거합니다.
-            if (data.message === '데이터 삭제 성공') {
-              const updatedSubjects = [...final_subject];
-              updatedSubjects.splice(index, 1);
-              set_final_subject(updatedSubjects);
-            }
-          })
-          .catch(error => {
-            console.error('삭제 요청 오류:', error);
-            // 필요한 경우 오류 처리
-          });
+   
+    // 삭제 버튼이 눌렸을 때
+    const handleButtonClick_delete = async (index) => {
+        const deleteCourse = my_subject[index]; // 수정: my_subject 배열 사용
+        
+        try {
+        // 데이터베이스에서 과목 정보를 삭제하는 요청을 보냅니다.
+        await axios.post('/api/delete_course', deleteCourse);
+        
+        set_my_subject((prevCourses) => {
+            const updatedCourses = [...prevCourses];
+            updatedCourses.splice(index, 1);
+            return updatedCourses;
+        });
+        
+        alert('과목이 삭제되었습니다.');
+        } catch (err) {
+        console.error(err);
+        alert('과목 삭제에 실패했습니다.');
+        }
     };
-      
 
 
     return (
@@ -243,8 +235,8 @@ const Apply = () => {
                                             courses.map((courses,index) => (
                                             <tr key={index}>
                                                 <td>
-                                                    <button className={selectedCourses.includes(index) ? 'checked' : ''}
-                                                    onClick={() => handleButtonClick(index)}>신청</button> 
+                                                <button className={selectedIndices.includes(index) ? 'checked' : ''} 
+                                                onClick={() => handleButtonClick(index)}>신청</button>
                                                 </td>
                                                 <td>{courses.subject}</td>
                                                 <td>{courses.class1}</td>
@@ -261,7 +253,6 @@ const Apply = () => {
                                         }
                                     </tbody>
                                 </table>
-
                             </div>
                             
                         </div>
@@ -293,18 +284,17 @@ const Apply = () => {
                             </tr>
                             </thead>
                             <tbody>
-                                {final_subject.length > 0 ? (
-                                final_subject.map((final_subject,index) => (
+                                {my_subject.length > 0 ? (
+                                my_subject.map((my_subject,index) => (
                                 <tr key={index}>
                                     <td>
-                                    <button className={selectedCourses.includes(index) ? 'checked' : ''}
-                                    onClick={() => handleButtonClick_delete(index)}>삭제</button> 
+                                    <button className="checked" onClick={() => handleButtonClick_delete(index)}>삭제</button> 
                                     </td>
-                                    <td>{final_subject.subject}</td>
-                                    <td>{final_subject.class1}</td>
-                                    <td>{final_subject.t_lecture}</td>
-                                    <td>{final_subject.credit}</td>
-                                    <td>{final_subject.seat}/{final_subject.seat}</td>
+                                    <td>{my_subject.subject}</td>
+                                    <td>{my_subject.class1}</td>
+                                    <td>{my_subject.t_lecture}</td>
+                                    <td>{my_subject.credit}</td>
+                                    <td>{my_subject.seat}/{my_subject.seat}</td>
                                 </tr>
                                 ))
                             ) : (

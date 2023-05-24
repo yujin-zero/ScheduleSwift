@@ -14,6 +14,7 @@ const SubjectInterest = () => {
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
     const id = localStorage.getItem('user_id');
+    const [selectedIndices, set_selectedIndices] = useState([]);
     
 
     // 체크된 과목들을 담을 함수
@@ -73,31 +74,32 @@ const SubjectInterest = () => {
 
 
 
-    //담기버튼이 눌렸을 때
+    // 담기 버튼이 눌렸을 때
     const handle_add = (event) => {
         event.preventDefault();
-
-        //선택한 과목정보 가져오기
-        const selectedCourses = checkedCourses.map(index => courses[index]);
-
-        selectedCourses.forEach(courses => {
-            const { subject,class1, credit, t_lecture } = courses;
-            const data = { id, department, subject,t_lecture, class1, credit };
-
-            axios.post('/apply/mycourse', data)
-                .then((res) => {
-                    console.log(res.data);
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
+    
+        // 선택한 과목 정보 가져오기
+        const selectedCourses = checkedCourses.map((index) => courses[index]);
+    
+        selectedCourses.forEach((course) => {
+        const { subject, class1, credit, t_lecture } = course;
+        const data = { id, department, subject, t_lecture, class1, credit };
+    
+        axios
+            .post('/apply/mycourse', data)
+            .then((res) => {
+            console.log(res.data);
+            })
+            .catch((err) => {
+            console.error(err);
+            });
         });
-
-    alert('수강과목이 담겼습니다!');
-
-    fetchData();
+    
+        alert('수강과목이 담겼습니다!');
+    
+        fetchData();
     };
-
+    
     // 등록된 사항을 바로 보여주도록
     const fetchData = async () => {
         try {
@@ -159,6 +161,28 @@ const SubjectInterest = () => {
     setDeleteCourses([]);
 
   }
+    
+    // 삭제 버튼이 눌렸을 때
+    const handleButtonClick_delete = async (index) => {
+        const deleteCourse = addSubject[index]; // 수정: addSubject 배열 사용
+    
+        try {
+        // 데이터베이스에서 과목 정보를 삭제하는 요청을 보냅니다.
+        await axios.post('/api/delete_course_si', deleteCourse);
+    
+        setAddSubject((prevCourses) => {
+            const updatedCourses = [...prevCourses];
+            updatedCourses.splice(index, 1);
+            return updatedCourses;
+        });
+    
+        alert('과목이 삭제되었습니다.');
+        } catch (err) {
+        console.error(err);
+        alert('과목 삭제에 실패했습니다.');
+        }
+    };
+    
     
 
     return(
