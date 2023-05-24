@@ -207,17 +207,6 @@ const Lectureapply = () => {
     fetchData();
     setDeleteCourses([]);
 
-    /*
-<button onClick={btn1_1}>1학년 1학기</button>
-          <button onClick={btn1_2}>1학년 2학기</button>
-          <button onClick={btn2_1}>2학년 1학기</button>
-          <button onClick={btn2_2}>2학년 2학기</button>
-          <button onClick={btn3_1}>3학년 1학기</button>
-          <button onClick={btn3_2}>3학년 2학기</button>
-          <button onClick={btn4_1}>4학년 1학기</button>
-          <button onClick={btn4_2}>4학년 2학기</button>
-    */
-
   }
 
 

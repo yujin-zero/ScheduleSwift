@@ -288,11 +288,11 @@ const SubjectInterest = () => {
                     <table>
                         <thead>
                             <tr>
-                                <th>선택</th>
-                                <th>과목명</th>
-                                <th>이수구분</th>
-                                <th>학점</th>
-                                <th>요일 및 강의시간</th>
+                                <th id="select">선택</th>
+                                <th id="subject">과목명</th>
+                                <th id="class1">이수구분</th>
+                                <th id="credit">학점</th>
+                                <th id="t_lecture">요일 및 강의시간</th>
                             </tr>
                         </thead>
 
@@ -313,7 +313,7 @@ const SubjectInterest = () => {
                                  ))
                             ) : (
                             <tr>
-                            <td colSpan="4">No courses available</td>
+                            <td colSpan="5">No courses available</td>
                             </tr>
                         )
                         }
@@ -331,17 +331,17 @@ const SubjectInterest = () => {
                 <span className="mysb">담은 과목</span>
             </div>
             
-            <div className="my_subjectlist">
+            <div className="my_subjectlist2">
                     <div className="tb">
                     <table>
                         <thead>
                         <tr>
-                            <th>선택</th>
-                            <th>학과</th>
-                            <th>과목명</th>
-                            <th>이수구분</th>
-                            <th>학점</th>
-                            <th>요일 및 강의시간</th>
+                            <th id="select">선택</th>
+                            <th id="department1">학과</th>
+                            <th id="subject">과목명</th>
+                            <th id="class1">이수구분</th>
+                            <th id="credit">학점</th>
+                            <th id="t_lecture">요일 및 강의시간</th>
                         </tr>
                         </thead>
                     
@@ -371,7 +371,7 @@ const SubjectInterest = () => {
                     </table>
                     </div>
             </div>
-            <div className="includebtn">
+            <div className="includebtn2">
                 <button onClick={handle_delete}>삭제</button>
             </div>
 
@@ -389,6 +389,7 @@ const SubjectInterest = () => {
             </div>
         </div>
       </div>
+
     )
   } 
   export default SubjectInterest;

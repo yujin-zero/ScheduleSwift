@@ -338,47 +338,68 @@ app.post('/user/addSubject', (req, res) => {
     });
 });
 
-// //학점 테이블 정보가져오기
-// app.post('/api/grauation', (req, res) => {
-//     // 전송된 데이터 가져오기
-//     const {id,department, subject, class1, t_lecture, credit, seat } = req.body;
 
-//     // 데이터베이스에 저장할 데이터
-//     const data = { id, department, subject, class1, t_lecture, credit, seat };
-
-//     // 데이터베이스에 데이터 저장
-//     connection.query('select INTO grauation SET ?', data, (err, result) => {
-//         if (err) {
-//             console.error('MySQL 쿼리 오류: ' + err.stack);
-//             res.status(500).json({ error: '데이터베이스 오류' });
-//             return;
-//         }
-//         console.log('데이터 저장 성공');
-//         res.status(200).json({ message: '데이터 저장 성공' });
-//     });
-// });
-
-// 졸업 학점 화면에 띄우기
-app.get('/user/graduation', (req, res) => {
-    const userDept = req.user.department; // 사용자의 학과 정보를 가져옵니다.
-  
-    const query = 'SELECT f FROM graduation WHERE department = ?';
-    connection.query(query, [userDept], (err, results) => {
+app.post('/api/addSubject', (req, res) => {
+    const { id } = req.body;
+    const query =
+      'SELECT department,subject,class1,credit, t_lecture FROM addSubject WHERE id = ?';
+    connection.query(query, [id], (err, results) => {
       if (err) {
         console.error('MySQL query error:', err);
         res.status(500).json({ error: 'Internal server error' });
         return;
       }
-  
+      res.json(results);
+    });
+});
+
+
+// 수강해야할 학점
+app.get('/user/graduation', (req, res) => {
+    //학생의 학과를 불러옴
+    const userDepartment = req.query.department;
+
+    //학과에 따른 이수구분 불러오기
+    const query = 'SELECT * FROM graduation WHERE department = ?';
+    connection.query(query, [userDepartment], (err, results) => {
+      if (err) {
+        console.error('MySQL query error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      }
+
       if (results.length > 0) {
-        const graduationF = results[0].f;
-        res.json({ f: graduationF });
+        const userInfo = results[0];
+        res.json(userInfo);
       } else {
-        res.status(404).json({ error: '해당 학과의 졸업 학점 정보가 없습니다.' });
+        res.status(404).json({ error: '해당 사용자 없음' });
       }
     });
-  });
+});
 
+//수강한 학점 띄우기
+app.get('/user/get_graduation', (req, res) => {
+  const { id } = req.query;
+
+  const query = 'SELECT class1, SUM(credit) AS total_credit FROM getGrade WHERE id = ? GROUP BY class1';
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('MySQL query error:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    if (results.length > 0) {
+      const getgraduation = {}; // 이수구분(class1) 별 학점을 저장할 객체
+      for (const data of results) {
+        getgraduation[data.class1] = data.total_credit;
+      }
+      res.json(getgraduation);
+    } else {
+      res.status(404).json({ error: '해당 사용자 없음' });
+    }
+  });
+});
 
 
 // 수강한 과목 삭제
