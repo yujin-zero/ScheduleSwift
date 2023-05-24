@@ -162,6 +162,11 @@
     background: #c30e2e;
 }
 
+.my_subjectlist button{
+    background-color: #a80e2b;
+    color: #fff;
+    border: 1px solid #fff;
+}
 
 .gorequestSeat{
     position: relative;
