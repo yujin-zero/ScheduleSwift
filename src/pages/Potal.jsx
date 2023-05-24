@@ -14,6 +14,7 @@ const Potal = () => {
     const department = localStorage.getItem('user_department');
 
     const [nowTime, setNowTime] = useState(Date.now());
+
     // 이름, 학번, 학과
     const [userInfo, setUserInfo] = useState("");
 
@@ -159,6 +160,7 @@ const Potal = () => {
         setNowTime(Date.now());
     }, 1000);
 
+
     // 포탈 header에 이름 띄우기
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -174,6 +176,8 @@ const Potal = () => {
 
                 // 응답에서 특정 정보를 받아옴
                 const userInfo = response.data;
+                localStorage.setItem('user_department',userInfo.department);
+
                 localStorage.setItem('user_department',userInfo.department);
 
                 setUserInfo(userInfo);
@@ -401,70 +405,48 @@ const Potal = () => {
         return index;
     }
 
-    const [graduation_f, set_usergraduation] = useState(null);
-
-    // useEffect(() => {
-    //     fetchGraduationCredit();
-    // }, []);
-
-    // const fetchGraduationCredit = async () => {
-    //     try {
-    //     const response = await axios.get('/api/graduation_f');
-    //     const data = response.data;
-    //     setGraduationCredit(data);
-    //     setLoading(false);
-    //     } catch (error) {
-    //     console.error('Error fetching graduation f:', error);
-    //     }
-    // };
 
 
-    // //졸업학점 띄우기
-    // useEffect(() => {
-    //     const fetchUserInfo = async () => {
-    //         try {
-    //             const userdept = localStorage.getItem("user_dept");
 
-    //             // 백엔드 서버로 특정 정보를 요청
-    //             //const userId = '20003319';
-    //             const response = await axios.get("/user/dept", {
-    //                 params: { id: userdept }, // 사용자 ID를 매개변수로 전달
-    //             });
-
-    //             // 응답에서 특정 정보를 받아옴
-    //             const usergraduation = response.data;
-
-    //             set_usergraduation(usergraduation);
-    //         } catch (error) {
-    //             console.error("회원x 정보 가져오기 오류: ", error);
-    //         }
-    //     };
-    //     fetchUserInfo();
-    //     setLoveLectureList(getAllData());
-    // }, []);
-
-    const [graduationCredit, setGraduationCredit] = useState(null);
-
+    const [Grade, setGrade] = useState("");
+    
+    //이수구분 별 들어야 할 학점 보여주기(남은학점 계산시 필요)
     useEffect(() => {
-      getGraduationCredit();
+        const fetchGraduation = async () => {
+            try {
+            const userDepartment = localStorage.getItem('user_department');
+
+            const response = await axios.get('/user/graduation', { params: { department: userDepartment } });
+            const Grade = response.data;
+            localStorage.setItem('user_graduation', Grade.graduationCredit);
+            setGrade(Grade);
+            } catch (error) {
+            console.error('Error fetching user graduation:', error);
+            }
+        };
+        fetchGraduation();
+        
     }, []);
-  
-    const getGraduationCredit = async () => {
-      try {
-        const response = await fetch('/user/dept?department=소프트웨어학과'); // 학과에 적절한 값으로 수정해야 합니다.
-        const data = await response.json();
-        setGraduationCredit(data.f);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
 
+    const [getGrade, setGetGrade] = useState([]);
 
-  
-
+    //수강한 학점 보여주기
+    useEffect(() => {
+        const fetchGetGraduation = async () => {
+          try {
+            const response = await axios.get('/user/get_graduation', { params: { id: id } });
+            const getgraduation = response.data;
+            const creditsArray = Object.keys(getgraduation).map(class1 => ({ class1, total_credit: getgraduation[class1] }));
+            setGetGrade(creditsArray);
+          } catch (error) {
+            console.error('Error fetching user graduation:', error);
+          }
+        };
       
-    
-    
+        fetchGetGraduation();
+    }, [id]);
+
+
   
     return (
         <div className="Potal_root">
@@ -600,23 +582,33 @@ const Potal = () => {
                                     <th>공통교양필수</th>
                                     <th>균형교양필수</th>
                                     <th>학문기초교양필수</th>
-                                    <th>전공학점계</th>
+                                    <th>교양필수</th>
+                                    <th>교양선택</th>
+                                    
                                 </tr>
                                 <tr>
-                                    <td>/</td>
-                                    <td>/</td>
-                                    <td>/</td>
-                                    <td>/</td>
+                                
+                                    <td>{getGrade.filter(item => item.class1 === '공통교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '균형교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '교양선택').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    
                                 </tr>
                                 <tr>
                                     <th>전공필수</th>
                                     <th>전공선택</th>
-                                    <th>졸업학점</th>
+                                    <th>교양학점계</th>
+                                    <th>전공학점계</th>
+                                    <th>수강학점</th>
                                 </tr>
                                 <tr>
-                                    <td>/</td>
-                                    <td>/{graduationCredit}</td>
-                                    <td>/</td>
+                                    <td>{getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수'||item.class1 === '교양필수'||item.class1 === '교양선택').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '전공필수' || item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수'||item.class1 === '교양필수'||item.class1 === '교양선택'||item.class1 === '전공선택'||item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+
                                 </tr>
                             </table>
                         </div>
@@ -627,23 +619,26 @@ const Potal = () => {
                                     <th>공통교양필수</th>
                                     <th>균형교양필수</th>
                                     <th>학문기초교양필수</th>
-                                    <th>전공학점계</th>
-                                </tr>
-                                <tr>
-                                    <td>/</td>
-                                    <td>/</td>
-                                    <td>/</td>
-                                    <td>/</td>
-                                </tr>
-                                <tr>
                                     <th>전공필수</th>
-                                    <th>전공선택</th>
-                                    <th>졸업학점</th>
                                 </tr>
                                 <tr>
-                                    <td>/</td>
-                                    <td>/</td>
-                                    <td>/</td>
+                                    <td>{parseInt(Grade.a) - getGrade.filter(item => item.class1 === '공통교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{parseInt(Grade.b)-getGrade.filter(item => item.class1 === '균형교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{parseInt(Grade.c)-getGrade.filter(item => item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                </tr>
+                                <tr>
+                                    <th>전공선택</th>
+                                    <th>교양학점계</th>
+                                    <th>전공학점계</th>
+                                    <th>남은학점</th>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{(parseInt(Grade.a)+parseInt(Grade.b)+parseInt(Grade.c))-getGrade.filter(item => item.class1 === '공통교양필수'|| item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{(parseInt(Grade.d))-getGrade.filter(item => item.class1 === '전공필수'|| item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{130 - getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수' || item.class1 === '학문기초교양필수' || item.class1 === '교양필수' || item.class1 === '교양선택' || item.class1 === '전공선택' || item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
                                 </tr>
                             </table>
                         </div>
@@ -651,7 +646,7 @@ const Potal = () => {
                     </div>
                     <div className="potal_grade">
                         <h4>취득학점 / 졸업학점 </h4>
-                        <h3>75 / 140</h3>
+                        <h3> {getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수'||item.class1 === '교양필수'||item.class1 === '교양선택'||item.class1 === '전공선택'||item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)} / 130</h3>
                     </div>
                 </div>
             </div>
