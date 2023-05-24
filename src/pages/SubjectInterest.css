@@ -116,6 +116,7 @@
     background: #c30e2e;
     border: 2px solid #c30e2e;
     color: #fff;
+    cursor: pointer;
 }
 
 .mysubject{
@@ -136,7 +137,6 @@
     font-size: 20px;
     overflow:scroll;
     margin-left: 50px;
-    display: flex;
     height: 400px;
     background: #fff;
     border: 1px solid #000000;

@@ -1,9 +1,16 @@
 import React from "react";
 import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Apply.css"
 import axios from 'axios';
 
 const Apply = () => {
+    const navigate = useNavigate();
+
+    const handleLogo = () => {
+        // 로고 클릭하면 포탈화면으로 이동
+        navigate('/potal');
+      }
 
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
@@ -120,7 +127,7 @@ const Apply = () => {
     return (
         <div className="apply_root">
             <div className="apply_header">
-            <img src="../dowadream.png"></img>
+            <img src="../dowadream.png" onClick={handleLogo}></img>
             </div>
             <div className="apply_body">
                 <div className="apply_left">

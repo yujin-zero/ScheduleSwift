@@ -175,7 +175,7 @@ app.post('/apply/course',(req,res) => {
 // 수강한 과목 보여주기 (학번, 학기에 따라)
 app.post('/api/getGrade', (req,res) => {
     const {id, semester} = req.body;
-    const query = 'select subject, class1, credit from getGrade where id =? and semester = ?';
+    const query = 'select department, subject, class1, credit from getGrade where id =? and semester = ?';
     //console.log(id);
     //console.log(semester);
     connection.query(query,[id, semester],(err,results) => {
@@ -233,7 +233,7 @@ app.post('/apply/mycourse', (req, res) => {
 app.post('/api/addSubject', (req, res) => {
     const { id } = req.body;
     const query =
-      'SELECT subject,class1,credit, t_lecture FROM addSubject WHERE id = ?';
+      'SELECT department,subject,class1,credit, t_lecture FROM addSubject WHERE id = ?';
     connection.query(query, [id], (err, results) => {
       if (err) {
         console.error('MySQL query error:', err);
@@ -316,6 +316,45 @@ app.post('/user/addSubject', (req, res) => {
       res.json(results);
     });
   });
+
+
+// 수강한 과목 삭제
+app.post('/delete/course',(req,res) => {
+    // 전송된 데이터 가져오기
+    const {id, subject, semester, credit, class1} = req.body;
+
+    // 데이터베이스에 저장할 데이터
+    const data = {id, subject, semester, credit, class1};
+
+    const query = 'delete from getGrade where id=? and subject=? and semester=? and credit=? and class1=?';
+    connection.query(query,[id,subject,semester,credit,class1],(err,results) => {
+        if(err) {
+            console.error('MySQL query error:',err);
+            res.status(500).json({error:'Internal server error'});
+            return ;
+        }
+        res.json(results);
+    });
+});
+
+// 관심 과목 삭제
+app.post('/delete/addSubject',(req,res) => {
+    // 전송된 데이터 가져오기
+    const {id, subject, class1, credit,t_lecture} = req.body;
+
+    // 데이터베이스에 저장할 데이터
+    const data = {id, subject, class1, credit,t_lecture};
+
+    const query = 'delete from addSubject where id=? and subject=? and class1=? and credit=? and t_lecture=?';
+    connection.query(query,[id, subject, class1, credit,t_lecture],(err,results) => {
+        if(err) {
+            console.error('MySQL query error:',err);
+            res.status(500).json({error:'Internal server error'});
+            return ;
+        }
+        res.json(results);
+    });
+});
 
 app.listen(8080,() => {
     console.log('서버 시작 : http://localhost:8080');

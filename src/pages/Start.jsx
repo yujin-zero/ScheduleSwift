@@ -5,6 +5,9 @@ import "./Start.css"
 const Start = () => {
     let navigate = useNavigate();
 
+    // 로컬 스토리지에서 'user_id' 항목을 삭제하는 코드
+    localStorage.removeItem('user_id');
+
     return (
         <div className="root">
             <img src="https://blackboard.sejong.ac.kr/bbcswebdav/institution/login/images/sejong-horizontal.png" 
