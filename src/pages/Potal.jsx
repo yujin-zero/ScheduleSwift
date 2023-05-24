@@ -5,10 +5,12 @@ import "./Potal.css";
 import Moment from "react-moment";
 import { useInterval } from "use-interval";
 import axios from "axios";
-import { getAllData } from "./LectureData";
 
+// select subject, t_lecture from addSubject where id='1010';
 const Potal = () => {
     let navigate = useNavigate();
+
+    const id = localStorage.getItem('user_id');
 
     const [nowTime, setNowTime] = useState(Date.now());
     // 이름, 학번, 학과
@@ -150,7 +152,7 @@ const Potal = () => {
         ],
     ]);
 
-    const colorList = ["#55efc4", "#ffeaa7", "#81ecec", "#fab1a0", "#fd79a8", "#fd79a8", "#74b9ff", "#ff7675"]; // 시간표 색깔들.
+    const colorList = ["#F7A4A4", "#FEBE8C", "#FFFBC1", "#B6E2A1", "#FA7070", "#FBF2CF", "#C6EBC5", "#A1C298" ]; // 시간표 색깔들.
 
     // 시간 설정
     useInterval(() => {
@@ -178,7 +180,32 @@ const Potal = () => {
             }
         };
         fetchUserInfo();
-        setLoveLectureList(getAllData());
+
+        const fetchData = async () => {
+            try {
+              const response = await axios.post('/user/addSubject', { id });
+              const data = response.data;
+              if (data.length > 0) {
+                const subjects = data.map((item) => item.subject);
+                const times = data.map((item) => item.t_lecture);
+                const lectureData = [];
+                for (let i = 0; i < data.length; i++) {
+                  lectureData.push({
+                    subject: subjects[i],
+                    t_lecture: times[i],
+                  });
+                }
+                setLoveLectureList(lectureData);
+              }
+            } catch (error) {
+              console.error('Error fetching courses:', error);
+            }
+          };
+        
+          fetchData();
+
+        //setLoveLectureList(getAllData());
+        //alert(loveLectureList);
     }, []);
 
     // loveLectureList < 관심과목 map으로 돌면서 timeTableColorList set 

@@ -4,7 +4,12 @@ import "./SubjectInterest.css"
 import axios from 'axios';
 
 const SubjectInterest = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+
+    const handleLogo = () => {
+    // 로고 클릭하면 포탈화면으로 이동
+    navigate('/potal');
+    }
 
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
@@ -15,6 +20,7 @@ const SubjectInterest = () => {
     // 체크된 과목들을 담을 함수
     const [checkedCourses, setCheckedCourses] = useState([]);
     const [addSubject, setAddSubject] = useState([]);
+    const [deleteCourses, setDeleteCourses] = useState([]);
     
     const handleDropdownChange = (event) => {
         setDepartment(event.target.value);
@@ -104,6 +110,57 @@ const SubjectInterest = () => {
         console.error('Error fetching courses:', error);
         }
     };
+
+
+    const handleCheckboxDelete = (index) => {
+    if (deleteCourses.includes(index)) {
+      setDeleteCourses(deleteCourses.filter((item) => item != index));
+    }
+    else {
+      setDeleteCourses([...deleteCourses, index]);
+    }
+    };
+
+    const handle_delete = (event) => {
+    event.preventDefault();
+    //alert("삭제버튼이 눌림");
+
+    const selectedCourses_d = deleteCourses.map(index=>addSubject[index]);
+    //alert(selectedCourses);
+    selectedCourses_d.map(addSubject => {
+      //alert('시작');
+      const {subject, class1, credit,t_lecture} = addSubject;
+      const data = {id, subject, class1, credit,t_lecture};
+      // id , department
+      //alert(id);
+
+      axios.post('/delete/addSubject',data)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    })
+    alert('수강과목에서 삭제되었습니다!');
+
+    // 등록된 사항을 바로 보여주도록
+    const fetchData = async() => {
+      try {
+          const response = await axios.post('/api/addSubject',{id} );
+          const data = response.data;
+          setAddSubject(data);
+       }
+       catch(error) {
+          console.error('Error fetching courses:',error);
+        }
+    };
+    //alert(id);
+    //alert(semester);
+    fetchData();
+    setDeleteCourses([]);
+
+  }
     
     // 삭제 버튼이 눌렸을 때
     const handleButtonClick_delete = async (index) => {
@@ -131,7 +188,7 @@ const SubjectInterest = () => {
     return(
       <div className="subjectInterest_root">
         <div className="subjectInterest_header">
-        <img src="../dowadream.png"></img>
+        <img src="../dowadream.png" onClick={handleLogo}></img>
         </div>
 
         <div className="subjectInterest_left">
@@ -226,7 +283,7 @@ const SubjectInterest = () => {
                 
             </div>
 
-            <div className="si_subjectlist">
+            <div className="my_subjectlist">
                 <div className="tb">
                     <table>
                         <thead>
@@ -279,7 +336,8 @@ const SubjectInterest = () => {
                     <table>
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>선택</th>
+                            <th>학과</th>
                             <th>과목명</th>
                             <th>이수구분</th>
                             <th>학점</th>
@@ -292,8 +350,12 @@ const SubjectInterest = () => {
                                 addSubject.map((addSubject, index) => (
                                 <tr key={index}>
                                     <td>
-                                    <button className="checked" onClick={() => handleButtonClick_delete(index)}>삭제</button> 
+                                        <input
+                                        type="checkbox"
+                                        checked = {deleteCourses.includes(index)} // 체크되어있으면 체크표시
+                                        onChange={() => handleCheckboxDelete(index)}/>
                                     </td>
+                                    <td>{addSubject.department}</td>
                                     <td>{addSubject.subject}</td>
                                     <td>{addSubject.class1}</td>
                                     <td>{addSubject.credit}</td>
@@ -302,12 +364,15 @@ const SubjectInterest = () => {
                                 ))
                             ) : (
                                 <tr>
-                                <td colSpan="5">No courses selected</td>
+                                <td colSpan="6">No courses selected</td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
                     </div>
+            </div>
+            <div className="includebtn">
+                <button onClick={handle_delete}>삭제</button>
             </div>
 
         </div>

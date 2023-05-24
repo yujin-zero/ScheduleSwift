@@ -1,9 +1,16 @@
 import React from "react";
 import "./RequestSeat.css"
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const RequestSeat = () => {
+    const navigate = useNavigate();
+
+    const handleLogo = () => {
+        // 로고 클릭하면 포탈화면으로 이동
+        navigate('/potal');
+    }
 
     const id = localStorage.getItem('user_id');
     const [addsubject, setAddsubject] = useState([]);
@@ -25,7 +32,7 @@ const RequestSeat = () => {
     return(
       <div className="requestSeat_root">
         <div className="requestSeat_header">
-        <img src="../dowadream.png"></img>
+        <img src="../dowadream.png" onClick={handleLogo}></img>
             
         </div>
 

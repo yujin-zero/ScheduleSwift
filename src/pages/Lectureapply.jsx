@@ -1,9 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Lectureapply.css"
 import axios from 'axios';
 
 const Lectureapply = () => {
+  const navigate = useNavigate();
+
+  const handleLogo = () => {
+    // 로고 클릭하면 포탈화면으로 이동
+    navigate('/potal');
+  }
 
   const [department, setDepartment] = useState('');
   const [buttonText, setButtonText] = useState('1학년 1학기');
@@ -13,9 +20,11 @@ const Lectureapply = () => {
 
   // 체크된 index들을 담을 함수
   const [checkedCourses, setCheckedCourses] = useState([]);
+  const [deleteCourses, setDeleteCourses] = useState([]);
 
   const [courses, setCourses] = useState([]);
   const [getGrade, setGetGrade] = useState([]);
+
 
   const handleDropdownChange = (event) => {
     setDepartment(event.target.value);
@@ -112,6 +121,14 @@ const Lectureapply = () => {
   };
   // 현재까지 체크된 인덱스 값들이 checkedCourses에 다 저장되어있음.
 
+  const handleCheckboxDelete = (index) => {
+    if (deleteCourses.includes(index)) {
+      setDeleteCourses(deleteCourses.filter((item) => item != index));
+    }
+    else {
+      setDeleteCourses([...deleteCourses, index]);
+    }
+  };
 
   
   // 등록버튼이 눌렸을 때.
@@ -124,14 +141,7 @@ const Lectureapply = () => {
     selectedCourses.map(courses => {
       //alert('시작');
       const {subject, class1, credit} = courses;
-
       const data = {id, subject, semester, credit, department, class1};
-      //alert(id);
-      //alert(subject);
-      //alert(semester);
-      //alert(credit);
-      //alert(department);
-      //alert(class1);
 
       axios.post('/apply/course',data)
         .then((res) => {
@@ -157,19 +167,48 @@ const Lectureapply = () => {
     //alert(id);
     //alert(semester);
     fetchData();
+    setCheckedCourses([]);
   }
 
+  const handle_delete = (event) => {
+    event.preventDefault();
+    //alert("삭제버튼이 눌림");
 
-  return(
-    <div className="lectureapply_root">
+    const selectedCourses_d = deleteCourses.map(index=>getGrade[index]);
+    //alert(selectedCourses);
+    selectedCourses_d.map(getGrade => {
+      //alert('시작');
+      const {subject, class1, credit} = getGrade;
+      const data = {id, subject, semester, credit, class1};
 
-      <div className="lectureapply_header">
-        <img src="../dowadream.png"></img>
-      </div>
-      
-      <div className="lectureapply_left">
-        <div className="semester">
-          <button onClick={btn1_1}>1학년 1학기</button>
+      axios.post('/delete/course',data)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    })
+    alert('수강과목애서 삭제되었습니다!');
+
+    // 등록된 사항을 바로 보여주도록
+    const fetchData = async() => {
+      try {
+          const response = await axios.post('/api/getGrade',{id,semester} );
+          const data = response.data;
+          setGetGrade(data);
+       }
+       catch(error) {
+          console.error('Error fetching courses:',error);
+        }
+    };
+    //alert(id);
+    //alert(semester);
+    fetchData();
+    setDeleteCourses([]);
+
+    /*
+<button onClick={btn1_1}>1학년 1학기</button>
           <button onClick={btn1_2}>1학년 2학기</button>
           <button onClick={btn2_1}>2학년 1학기</button>
           <button onClick={btn2_2}>2학년 2학기</button>
@@ -177,6 +216,47 @@ const Lectureapply = () => {
           <button onClick={btn3_2}>3학년 2학기</button>
           <button onClick={btn4_1}>4학년 1학기</button>
           <button onClick={btn4_2}>4학년 2학기</button>
+    */
+
+  }
+
+
+  return(
+    <div className="lectureapply_root">
+
+      <div className="lectureapply_header">
+        <img src="../dowadream.png" onClick={handleLogo}></img>
+      </div>
+      
+      <div className="lectureapply_left">
+        <div className="semester">
+          <h3>학기선택</h3>
+          <ul className="ul_left">
+            <li 
+              className={semester === '1-1' ? 'selected' : ''}
+              onClick={btn1_1}>1학년 1학기</li>
+            <li 
+              className={semester === '1-2' ? 'selected' : ''}
+              onClick={btn1_2}>1학년 2학기</li>
+            <li 
+              className={semester === '2-1' ? 'selected' : ''}
+              onClick={btn2_1}>2학년 1학기</li>
+            <li 
+              className={semester === '2-2' ? 'selected' : ''}
+              onClick={btn2_2}>2학년 2학기</li>
+            <li 
+              className={semester === '3-1' ? 'selected' : ''}
+              onClick={btn3_1}>3학년 1학기</li>
+            <li 
+              className={semester === '3-2' ? 'selected' : ''}
+              onClick={btn3_2}>3학년 2학기</li>
+            <li 
+              className={semester === '4-1' ? 'selected' : ''}
+              onClick={btn4_1}>4학년 1학기</li>
+            <li 
+              className={semester === '4-' ? 'selected' : ''}
+              onClick={btn4_2}>4학년 2학기</li>
+          </ul>
         </div>
        
       </div>
@@ -326,6 +406,7 @@ const Lectureapply = () => {
             <thead>
               <tr>
                 <th>선택</th>
+                <th>학과</th>
                 <th>과목명</th>
                 <th>이수구분</th>
                 <th>학점</th>
@@ -337,8 +418,11 @@ const Lectureapply = () => {
                   <tr key={index}>
                     <td>
                       <input 
-                        type="checkbox"/>
+                        type="checkbox"
+                        checked = {deleteCourses.includes(index)} // 체크되어있으면 체크표시
+                        onChange={() => handleCheckboxDelete(index)}/>
                     </td>
+                    <td>{getGrade.department}</td>
                     <td>{getGrade.subject}</td>
                     <td>{getGrade.class1}</td>
                     <td>{getGrade.credit}</td>
@@ -346,7 +430,7 @@ const Lectureapply = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4">No courses available</td>
+                  <td colSpan="5">No courses available</td>
                 </tr>
               )
               }
@@ -355,25 +439,10 @@ const Lectureapply = () => {
           </table>
         </div>
 
-
-        {/* 
-        <div className="grade">
-          <span className="small_rect"> </span>
-          <span>수강 학점: </span>
-          <span className="rect"> </span>
+        <div className="apply">
+          <button onClick={handle_delete}>삭제</button>
         </div>
 
-        <div className="grade">
-          <span className="small_rect"> </span>
-          <span>남은 학점: </span>
-          <span className="rect"> </span>
-        </div>
-
-        <div className="grade">
-          <span className="small_rect"> </span>
-          <span>학점 평균: </span>
-          <span className="rect"> </span>
-        </div> */}
 
 
       </div>
