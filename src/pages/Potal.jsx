@@ -11,11 +11,11 @@ const Potal = () => {
     let navigate = useNavigate();
 
     const id = localStorage.getItem('user_id');
+    const department = localStorage.getItem('user_department');
 
     const [nowTime, setNowTime] = useState(Date.now());
     // 이름, 학번, 학과
     const [userInfo, setUserInfo] = useState("");
-    const [department, setDepartment] = useState('');
 
     const [loveLectureList, setLoveLectureList] = useState(); // 관심과목 데베에서 받아오기
     const [timeTable, setTimeTable] = useState(); // 482줄에 들어가 있음. 화면에 노출된 div들 담겨져있음
@@ -163,6 +163,7 @@ const Potal = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
+                //alert();
                 const userId = localStorage.getItem("user_id");
 
                 // 백엔드 서버로 특정 정보를 요청
@@ -173,6 +174,7 @@ const Potal = () => {
 
                 // 응답에서 특정 정보를 받아옴
                 const userInfo = response.data;
+                localStorage.setItem('user_department',userInfo.department);
 
                 setUserInfo(userInfo);
             } catch (error) {

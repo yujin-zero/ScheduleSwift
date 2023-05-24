@@ -96,6 +96,14 @@
     background-color: #a80e2b;
     color: #fff;
     border: 1px solid #fff;
+    cursor: pointer;
+}
+
+.table_style tbody td button.checked{
+    background-color: #acacac;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
 }
 
 .table_style td {

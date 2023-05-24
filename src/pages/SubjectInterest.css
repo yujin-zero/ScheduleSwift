@@ -1,6 +1,7 @@
 .subjectInterest_root{
     width: 100vw;
     height: 100vh;
+    background-color: #f8f8f8;
 }
 .subjectInterest_header{
     width: 100%;
@@ -17,14 +18,14 @@
     position: absolute;
     margin-left: -20px;
     width: 70%;
-    height: 100%;
+    height: 84%;
     background: none;
 }
 
 .subjectInterest_dept{
     display: flex;
     width: 100%;
-    height: 5%;
+    height: 4%;
     font-size: 20px;
     font-weight: bold;
     margin-top: 30px;
@@ -77,7 +78,6 @@
     justify-content: center;
     text-align: center;
     margin-top: -40%;
-    margin-left: -5%;
 }
 
 
@@ -100,14 +100,34 @@
 
 .includebtn{
     position: relative;
-    margin-top: 43%;
-    height: 20%;
+    margin-top: 32%;
+    height: 18%;
+}
+.includebtn2{
+    position: relative;
+    margin-top: 22%;
+    height: 18%;
 }
 
 .includebtn button{
     display: flex;
     width: 71px;
-    height: 40px;
+    height: 35px;
+    margin-top: 12px;
+    margin-left: 88%;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    background: #c30e2e;
+    border: 2px solid #c30e2e;
+    color: #fff;
+    cursor: pointer;
+}
+
+.includebtn2 button{
+    display: flex;
+    width: 71px;
+    height: 35px;
     margin-top: 12px;
     margin-left: 88%;
     font-size: 20px;
@@ -134,10 +154,23 @@
     position: absolute;
     margin-top: 10px;
     width: 90%;
-    font-size: 20px;
+    font-size: 18px;
     overflow:scroll;
     margin-left: 50px;
-    height: 400px;
+    height: 300px;
+    background: #fff;
+    border: 1px solid #000000;
+    text-align: center;
+}
+
+.my_subjectlist2{
+    position: absolute;
+    margin-top: 10px;
+    width: 90%;
+    font-size: 18px;
+    overflow:scroll;
+    margin-left: 50px;
+    height: 200px;
     background: #fff;
     border: 1px solid #000000;
     text-align: center;
@@ -148,14 +181,6 @@
     top: 0;
     background:#fff;
     width: 10%;
-}
-
-.my_subjectlist .tb{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    margin-left: -5%;
 }
 
 .si_subjectlist .tb input{
@@ -193,14 +218,13 @@
     position: absolute;
     margin-left: 70%;
     width: 30%;
-    height: 100%;
+    height: 84%;
     background: none;
 }
 
 .time{
     font-size: 20px;
     margin-top: 40px;
-    position: fixed;
 }
 
 .mytime{
@@ -226,4 +250,33 @@
     height: 600px;
     font-size: 15px;
     border: 1px solid #000000;
+    background-color: white;
+}
+
+#select {
+    width:5%;
+}
+
+#subject {
+    width: 25%;
+}
+
+#class1 {
+    width :10%;
+}
+
+#credit {
+    width: 8%;
+}
+
+#t_lecture {
+    width: 20%;
+}
+
+#department1 {
+    width: 15%;
+}
+
+table{
+    width:100%;
 }
