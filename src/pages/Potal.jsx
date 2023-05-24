@@ -13,6 +13,7 @@ const Potal = () => {
     const [nowTime, setNowTime] = useState(Date.now());
     // 이름, 학번, 학과
     const [userInfo, setUserInfo] = useState("");
+    const [department, setDepartment] = useState('');
 
     const [loveLectureList, setLoveLectureList] = useState(); // 관심과목 데베에서 받아오기
     const [timeTable, setTimeTable] = useState(); // 482줄에 들어가 있음. 화면에 노출된 div들 담겨져있음
@@ -371,6 +372,71 @@ const Potal = () => {
         return index;
     }
 
+    const [graduation_f, set_usergraduation] = useState(null);
+
+    // useEffect(() => {
+    //     fetchGraduationCredit();
+    // }, []);
+
+    // const fetchGraduationCredit = async () => {
+    //     try {
+    //     const response = await axios.get('/api/graduation_f');
+    //     const data = response.data;
+    //     setGraduationCredit(data);
+    //     setLoading(false);
+    //     } catch (error) {
+    //     console.error('Error fetching graduation f:', error);
+    //     }
+    // };
+
+
+    // //졸업학점 띄우기
+    // useEffect(() => {
+    //     const fetchUserInfo = async () => {
+    //         try {
+    //             const userdept = localStorage.getItem("user_dept");
+
+    //             // 백엔드 서버로 특정 정보를 요청
+    //             //const userId = '20003319';
+    //             const response = await axios.get("/user/dept", {
+    //                 params: { id: userdept }, // 사용자 ID를 매개변수로 전달
+    //             });
+
+    //             // 응답에서 특정 정보를 받아옴
+    //             const usergraduation = response.data;
+
+    //             set_usergraduation(usergraduation);
+    //         } catch (error) {
+    //             console.error("회원x 정보 가져오기 오류: ", error);
+    //         }
+    //     };
+    //     fetchUserInfo();
+    //     setLoveLectureList(getAllData());
+    // }, []);
+
+    const [graduationCredit, setGraduationCredit] = useState(null);
+
+    useEffect(() => {
+      getGraduationCredit();
+    }, []);
+  
+    const getGraduationCredit = async () => {
+      try {
+        const response = await fetch('/user/dept?department=소프트웨어학과'); // 학과에 적절한 값으로 수정해야 합니다.
+        const data = await response.json();
+        setGraduationCredit(data.f);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+
+  
+
+      
+    
+    
+  
     return (
         <div className="Potal_root">
             <div className="potal_header">
@@ -487,6 +553,10 @@ const Potal = () => {
                     </div>
                 </div>
 
+                <div>
+
+        </div>
+
                 <div className="potal_right">
                     <div className="potal_information">
                         <div className="potal_info1">
@@ -498,28 +568,26 @@ const Potal = () => {
                         <div className="potal_info2">
                             <table>
                                 <tr>
+                                    <th>공통교양필수</th>
+                                    <th>균형교양필수</th>
+                                    <th>학문기초교양필수</th>
+                                    <th>전공학점계</th>
+                                </tr>
+                                <tr>
+                                    <td>/</td>
+                                    <td>/</td>
+                                    <td>/</td>
+                                    <td>/</td>
+                                </tr>
+                                <tr>
                                     <th>전공필수</th>
                                     <th>전공선택</th>
-                                    <th>전공기초</th>
-                                    <th>전공합계</th>
+                                    <th>졸업학점</th>
                                 </tr>
                                 <tr>
-                                    <td>10</td>
-                                    <td>20</td>
-                                    <td>10</td>
-                                    <td>40</td>
-                                </tr>
-                                <tr>
-                                    <th>교양필수</th>
-                                    <th>교양선택</th>
-                                    <th>교양합계</th>
-                                    <th>총합계</th>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>10</td>
-                                    <td>15</td>
-                                    <td>55</td>
+                                    <td>/</td>
+                                    <td>/{graduationCredit}</td>
+                                    <td>/</td>
                                 </tr>
                             </table>
                         </div>
@@ -527,46 +595,30 @@ const Potal = () => {
                             <h3>졸업학점 / 남은학점</h3>
                             <table>
                                 <tr>
+                                    <th>공통교양필수</th>
+                                    <th>균형교양필수</th>
+                                    <th>학문기초교양필수</th>
+                                    <th>전공학점계</th>
+                                </tr>
+                                <tr>
+                                    <td>/</td>
+                                    <td>/</td>
+                                    <td>/</td>
+                                    <td>/</td>
+                                </tr>
+                                <tr>
                                     <th>전공필수</th>
                                     <th>전공선택</th>
-                                    <th>전공기초</th>
-                                    <th>전공합계</th>
+                                    <th>졸업학점</th>
                                 </tr>
                                 <tr>
-                                    <td>40 / 30</td>
-                                    <td>50 / 30</td>
-                                    <td>20 / 10</td>
-                                    <td>110 / 70</td>
-                                </tr>
-                                <tr>
-                                    <th>교양필수</th>
-                                    <th>교양선택</th>
-                                    <th>교양합계</th>
-                                    <th>총합계</th>
-                                </tr>
-                                <tr>
-                                    <td>10 / 5</td>
-                                    <td>20 / 10</td>
-                                    <td>30 / 15</td>
-                                    <td>140 / 85</td>
+                                    <td>/</td>
+                                    <td>/</td>
+                                    <td>/</td>
                                 </tr>
                             </table>
                         </div>
-                        <div className="potal_info4">
-                            <h3>평점평균</h3>
-                            <table>
-                                <tr>
-                                    <th>교양평균</th>
-                                    <th>전공평균</th>
-                                    <th>전체평균</th>
-                                </tr>
-                                <tr>
-                                    <td>3.00</td>
-                                    <td>4.41</td>
-                                    <td>4.10</td>
-                                </tr>
-                            </table>
-                        </div>
+    
                     </div>
                     <div className="potal_grade">
                         <h4>취득학점 / 졸업학점 </h4>
