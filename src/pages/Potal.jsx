@@ -212,35 +212,59 @@ const Potal = () => {
         //alert(loveLectureList);
     }, []);
 
-    // loveLectureList < 관심과목 map으로 돌면서 timeTableColorList set 
+    // loveLectureList < 관심과목 map으로 돌면서 timeTableColorList set
     useEffect(() => {
         let tableColorList = [...timeTableColorList];
         let colorIndex = 0;
 
-        loveLectureList && // 관심과목 안에 값이 있을 때만 돌게됨
-            loveLectureList.map((lecture) => { // map:for 문 같은거
-                let lectureData = lecture.t_lecture.split(" "); 
+        loveLectureList &&
+            loveLectureList.map((lecture) => {
+                if (lecture.t_lecture != null && lecture.t_lecture != "") {
+                    if (lecture.t_lecture.includes(",")) {
+                        let lectureDatas = lecture.t_lecture.split(", ");
 
-                let dayData = // 요일
-                    lectureData.length > 2 // 요일이 두개인 경우
-                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
-                        : [getDayIndex(lectureData[0])]; // 요일이 하나인 경우
+                        for (let index = 0; index < lectureDatas.length; index++) {
+                            let lectureData = lectureDatas[index].split(" ");
+                            let dayData =
+                                lectureData.length > 2
+                                    ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                    : [getDayIndex(lectureData[0])];
 
-                let timeData = lectureData[lectureData.length - 1].split("~"); // 시간데이터 가져오기
-                let startIndex = getTimeIndex(timeData[0]); // 수업시작
-                let finishIndex = getTimeIndex(timeData[1]); // 수업끝
+                            let timeData = lectureData[lectureData.length - 1].split("~");
+                            let startIndex = getTimeIndex(timeData[0]);
+                            let finishIndex = getTimeIndex(timeData[1]);
 
-                dayData.map((dayIndex) => {
-                    for (let index = startIndex; index < finishIndex; index++) {
-                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject]; 
+                            dayData.map((dayIndex) => {
+                                for (let index = startIndex; index < finishIndex; index++) {
+                                    tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                                }
+                            });
+                        }
+                    } else {
+                        let lectureData = lecture.t_lecture.split(" ");
+
+                        let dayData =
+                            lectureData.length > 2
+                                ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                : [getDayIndex(lectureData[0])];
+
+                        let timeData = lectureData[lectureData.length - 1].split("~");
+                        let startIndex = getTimeIndex(timeData[0]);
+                        let finishIndex = getTimeIndex(timeData[1]);
+
+                        dayData.map((dayIndex) => {
+                            for (let index = startIndex; index < finishIndex; index++) {
+                                tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            }
+                        });
                     }
-                });
-
-                colorIndex++;
+                    colorIndex++;
+                }
             });
 
         setTimeTableColorList(tableColorList);
     }, [loveLectureList]);
+
 
     // timeTableColorList 값이 변경되면 월~금 and 24칸 시간 돌면서 timeTableColorList에 저장된 값으로 표 div셋팅 후 timeTable set
     useEffect(() => {
@@ -483,7 +507,6 @@ const Potal = () => {
                             </span>
                         </div>
                         <div className="potal_timetable_content">
-                            <div className="mytimetable">
                                 <div className="tablehead">
                                     <table>
                                         <tr>
@@ -506,7 +529,6 @@ const Potal = () => {
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
 
                             <div className="tablebody">
                                 <table>

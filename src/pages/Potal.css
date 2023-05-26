@@ -154,7 +154,6 @@
 .tablehead {
     position: absolute;
     display: flex;
-    width: 100px;
     margin-top: -4px;
 }
 
@@ -186,58 +185,7 @@
     display: flex;
 }
 
-.mon {
-    width: 23px;
-    font-size: 12px;
-    height: 30px;
-    border-color: #d6d6d6;
-    margin-left: 66px;
-    color: #a6a6a6;
-    border: 1px solid #d6d6d6;
-}
-.thu {
-    position: absolute;
-    font-size: 12px;
-    height: 30px;
-    display: table-cell;
-    border-color: #d6d6d6;
-    margin-left: 166px;
-    color: #a6a6a6;
-    border: 1px solid #d6d6d6;
-}
-.wed {
-    position: absolute;
-    width: 45px;
-    font-size: 12px;
-    height: 30px;
-    display: table-cell;
-    border-color: #d6d6d6;
-    margin-left: 266px;
-    color: #a6a6a6;
-    border: 1px solid #d6d6d6;
-}
-.thr {
-    position: absolute;
-    width: 45px;
-    font-size: 12px;
-    height: 30px;
-    display: table-cell;
-    border-color: #d6d6d6;
-    margin-left: 366px;
-    color: #a6a6a6;
-    border: 1px solid #d6d6d6;
-}
-.fri {
-    position: absolute;
-    width: 45px;
-    font-size: 12px;
-    height: 30px;
-    display: table-cell;
-    border-color: #d6d6d6;
-    margin-left: 466px;
-    color: #a6a6a6;
-    border: 1px solid #d6d6d6;
-}
+
 
 #potal_interested {
     width: 8rem;
@@ -608,4 +556,58 @@ table {
     border-top: 1px solid #e3e3e3;
     font-size: 12px;
     line-height: 30px;
+}
+
+
+.mon {
+    width: 23px;
+    font-size: 12px;
+    height: 30px;
+    border-color: #d6d6d6;
+    margin-left: 66px;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
+}
+.thu {
+    position: absolute;
+    font-size: 12px;
+    height: 30px;
+    display: table-cell;
+    border-color: #d6d6d6;
+    margin-left: 166px;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
+}
+.wed {
+    position: absolute;
+    width: 45px;
+    font-size: 12px;
+    height: 30px;
+    display: table-cell;
+    border-color: #d6d6d6;
+    margin-left: 266px;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
+}
+.thr {
+    position: absolute;
+    width: 45px;
+    font-size: 12px;
+    height: 30px;
+    display: table-cell;
+    border-color: #d6d6d6;
+    margin-left: 366px;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
+}
+.fri {
+    position: absolute;
+    width: 45px;
+    font-size: 12px;
+    height: 30px;
+    display: table-cell;
+    border-color: #d6d6d6;
+    margin-left: 466px;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
 }

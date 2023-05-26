@@ -233,25 +233,50 @@ const Apply = () => {
 
         applyLectureList &&
             applyLectureList.map((lecture) => {
-                let lectureData = lecture.t_lecture.split(" ");
+                if (lecture.t_lecture != null && lecture.t_lecture != "") {
+                    if (lecture.t_lecture.includes(",")) {
+                        let lectureDatas = lecture.t_lecture.split(", ");
 
-                let dayData = 
-                    lectureData.length > 2
-                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
-                        : [getDayIndex(lectureData[0])];
+                        for (let index = 0; index < lectureDatas.length; index++) {
+                            let lectureData = lectureDatas[index].split(" ");
+                            let dayData =
+                                lectureData.length > 2
+                                    ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                    : [getDayIndex(lectureData[0])];
 
-                let timeData = lectureData[lectureData.length-1].split("~");
-                let startIndex = getTimeIndex(timeData[0]);
-                let finishIndex = getTimeIndex(timeData[1]);
+                            let timeData = lectureData[lectureData.length - 1].split("~");
+                            let startIndex = getTimeIndex(timeData[0]);
+                            let finishIndex = getTimeIndex(timeData[1]);
 
-                dayData.map((dayIndex) => {
-                    for(let index = startIndex; index<finishIndex; index++) {
-                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            dayData.map((dayIndex) => {
+                                for (let index = startIndex; index < finishIndex; index++) {
+                                    tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                                }
+                            });
+                        }
+                    } else {
+                        let lectureData = lecture.t_lecture.split(" ");
+
+                        let dayData =
+                            lectureData.length > 2
+                                ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                : [getDayIndex(lectureData[0])];
+
+                        let timeData = lectureData[lectureData.length - 1].split("~");
+                        let startIndex = getTimeIndex(timeData[0]);
+                        let finishIndex = getTimeIndex(timeData[1]);
+
+                        dayData.map((dayIndex) => {
+                            for (let index = startIndex; index < finishIndex; index++) {
+                                tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            }
+                        });
                     }
-                });
-                colorIndex++;
+                    colorIndex++;
+                }
             });
-            setTimeTableColorList(tableColorList);
+
+        setTimeTableColorList(tableColorList);
     },[applyLectureList]);
 
     useEffect(() => {
@@ -286,19 +311,19 @@ const Apply = () => {
         let name;
         switch (index) {
             case 0:
-                name = "grids_mon";
+                name = "grids_mon1";
                 break;
             case 1:
-                name = "grids_thu";
+                name = "grids_thu1";
                 break;
             case 2:
-                name = "grids_wed";
+                name = "grids_wed1";
                 break;
             case 3:
-                name = "grids_thr";
+                name = "grids_thr1";
                 break;
             case 4:
-                name = "grids_fri";
+                name = "grids_fri1";
                 break;
         }
         return name;
@@ -742,13 +767,83 @@ const Apply = () => {
                     </div>
                     <div className="apply_dowadream">
                         <div className="dowadream_timetable">
-                            {timeTable}
+                            <div className="dowadream_tablehead">
+                                <table>
+                                        <tr>
+                                            <td></td>
+                                            <th className="mon_apply">
+                                                <span>월</span>
+                                            </th>
+                                            <th className="thu_apply">
+                                                <span>화</span>
+                                            </th>
+                                            <th className="wed_apply">
+                                                <span>수</span>
+                                            </th>
+                                            <th className="thr_apply">
+                                                <span>목</span>
+                                            </th>
+                                            <th className="fri_apply">
+                                                <span>금</span>
+                                            </th>
+                                        </tr>
+                                    </table>
+                            </div>
+                            <div className="dowadream_tablebody">
+                            <table>
+                                    <tr>
+                                        <th>
+                                            <div className="hours_a">
+                                                <div className="hour9_a">
+                                                    <span>9</span>
+                                                </div>
+                                                <div className="hour10_a">
+                                                    <span>10</span>
+                                                </div>
+                                                <div className="hour11_a">
+                                                    <span>11</span>
+                                                </div>
+                                                <div className="hour12_a">
+                                                    <span>12</span>
+                                                </div>
+                                                <div className="hour1_a">
+                                                    <span>1</span>
+                                                </div>
+                                                <div className="hour2_a">
+                                                    <span>2</span>
+                                                </div>
+                                                <div className="hour3_a">
+                                                    <span>3</span>
+                                                </div>
+                                                <div className="hour4_a">
+                                                    <span>4</span>
+                                                </div>
+                                                <div className="hour5_a">
+                                                    <span>5</span>
+                                                </div>
+                                                <div className="hour6_a">
+                                                    <span>6</span>
+                                                </div>
+                                                <div className="hour7_a">
+                                                    <span>7</span>
+                                                </div>
+                                                <div className="hour8_a">
+                                                    <span>8</span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        {timeTable}
+                                    </tr>
+                                        
+                                </table>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
 
     );
 }
