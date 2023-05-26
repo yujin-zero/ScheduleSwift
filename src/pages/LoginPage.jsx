@@ -81,9 +81,7 @@ const LoginPage = () => {
                     </form>
                    
                     <div className="noti">
-                        <li>
-                            <p>초기 비밀번호는 회원 정보 수정에서 반드시 변경 후 사용하여 주시기 바랍니다.</p>
-                        </li>
+                       
                         <li>
                             <p>[오류문의]</p>
                             <ul>

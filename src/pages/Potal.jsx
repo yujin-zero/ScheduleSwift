@@ -178,8 +178,6 @@ const Potal = () => {
                 const userInfo = response.data;
                 localStorage.setItem('user_department',userInfo.department);
 
-                localStorage.setItem('user_department',userInfo.department);
-
                 setUserInfo(userInfo);
             } catch (error) {
                 console.error("회원x 정보 가져오기 오류: ", error);
@@ -405,9 +403,6 @@ const Potal = () => {
         return index;
     }
 
-
-
-
     const [Grade, setGrade] = useState("");
     
     //이수구분 별 들어야 할 학점 보여주기(남은학점 계산시 필요)
@@ -558,6 +553,7 @@ const Potal = () => {
                                         </th>
                                         {timeTable}
                                     </tr>
+                                        
                                 </table>
                             </div>
                         </div>
