@@ -14,6 +14,10 @@ const RequestSeat = () => {
 
     const id = localStorage.getItem('user_id');
     const [addsubject, setAddsubject] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [RequestSubject, setRequestSubject] = useState([]);
+    const [checkedCourses_rs,setCheckedCourses_rs]=useState([]);
+    const department = localStorage.getItem('user_department');
 
     // 로그인한 학생의 관심과목 가져오기
     useEffect(() => {
@@ -29,6 +33,55 @@ const RequestSeat = () => {
         fetchData();
     },[]);
 
+     // 체크박스 변경 이벤트 처리 함수
+     const handleCheckboxChange_rs = (index) => {
+        if (checkedCourses_rs.includes(index)) { // 이미 선택되어있었으면
+            setCheckedCourses_rs(checkedCourses_rs.filter((item) => item !== index));
+        }else { // 선택 안되어있었으면 추가
+            setCheckedCourses_rs([...checkedCourses_rs, index]);
+        }
+        };
+
+    // 증원요청 버튼이 눌렸을 때
+    const handle_request = (event) => {
+        event.preventDefault();
+    
+        // 선택한 과목 정보 가져오기
+        const selectedCourses_rs = checkedCourses_rs.map((index) => courses[index]);
+    
+        selectedCourses_rs.forEach((course) => {
+        const { subject, class1, credit, t_lecture } = course;
+        const data = { id, department, subject, t_lecture, class1, credit };
+    
+        axios
+            .post('/apply/mycourse', data)
+            .then((res) => {
+            console.log(res.data);
+            })
+            .catch((err) => {
+            console.error(err);
+            });
+        });
+    
+        alert('증원요청 되었습니다!');
+    
+        fetchData();
+    };
+    
+    // 등록된 사항을 바로 보여주도록
+    const fetchData = async () => {
+        try {
+        const response = await axios.post('/api/addSubject', { id });
+        const data = response.data;
+        setRequestSubject(data); // setAddSubject는 addSubject 상태 변수가 있어야 함
+        } catch (error) {
+        console.error('Error fetching courses:', error);
+        }
+    };
+
+
+    
+
     return(
       <div className="requestSeat_root">
         <div className="requestSeat_header">
@@ -38,8 +91,8 @@ const RequestSeat = () => {
 
         <div className="requestSeat_left">
             <div className="myob">
-            <span className="small_rect1"></span>
-            <span className="myobj">내 관심 과목</span>
+            <span className="small_rect11"></span>
+            <span className="myobj">{id}님 관심 과목</span>
             
             </div>
           
@@ -47,6 +100,7 @@ const RequestSeat = () => {
                 <table>
                     <thead>
                         <tr>
+                            <th>선택</th>
                             <th>이수구분</th>
                             <th>과목명</th>
                             <th>학과</th>
@@ -58,6 +112,11 @@ const RequestSeat = () => {
                         {addsubject.length > 0 ? (
                             addsubject.map((addsubject,index) => (
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" 
+                                        checked = {checkedCourses_rs.includes(index)}
+                                        onChange={()=> handleCheckboxChange_rs(index)}/>
+                                    </td>
                                     <td>{addsubject.class1}</td>
                                     <td>{addsubject.subject}</td>
                                     <td>{addsubject.department}</td>
@@ -75,71 +134,28 @@ const RequestSeat = () => {
             </div>
 
             <div className="rebtn">
-                <button>증원 요청</button>
+                <button onClick={handle_request}>증원 요청</button>
             </div>
 
             <div className="request">
-                <span className="small_rect1"></span>
-                <span className="myobj">증원 요청 현황</span>
+                <span>요청 현황</span>
             </div>
 
-            <div className="couseTaken">
-                <table className="listObj">
-                    <tr>
-                        <th>분반</th>
-                        <th>교과목명</th>
-                        <th>요청횟수</th>
-                    </tr>
-                    <tr>
-                        <td>001</td>
-                        <td>데이터베이스</td>
-                        <td>43</td>
-                    </tr>
-                    <tr>
-                        <td>001</td>
-                        <td>자료구조</td>
-                        <td>124</td>
-                    </tr>
-                    <tr>
-                        <td>001</td>
-                        <td>운영체제</td>
-                        <td>33</td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>문제해결 및 글쓰기</td>
-                        <td>133</td>
-                    </tr>
-                    <tr>
-                        <td>003</td>
-                        <td>English Writing 1</td>
-                        <td>115</td>
-                    </tr>
-                    <tr>
-                        <td>/</td>
-                        <td>세종사회봉사</td>
-                        <td>115</td>
-                    </tr>
-                  
+            <div className="request_live">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>분반</th>
+                            <th>교과목명</th>
+                            <th>요청횟수</th>
+                        </tr>
+                    </thead>
                    
-                   
-                  
+                    
                 </table>
             </div>
 
         </div>
-
-        <div className="requestSeat_right">
-            <div className="noti">
-                <span className="noti_label">* NOTI *</span>
-                <span className="notipart"></span>
-
-            </div>
-        </div>
-
-        
-      
-  
       </div>
     )
   } 
