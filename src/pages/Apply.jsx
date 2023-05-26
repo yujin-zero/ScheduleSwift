@@ -289,7 +289,8 @@ const Apply = () => {
                 let [color,subject] = timeTableColorList[dayIndex][timeIndex];
 
                 timeTableByDay.push(
-                    <div className="grid_apply" style={{backgroundColor: color}}>
+                    <div className={(color === "t") ? 'grid_apply' : 'grid_apply_selected'}
+                     style={{backgroundColor: color}}>
                         {color !== "t" && !subjectList.includes(subject) ? subject : ""}
                     </div>
                 );

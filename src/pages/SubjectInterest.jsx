@@ -361,6 +361,8 @@ const SubjectInterest = () => {
     }
     };
 
+
+    //삭제버튼이 눌렸을때
     const handle_delete = (event) => {
     event.preventDefault();
     //alert("삭제버튼이 눌림");
@@ -369,8 +371,8 @@ const SubjectInterest = () => {
     //alert(selectedCourses);
     selectedCourses_d.map(addSubject => {
       //alert('시작');
-      const {subject, class1, credit,t_lecture} = addSubject;
-      const data = {id, subject, class1, credit,t_lecture};
+      const {subject} = addSubject;
+      const data = {id, department, subject};
       // id , department
       //alert(id);
 
@@ -401,28 +403,8 @@ const SubjectInterest = () => {
     setDeleteCourses([]);
 
   }
-    
-    // 삭제 버튼이 눌렸을 때
-    const handleButtonClick_delete = async (index) => {
-        const deleteCourse = addSubject[index]; // 수정: addSubject 배열 사용
-    
-        try {
-        // 데이터베이스에서 과목 정보를 삭제하는 요청을 보냅니다.
-        await axios.post('/api/delete_course_si', deleteCourse);
-    
-        setAddSubject((prevCourses) => {
-            const updatedCourses = [...prevCourses];
-            updatedCourses.splice(index, 1);
-            return updatedCourses;
-        });
-    
-        alert('과목이 삭제되었습니다.');
-        } catch (err) {
-        console.error(err);
-        alert('과목 삭제에 실패했습니다.');
-        }
-    };
 
+  
     // 시간 설정
     useInterval(() => {
         setNowTime(Date.now());

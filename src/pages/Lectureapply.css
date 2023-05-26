@@ -108,10 +108,7 @@
 
 .deptlist thead tr{
     position: sticky;
-    border: 1px solid #2d2d2d;
-    border-left: none; 
-    border-right: none;
-    border-top: none;
+    border-bottom: 1px solid #2d2d2d;
 }
 
 .deptlist thead tr th{

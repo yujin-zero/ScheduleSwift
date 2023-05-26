@@ -441,13 +441,13 @@ app.post('/delete/course',(req,res) => {
 // 관심 과목 삭제
 app.post('/delete/addSubject',(req,res) => {
     // 전송된 데이터 가져오기
-    const {id, subject, class1, credit,t_lecture} = req.body;
+    const {id, department,subject}= req.body;
 
     // 데이터베이스에 저장할 데이터
-    const data = {id, subject, class1, credit,t_lecture};
+    const data = {id, department,subject};
 
-    const query = 'delete from addSubject where id=? and subject=? and class1=? and credit=? and t_lecture=?';
-    connection.query(query,[id, subject, class1, credit,t_lecture],(err,results) => {
+    const query = 'delete from addSubject where subject=?';
+    connection.query(query,[subject],(err,results) => {
         if(err) {
             console.error('MySQL query error:',err);
             res.status(500).json({error:'Internal server error'});
