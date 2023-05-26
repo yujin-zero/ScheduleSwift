@@ -223,53 +223,54 @@ const SubjectInterest = () => {
      useEffect(() => {
         let tableColorList = [...timeTableColorList];
         let colorIndex = 0;
-      
-        if (subjectInterestList) {
-          subjectInterestList.forEach((lecture) => {
-            // null 체크 추가
-            if (lecture.t_lecture !== null) {
-              let lectureData = lecture.t_lecture.split(" ");
-      
-              let dayData =
-                lectureData.length > 2
-                  ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
-                  : [getDayIndex(lectureData[0])];
-      
-              let timeData = lectureData[lectureData.length - 1].split("~");
-              let startIndex = getTimeIndex(timeData[0]);
-              let finishIndex = getTimeIndex(timeData[1]);
-      
-              dayData.forEach((dayIndex) => {
-                for (let index = startIndex; index < finishIndex; index++) {
-                  tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
-                }
-              });
-            
-            } 
-            else {
-                
-                let lectureData = lecture.t_lecture.split(" ");
 
-                let dayData =
-                    lectureData.length > 2
-                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
-                        : [getDayIndex(lectureData[0])];
+        subjectInterestList &&
+            subjectInterestList.map((lecture) => {
+                if (lecture.t_lecture != null && lecture.t_lecture != "") {
+                    if (lecture.t_lecture.includes(",")) {
+                        let lectureDatas = lecture.t_lecture.split(", ");
 
-                let timeData = lectureData[lectureData.length - 1].split("~");
-                let startIndex = getTimeIndex(timeData[0]);
-                let finishIndex = getTimeIndex(timeData[1]);
+                        for (let index = 0; index < lectureDatas.length; index++) {
+                            let lectureData = lectureDatas[index].split(" ");
+                            let dayData =
+                                lectureData.length > 2
+                                    ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                    : [getDayIndex(lectureData[0])];
 
-                dayData.map((dayIndex) => {
-                    for (let index = startIndex; index < finishIndex; index++) {
-                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            let timeData = lectureData[lectureData.length - 1].split("~");
+                            let startIndex = getTimeIndex(timeData[0]);
+                            let finishIndex = getTimeIndex(timeData[1]);
+
+                            dayData.map((dayIndex) => {
+                                for (let index = startIndex; index < finishIndex; index++) {
+                                    tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                                }
+                            });
+                        }
+                    } else {
+                        let lectureData = lecture.t_lecture.split(" ");
+
+                        let dayData =
+                            lectureData.length > 2
+                                ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                : [getDayIndex(lectureData[0])];
+
+                        let timeData = lectureData[lectureData.length - 1].split("~");
+                        let startIndex = getTimeIndex(timeData[0]);
+                        let finishIndex = getTimeIndex(timeData[1]);
+
+                        dayData.map((dayIndex) => {
+                            for (let index = startIndex; index < finishIndex; index++) {
+                                tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            }
+                        });
                     }
-                });
-            }
-            colorIndex++;
-          });
-      
-          setTimeTableColorList(tableColorList);
-        }
+                    colorIndex++;
+                }
+            });
+
+        setTimeTableColorList(tableColorList);
+            
       }, [subjectInterestList]);
 
 
