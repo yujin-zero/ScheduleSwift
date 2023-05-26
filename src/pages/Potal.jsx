@@ -219,24 +219,28 @@ const Potal = () => {
 
         loveLectureList && // 관심과목 안에 값이 있을 때만 돌게됨
             loveLectureList.map((lecture) => { // map:for 문 같은거
-                let lectureData = lecture.t_lecture.split(" "); 
+                if (lecture.t_lecture != null && lecture.t_lecture != "")
+                {
+                    console.log(lecture.t_lecture)
+                    let lectureData = lecture.t_lecture.split(" "); 
 
-                let dayData = // 요일
-                    lectureData.length > 2 // 요일이 두개인 경우
-                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
-                        : [getDayIndex(lectureData[0])]; // 요일이 하나인 경우
+                    let dayData = // 요일
+                        lectureData.length > 2 // 요일이 두개인 경우
+                            ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                            : [getDayIndex(lectureData[0])]; // 요일이 하나인 경우
 
-                let timeData = lectureData[lectureData.length - 1].split("~"); // 시간데이터 가져오기
-                let startIndex = getTimeIndex(timeData[0]); // 수업시작
-                let finishIndex = getTimeIndex(timeData[1]); // 수업끝
+                    let timeData = lectureData[lectureData.length - 1].split("~"); // 시간데이터 가져오기
+                    let startIndex = getTimeIndex(timeData[0]); // 수업시작
+                    let finishIndex = getTimeIndex(timeData[1]); // 수업끝
 
-                dayData.map((dayIndex) => {
-                    for (let index = startIndex; index < finishIndex; index++) {
-                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject]; 
-                    }
-                });
+                    dayData.map((dayIndex) => {
+                        for (let index = startIndex; index < finishIndex; index++) {
+                            tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject]; 
+                        }
+                    });
 
-                colorIndex++;
+                    colorIndex++;
+                }
             });
 
         setTimeTableColorList(tableColorList);
