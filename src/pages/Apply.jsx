@@ -233,25 +233,50 @@ const Apply = () => {
 
         applyLectureList &&
             applyLectureList.map((lecture) => {
-                let lectureData = lecture.t_lecture.split(" ");
+                if (lecture.t_lecture != null && lecture.t_lecture != "") {
+                    if (lecture.t_lecture.includes(",")) {
+                        let lectureDatas = lecture.t_lecture.split(", ");
 
-                let dayData = 
-                    lectureData.length > 2
-                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
-                        : [getDayIndex(lectureData[0])];
+                        for (let index = 0; index < lectureDatas.length; index++) {
+                            let lectureData = lectureDatas[index].split(" ");
+                            let dayData =
+                                lectureData.length > 2
+                                    ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                    : [getDayIndex(lectureData[0])];
 
-                let timeData = lectureData[lectureData.length-1].split("~");
-                let startIndex = getTimeIndex(timeData[0]);
-                let finishIndex = getTimeIndex(timeData[1]);
+                            let timeData = lectureData[lectureData.length - 1].split("~");
+                            let startIndex = getTimeIndex(timeData[0]);
+                            let finishIndex = getTimeIndex(timeData[1]);
 
-                dayData.map((dayIndex) => {
-                    for(let index = startIndex; index<finishIndex; index++) {
-                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            dayData.map((dayIndex) => {
+                                for (let index = startIndex; index < finishIndex; index++) {
+                                    tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                                }
+                            });
+                        }
+                    } else {
+                        let lectureData = lecture.t_lecture.split(" ");
+
+                        let dayData =
+                            lectureData.length > 2
+                                ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                                : [getDayIndex(lectureData[0])];
+
+                        let timeData = lectureData[lectureData.length - 1].split("~");
+                        let startIndex = getTimeIndex(timeData[0]);
+                        let finishIndex = getTimeIndex(timeData[1]);
+
+                        dayData.map((dayIndex) => {
+                            for (let index = startIndex; index < finishIndex; index++) {
+                                tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                            }
+                        });
                     }
-                });
-                colorIndex++;
+                    colorIndex++;
+                }
             });
-            setTimeTableColorList(tableColorList);
+
+        setTimeTableColorList(tableColorList);
     },[applyLectureList]);
 
     useEffect(() => {
