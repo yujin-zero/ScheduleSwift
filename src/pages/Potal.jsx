@@ -178,8 +178,6 @@ const Potal = () => {
                 const userInfo = response.data;
                 localStorage.setItem('user_department',userInfo.department);
 
-                localStorage.setItem('user_department',userInfo.department);
-
                 setUserInfo(userInfo);
             } catch (error) {
                 console.error("회원x 정보 가져오기 오류: ", error);
@@ -404,9 +402,6 @@ const Potal = () => {
         }
         return index;
     }
-
-
-
 
     const [Grade, setGrade] = useState("");
     

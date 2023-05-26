@@ -1,7 +1,6 @@
 .apply_root{
     width: 100vw;
     height: 100vh;
-    background-color: #F8F8F8;
 }
 
 .apply_header{
@@ -58,7 +57,7 @@
     width: 100%;
     height: 40%;
     margin-left: 20px;
-    background-color: #F8F8F8;
+    background-color: white;
     border: 1px solid #2d2d2d;
     overflow: scroll;
 }
@@ -113,7 +112,7 @@
 .apply_interest{
     width: 100%;
     height: 25%;
-    background-color: #F8F8F8;
+    background-color: white;
     margin: 20px;
 }
 
@@ -130,12 +129,23 @@
     height: 86%;
     background-color: #F8F8F8;
     border: 1px solid #2d2d2d;
+    text-align: center;
+}
+
+.apply_interest_content thead tr{
+    position: sticky;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.apply_interest_content table{
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .apply_complete{
     width: 100%;
     height: 25%;
-    background-color: #F8F8F8;
+    background-color: white;
     margin: 20px;
 }
 
@@ -210,6 +220,7 @@
     background-color: #F8F8F8;
     border: 1px solid #2d2d2d;
     margin-left: 5%;
+    background-color: white;
 }
 
 #apply_square{
@@ -222,4 +233,62 @@ h3{
     margin-left: 2%;
 }
 
+.dowadream_timetable{
+    width: 70%;
+    height: 65%;
+    margin-top: 5%;
+    margin-left: 15%;
+    border: 1px solid red;
+}
 
+.mytimetable_apply{
+    position: absolute;
+    display: flex;
+    height: 80%;
+    width: 200px;
+}
+
+.tablehead_apply{
+    position: absolute;
+    display: flex;
+    width: 100px;
+    margin-top: -4px;
+}
+
+.tablehead_apply tr td {
+    position: absolute;
+    width: 58px;
+    font-size: 12px;
+    margin-left: 4px;
+    height: 30px;
+    display: table-cell;
+    border-color: #d6d6d6;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
+}
+
+.tablehead_apply tr th {
+    position: absolute;
+    width: 96px;
+    font-size: 12px;
+    height: 30px;
+    display: table-cell;
+    border-color: #d6d6d6;
+    color: #a6a6a6;
+    border: 1px solid #d6d6d6;
+}
+
+.tablehead_apply tr th span {
+    position: absolute;
+    display: flex;
+}
+
+.grid_apply{
+    border: 1px solid rgb(193, 193, 193);
+    width: 50px;
+    height: 15px;
+    font-size :5px;
+    display: table-cell;
+    text-align: center;
+    box-sizing: border-box;
+}
