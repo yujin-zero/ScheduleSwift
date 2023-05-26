@@ -327,7 +327,7 @@ const SubjectInterest = () => {
             </div>
 
             <div className="mysubject">
-                <span className="si_rect"></span>
+                <span className="include_sqare"></span>
                 <span className="mysb">담은 과목</span>
             </div>
             
@@ -379,13 +379,235 @@ const SubjectInterest = () => {
 
         <div className="subjectInterest_right">
             <div className="gorequestSeat">
-                <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원요청 하러가기</button>
+                <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원요청</button>
             </div>
 
             <div className="time">
-                <span className="right_si_rect"></span>
-                <span className="mytime">시간표</span>
-                <span className="timepart"></span>
+                
+            <span className="mytime">{id}님 시간표</span>
+                <div className="potal_timetable_content_si">
+                
+                    <div className="for_size">
+                            <div className="mytimetable_si">
+                                <div className="tablehead_si">
+                                    <table className="for_header_size">
+                                        <tr>
+                                            <td className="non_si"></td>
+                                            <th className="mon_si">
+                                                <span>월</span>
+                                            </th>
+                                            <th className="thu_si">
+                                                <span>화</span>
+                                            </th>
+                                            <th className="wed_si">
+                                                <span>수</span>
+                                            </th>
+                                            <th className="thr_si">
+                                                <span>목</span>
+                                            </th>
+                                            <th className="fri_si">
+                                                <span>금</span>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div className="tablebody_si">
+                                <table>
+                                    <tr>
+                                        <th>
+                                            <div className="hours_si">
+                                                <div className="hour9_si">
+                                                    <span>9</span>
+                                                </div>
+                                                <div className="hour10_si">
+                                                    <span>10</span>
+                                                </div>
+                                                <div className="hour11_si">
+                                                    <span>11</span>
+                                                </div>
+                                                <div className="hour12_si">
+                                                    <span>12</span>
+                                                </div>
+                                                <div className="hour1_si">
+                                                    <span>1</span>
+                                                </div>
+                                                <div className="hour2_si">
+                                                    <span>2</span>
+                                                </div>
+                                                <div className="hour3_si">
+                                                    <span>3</span>
+                                                </div>
+                                                <div className="hour4_si">
+                                                    <span>4</span>
+                                                </div>
+                                                <div className="hour5_si">
+                                                    <span>5</span>
+                                                </div>
+                                                <div className="hour6_si">
+                                                    <span>6</span>
+                                                </div>
+                                                <div className="hour7_si">
+                                                    <span>7</span>
+                                                </div>
+                                                <div className="hour8_si">
+                                                    <span>8</span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        {/* {timeTable} */}
+                                    </tr>
+                                        <th>
+                                            <div className="grids_mon_si">
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div className="grids_thu_si">
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div className="grids_wed_si">
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div className="grids_thr_si">
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div className="grids_fri_si">
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+                                                <div className="grid_si"></div>
+
+                                            </div>
+                                        </th>
+                                        
+                                </table>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
       </div>
