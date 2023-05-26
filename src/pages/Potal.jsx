@@ -487,7 +487,6 @@ const Potal = () => {
                             </span>
                         </div>
                         <div className="potal_timetable_content">
-                            <div className="mytimetable">
                                 <div className="tablehead">
                                     <table>
                                         <tr>
@@ -510,7 +509,6 @@ const Potal = () => {
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
 
                             <div className="tablebody">
                                 <table>
