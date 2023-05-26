@@ -3,6 +3,8 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Apply.css"
 import axios from 'axios';
+import { useInterval } from "use-interval";
+import Moment from "react-moment";
 
 const Apply = () => {
     const navigate = useNavigate();
@@ -18,6 +20,159 @@ const Apply = () => {
     const id = localStorage.getItem('user_id');
     const [selectedCourse, setSelectedCourses] = useState([]);
     const [selectedIndices, set_selectedIndices] = useState([]);
+    const [addsubject, setAddsubject] = useState([]);
+
+    const [applyLectureList, setApplyLectureList] = useState(); // 수강신청한 과목 받아오기
+    const [timeTable, setTimeTable] = useState();
+    const [timeTableColorList, setTimeTableColorList] = useState([
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+    ]);
+
+    const colorList = ["#F7A4A4", "#FEBE8C", "#FFFBC1", "#B6E2A1", "#FA7070", "#FBF2CF", "#C6EBC5", "#A1C298"];
+
+
+    // 로그인한 학생의 관심과목 가져오기
+    useEffect(() => {
+        const fetchData = async() => {
+            try {
+                const response = await axios.post('/user/addSubject',{id});
+                const data = response.data;
+                setAddsubject(data);
+            }catch(error) {
+                console.error('Error fetching courses:',error);
+            }
+        };
+        fetchData();
+    },[]);
     
     
     const handleDropdownChange = (event) => {
@@ -49,6 +204,18 @@ const Apply = () => {
             const response = await axios.post('/api/my_subject',{id} );
             const data = response.data;
             set_my_subject(data);
+            if(data.length>0) {
+                const subjects = data.map((item) => item.subject);
+                const times = data.map((item) => item.t_lecture);
+                const lectureData = [];
+                for(let i=0; i<data.length; i++) {
+                    lectureData.push({
+                        subject: subjects[i],
+                        t_lecture: times[i],
+                    });
+                }
+                setApplyLectureList(lectureData);
+            }
         }
         catch(error) {
             console.error('Error fetching courses:',error);
@@ -57,7 +224,195 @@ const Apply = () => {
         //alert(id);
         //alert(semester);
         fetchData();
-    },[id]);
+    },[]);
+
+    // applyLectureList < 수강신청한 과목 map으로 돌면서 timeTableColorList set
+    useEffect(() => {
+        let tableColorList = [...timeTableColorList];
+        let colorIndex = 0;
+
+        applyLectureList &&
+            applyLectureList.map((lecture) => {
+                let lectureData = lecture.t_lecture.split(" ");
+
+                let dayData = 
+                    lectureData.length > 2
+                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                        : [getDayIndex(lectureData[0])];
+
+                let timeData = lectureData[lectureData.length-1].split("~");
+                let startIndex = getTimeIndex(timeData[0]);
+                let finishIndex = getTimeIndex(timeData[1]);
+
+                dayData.map((dayIndex) => {
+                    for(let index = startIndex; index<finishIndex; index++) {
+                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                    }
+                });
+                colorIndex++;
+            });
+            setTimeTableColorList(tableColorList);
+    },[applyLectureList]);
+
+    useEffect(() => {
+        let tables = [];
+
+        for (let dayIndex=0; dayIndex<5; dayIndex++) {
+            let subjectList = [];
+            let timeTableByDay = [];
+            for(let timeIndex=0; timeIndex<24; timeIndex++) {
+                let [color,subject] = timeTableColorList[dayIndex][timeIndex];
+
+                timeTableByDay.push(
+                    <div className="grid_apply" style={{backgroundColor: color}}>
+                        {color !== "t" && !subjectList.includes(subject) ? subject : ""}
+                    </div>
+                );
+
+                if(subject !== "r") {
+                    subjectList.push(subject);
+                }
+            }
+            tables.push(
+                <th>
+                    <div className={getDayClassName(dayIndex)}>{timeTableByDay}</div>
+                </th>
+            );
+        }
+        setTimeTable(tables);
+    },[timeTableColorList]);
+
+    function getDayClassName(index) {
+        let name;
+        switch (index) {
+            case 0:
+                name = "grids_mon";
+                break;
+            case 1:
+                name = "grids_thu";
+                break;
+            case 2:
+                name = "grids_wed";
+                break;
+            case 3:
+                name = "grids_thr";
+                break;
+            case 4:
+                name = "grids_fri";
+                break;
+        }
+        return name;
+    }
+
+    function getDayIndex(day) {
+        let index;
+        switch (day) {
+            case "월":
+                index = 0;
+                break;
+            case "화":
+                index = 1;
+                break;
+            case "수":
+                index = 2;
+                break;
+            case "목":
+                index = 3;
+                break;
+            case "금":
+                index = 4;
+                break;
+            case "토":
+                index = 5;
+                break;
+            case "일":
+                index = 6;
+                break;
+        }
+        return index;
+    }
+
+    function getTimeIndex(time) {
+        let index;
+        switch (time) {
+            case "09:00":
+                index = 0;
+                break;
+            case "09:30":
+                index = 1;
+                break;
+            case "10:00":
+                index = 2;
+                break;
+            case "10:30":
+                index = 3;
+                break;
+            case "11:00":
+                index = 4;
+                break;
+            case "11:30":
+                index = 5;
+                break;
+            case "12:00":
+                index = 6;
+                break;
+            case "12:30":
+                index = 7;
+                break;
+            case "13:00":
+                index = 8;
+                break;
+            case "13:30":
+                index = 9;
+                break;
+            case "14:00":
+                index = 10;
+                break;
+            case "14:30":
+                index = 11;
+                break;
+            case "15:00":
+                index = 12;
+                break;
+            case "15:30":
+                index = 13;
+                break;
+            case "16:00":
+                index = 14;
+                break;
+            case "16:30":
+                index = 15;
+                break;
+            case "17:00":
+                index = 16;
+                break;
+            case "17:30":
+                index = 17;
+                break;
+            case "18:00":
+                index = 18;
+                break;
+            case "18:30":
+                index = 19;
+                break;
+            case "19:00":
+                index = 20;
+                break;
+            case "19:30":
+                index = 21;
+                break;
+            case "20:00":
+                index = 22;
+                break;
+            case "20:30":
+                index = 23;
+                break;
+            case "21:00":
+                index = 24;
+                break;
+        }
+        return index;
+    }
 
   
     // 신청버튼이 눌렸을 때.
@@ -92,6 +447,42 @@ const Apply = () => {
         //alert(semester);
         fetchData();
     };
+
+    
+ // 신청버튼이 눌렸을 때.
+    const handleDirectApply = async (index) => {
+        // 선택한 과목의 정보를 가져오기
+        const selectedCourse = addsubject[index];
+        // 데이터베이스에 과목 정보를 저장
+        const { subject, class1, t_lecture, credit, seat, department } = selectedCourse;
+        const data = { id, department, subject, class1, t_lecture, credit, seat };
+        try {
+            await axios.post('/api/apply_course', data);
+            // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
+            setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
+            alert('수강신청 되었습니다!');
+        } catch (err) {
+            console.error(err);
+            alert('수강신청에 실패했습니다.');
+        }
+
+         // 등록된 사항을 바로 보여주도록
+        const fetchData = async() => {
+        try {
+            const response = await axios.post('/api/my_subject',{id} );
+            const data = response.data;
+            set_my_subject(data);
+        }
+        catch(error) {
+            console.error('Error fetching courses:',error);
+            }
+        };
+        //alert(id);
+        //alert(semester);
+        fetchData();
+    };
+    
+    
 
    
     // 삭제 버튼이 눌렸을 때
@@ -263,7 +654,39 @@ const Apply = () => {
                             <h3>관심과목 현황</h3>
                         </div>
                         <div className="apply_interest_content">
-
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>과목명</th>
+                                        <th>이수구분</th>
+                                        <th>시간</th>
+                                        <th>학점</th>
+                                        <th>여석</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {addsubject.length > 0 ? (
+                                    addsubject.map((addsubject,index) => (
+                                        <tr>
+                                            <td>
+                                                <button onClick={() => handleDirectApply(index)}>
+                                                    신청</button>
+                                            </td>
+                                            <td>{addsubject.subject}</td>
+                                            <td>{addsubject.class1}</td>
+                                            <td>{addsubject.t_lecture}</td>
+                                            <td>{addsubject.credit}</td>
+                                            <td>0</td>
+                                        </tr>
+                                    ))
+                                ):(
+                                    <tr>
+                                        <td colSpan="5">No courses available</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div className="apply_complete">
@@ -276,6 +699,7 @@ const Apply = () => {
                             <thead>
                             <tr>
                                 <th></th>
+                                <th>학과</th>
                                 <th>과목명</th>
                                 <th>이수구분</th>
                                 <th>시간</th>
@@ -290,6 +714,7 @@ const Apply = () => {
                                     <td>
                                     <button className="checked" onClick={() => handleButtonClick_delete(index)}>삭제</button> 
                                     </td>
+                                    <td>{my_subject.department}</td>
                                     <td>{my_subject.subject}</td>
                                     <td>{my_subject.class1}</td>
                                     <td>{my_subject.t_lecture}</td>
@@ -299,7 +724,7 @@ const Apply = () => {
                                 ))
                             ) : (
                                 <tr>
-                                <td colSpan="4">No courses available</td>
+                                <td colSpan="7">No courses available</td>
                                 </tr>
                             )
                             }
@@ -316,7 +741,9 @@ const Apply = () => {
                         <h3>도와드림 창</h3>
                     </div>
                     <div className="apply_dowadream">
-                        
+                        <div className="dowadream_timetable">
+                            {timeTable}
+                        </div>
                     </div>
                 </div>
             </div>

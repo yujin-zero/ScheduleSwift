@@ -254,15 +254,32 @@ app.post('/api/apply_course', (req, res) => {
     const data = { id, department,subject, class1, t_lecture, credit, seat };
 
     // 데이터베이스에 데이터 저장
-    connection.query('INSERT INTO my_subject SET ?', data, (err, result) => {
-        if (err) {
-            console.error('MySQL 쿼리 오류: ' + err.stack);
-            res.status(500).json({ error: '데이터베이스 오류' });
-            return;
+    connection.query(
+      'select * from my_subject where id=? and department=? and subject=? and class1=? and t_lecture=? and credit=?',
+      [id,department,subject,class1,t_lecture,credit],
+      (err,rows) => {
+        if(err) {
+          console.error('MySQL 쿼리 오류: ' + err.stack);
+          res.status(500).send('데이터베이스 오류');
+          return;
         }
-        console.log('데이터 저장 성공');
-        res.status(200).json({ message: '데이터 저장 성공' });
-    });
+        if(rows.length > 0) {
+          // 이미 해당 데이터가 존재하는 경우
+          console.log('이미 데이터가 존재합니다');
+          res.status(200).send('이미 데이터가 존재합니다');
+        }else{
+          connection.query('INSERT INTO my_subject SET ?', data, (err, result) => {
+            if (err) {
+                console.error('MySQL 쿼리 오류: ' + err.stack);
+                res.status(500).json({ error: '데이터베이스 오류' });
+                return;
+            }
+                console.log('데이터 저장 성공');
+                res.status(200).send('데이터 저장 성공');
+            });
+        }
+      }
+    );
 });
 
 // 담은 과목 정보를 데이터베이스에서 삭제
@@ -312,7 +329,7 @@ app.post('/api/delete_course', (req, res) => {
 app.post('/api/my_subject', (req, res) => {
     const { id } = req.body;
     const query =
-      'SELECT subject, class1, t_lecture, credit,seat FROM my_subject WHERE id = ?';
+      'SELECT subject, class1, t_lecture, credit,seat,department FROM my_subject WHERE id = ?';
     connection.query(query, [id], (err, results) => {
       if (err) {
         console.error('MySQL query error:', err);
