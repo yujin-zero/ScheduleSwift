@@ -244,6 +244,26 @@ const SubjectInterest = () => {
                   tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
                 }
               });
+            
+            } 
+            else {
+                
+                let lectureData = lecture.t_lecture.split(" ");
+
+                let dayData =
+                    lectureData.length > 2
+                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                        : [getDayIndex(lectureData[0])];
+
+                let timeData = lectureData[lectureData.length - 1].split("~");
+                let startIndex = getTimeIndex(timeData[0]);
+                let finishIndex = getTimeIndex(timeData[1]);
+
+                dayData.map((dayIndex) => {
+                    for (let index = startIndex; index < finishIndex; index++) {
+                        tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                    }
+                });
             }
             colorIndex++;
           });
