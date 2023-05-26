@@ -312,6 +312,17 @@ h3{
 }
 
 
+.grid_apply_selected{
+    display: table-cell;
+    height: 15px;
+    font-size: 5px;
+    color: gray;
+    text-align: center;
+    width: 50px;
+    box-sizing: border-box;
+}
+
+
 .mon_apply {
     position: absolute;
     display: flex;

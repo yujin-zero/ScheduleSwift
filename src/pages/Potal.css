@@ -548,12 +548,22 @@ table {
     display: table-cell;
     height: 30px;
     font-size: 10px;
-    border-width: 1px;
     color: gray;
     text-align: center;
     width: 100px;
     box-sizing: border-box;
-    border-top: 1px solid #e3e3e3;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.grid_selected {
+    display: table-cell;
+    height: 30px;
+    font-size: 10px;
+    color: gray;
+    text-align: center;
+    width: 100px;
+    box-sizing: border-box;
     font-size: 12px;
     line-height: 30px;
 }

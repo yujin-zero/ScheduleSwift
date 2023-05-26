@@ -277,7 +277,8 @@ const Potal = () => {
                 let [color, subject] = timeTableColorList[dayIndex][timeIndex];
 
                 timeTableByDay.push(
-                    <div className="grid" style={{ backgroundColor: color }}>
+                    <div className={(color === "t")? 'grid' : 'grid_selected'} 
+                    style={{ backgroundColor: color }}>
                         {color !== "t" && !subjectList.includes(subject) ? subject : ""}
                     </div>
                 );
