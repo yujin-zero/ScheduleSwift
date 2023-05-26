@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SubjectInterest.css"
+import Moment from "react-moment";
+import { useInterval } from "use-interval";
 import axios from 'axios';
 
 const SubjectInterest = () => {
     const navigate = useNavigate();
+    
 
     const handleLogo = () => {
     // 로고 클릭하면 포탈화면으로 이동
@@ -15,17 +18,157 @@ const SubjectInterest = () => {
     const [courses, setCourses] = useState([]);
     const id = localStorage.getItem('user_id');
     const [selectedIndices, set_selectedIndices] = useState([]);
+
+    const [nowTime, setNowTime] = useState(Date.now());
     
 
     // 체크된 과목들을 담을 함수
     const [checkedCourses, setCheckedCourses] = useState([]);
     const [addSubject, setAddSubject] = useState([]);
     const [deleteCourses, setDeleteCourses] = useState([]);
+    const [subjectInterestList, setSubjectInterestList] = useState(); 
     
     const handleDropdownChange = (event) => {
         setDepartment(event.target.value);
         setCheckedCourses([]);
     }
+
+    const [timeTable, setTimeTable] = useState();
+    const [timeTableColorList, setTimeTableColorList] = useState([
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+        [
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+            "transparent",
+        ],
+    ]);
+
+    const colorList = ["#F7A4A4", "#FEBE8C", "#FFFBC1", "#B6E2A1", "#FA7070", "#FBF2CF", "#C6EBC5", "#A1C298"];
+
 
     // 학과 검색을 누를 때 마다 과목목록 나오게 실행
     useEffect(() => {
@@ -52,6 +195,21 @@ const SubjectInterest = () => {
             const response = await axios.post('/api/addSubject',{id} );
             const data = response.data;
             setAddSubject(data);
+            if(data.length>0) {
+                const subjects = data.map((item) => item.subject);
+                const times = data.map((item) => item.t_lecture);
+                const lectureData = [];
+                for(let i=0; i<data.length; i++) {
+                    lectureData.push({
+                        subject: subjects[i],
+                        t_lecture: times[i],
+                    });
+                }
+                setSubjectInterestList(lectureData);
+            }
+            
+
+
         }catch(error) {
             console.error('Error fetching courses:',error);
             }
@@ -60,6 +218,68 @@ const SubjectInterest = () => {
         //alert(semester);
         fetchData();
     },[id]);
+
+     // subjectInterestList < 관심담기 한 과목 map으로 돌면서 timeTableColorList set
+     useEffect(() => {
+        let tableColorList = [...timeTableColorList];
+        let colorIndex = 0;
+      
+        if (subjectInterestList) {
+          subjectInterestList.forEach((lecture) => {
+            // null 체크 추가
+            if (lecture.t_lecture !== null) {
+              let lectureData = lecture.t_lecture.split(" ");
+      
+              let dayData =
+                lectureData.length > 2
+                  ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                  : [getDayIndex(lectureData[0])];
+      
+              let timeData = lectureData[lectureData.length - 1].split("~");
+              let startIndex = getTimeIndex(timeData[0]);
+              let finishIndex = getTimeIndex(timeData[1]);
+      
+              dayData.forEach((dayIndex) => {
+                for (let index = startIndex; index < finishIndex; index++) {
+                  tableColorList[dayIndex][index] = [colorList[colorIndex], lecture.subject];
+                }
+              });
+            }
+            colorIndex++;
+          });
+      
+          setTimeTableColorList(tableColorList);
+        }
+      }, [subjectInterestList]);
+
+
+    useEffect(() => {
+        let tables = [];
+
+        for (let dayIndex=0; dayIndex<5; dayIndex++) {
+            let subjectList = [];
+            let timeTableByDay = [];
+            for(let timeIndex=0; timeIndex<24; timeIndex++) {
+                let [color,subject] = timeTableColorList[dayIndex][timeIndex];
+
+                timeTableByDay.push(
+                    <div className="grid_apply" style={{backgroundColor: color}}>
+                        {color !== "t" && !subjectList.includes(subject) ? subject : ""}
+                    </div>
+                );
+
+                if(subject !== "r") {
+                    subjectList.push(subject);
+                }
+            }
+            tables.push(
+                <th>
+                    <div className={getDayClassName(dayIndex)}>{timeTableByDay}</div>
+                </th>
+            );
+        }
+        setTimeTable(tables);
+    },[timeTableColorList]);
 
 
     // 체크박스 변경 이벤트 처리 함수
@@ -70,9 +290,8 @@ const SubjectInterest = () => {
         setCheckedCourses([...checkedCourses, index]);
     }
     };
+    
     // 현재까지 체크된 인덱스 값들이 checkedCourses에 다 저장되어있음.
-
-
 
     // 담기 버튼이 눌렸을 때
     const handle_add = (event) => {
@@ -182,6 +401,146 @@ const SubjectInterest = () => {
         alert('과목 삭제에 실패했습니다.');
         }
     };
+
+    // 시간 설정
+    useInterval(() => {
+        setNowTime(Date.now());
+    }, 1000);
+
+
+    function getDayClassName(index) {
+        let name;
+        switch (index) {
+            case 0:
+                name = "grids_mon_si";
+                break;
+            case 1:
+                name = "grids_thu_si";
+                break;
+            case 2:
+                name = "grids_wed_si";
+                break;
+            case 3:
+                name = "grids_thr_si";
+                break;
+            case 4:
+                name = "grids_fri_si";
+                break;
+        }
+        return name;
+    }
+
+    function getDayIndex(day) {
+        let index;
+        switch (day) {
+            case "월":
+                index = 0;
+                break;
+            case "화":
+                index = 1;
+                break;
+            case "수":
+                index = 2;
+                break;
+            case "목":
+                index = 3;
+                break;
+            case "금":
+                index = 4;
+                break;
+            case "토":
+                index = 5;
+                break;
+            case "일":
+                index = 6;
+                break;
+        }
+        return index;
+    }
+
+    function getTimeIndex(time) {
+        let index;
+        switch (time) {
+            case "09:00":
+                index = 0;
+                break;
+            case "09:30":
+                index = 1;
+                break;
+            case "10:00":
+                index = 2;
+                break;
+            case "10:30":
+                index = 3;
+                break;
+            case "11:00":
+                index = 4;
+                break;
+            case "11:30":
+                index = 5;
+                break;
+            case "12:00":
+                index = 6;
+                break;
+            case "12:30":
+                index = 7;
+                break;
+            case "13:00":
+                index = 8;
+                break;
+            case "13:30":
+                index = 9;
+                break;
+            case "14:00":
+                index = 10;
+                break;
+            case "14:30":
+                index = 11;
+                break;
+            case "15:00":
+                index = 12;
+                break;
+            case "15:30":
+                index = 13;
+                break;
+            case "16:00":
+                index = 14;
+                break;
+            case "16:30":
+                index = 15;
+                break;
+            case "17:00":
+                index = 16;
+                break;
+            case "17:30":
+                index = 17;
+                break;
+            case "18:00":
+                index = 18;
+                break;
+            case "18:30":
+                index = 19;
+                break;
+            case "19:00":
+                index = 20;
+                break;
+            case "19:30":
+                index = 21;
+                break;
+            case "20:00":
+                index = 22;
+                break;
+            case "20:30":
+                index = 23;
+                break;
+            case "21:00":
+                index = 24;
+                break;
+        }
+        return index;
+    }
+
+  
     
     
 
@@ -456,153 +815,9 @@ const SubjectInterest = () => {
                                                 </div>
                                             </div>
                                         </th>
-                                        {/* {timeTable} */}
+                                        {timeTable}
                                     </tr>
-                                        <th>
-                                            <div className="grids_mon_si">
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div className="grids_thu_si">
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div className="grids_wed_si">
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div className="grids_thr_si">
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div className="grids_fri_si">
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-                                                <div className="grid_si"></div>
-
-                                            </div>
-                                        </th>
+                                       
                                         
                                 </table>
                             </div>
