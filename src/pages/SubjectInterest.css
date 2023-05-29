@@ -316,12 +316,13 @@ table{
     position: absolute;
     width: 58px;
     font-size: 12px;
-    margin-left: 4px;
+    margin-left: 9px;
     height: 30px;
     display: table-cell;
     border-color: #d6d6d6;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    margin-top: -2px;
 }
 
 .tablehead_si tr th {
@@ -348,6 +349,7 @@ table{
     margin-top: 56px;
 }
 
+
 .mon_si {
     position: absolute;
     display: flex;
@@ -355,9 +357,10 @@ table{
     font-size: 12px;
     height: 30px;
     border-color: #d6d6d6;
-    margin-left: 66px;
+    margin-left: 70px;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    margin-top: -2px;
 }
 .thu_si {
     position: absolute;
@@ -366,9 +369,10 @@ table{
     height: 30px;
     display: table-cell;
     border-color: #d6d6d6;
-    margin-left: 134px;
+    margin-left: 138px;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    margin-top: -2px;
 }
 .wed_si {
     position: absolute;
@@ -377,9 +381,10 @@ table{
     height: 30px;
     display: table-cell;
     border-color: #d6d6d6;
-    margin-left: 204px;
+    margin-left: 208px;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    margin-top: -2px;
 }
 .thr_si {
     position: absolute;
@@ -388,9 +393,10 @@ table{
     height: 30px;
     display: table-cell;
     border-color: #d6d6d6;
-    margin-left: 272px;
+    margin-left: 276px;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    margin-top: -2px;
 }
 .fri_si {
     position: absolute;
@@ -399,9 +405,10 @@ table{
     height: 30px;
     display: table-cell;
     border-color: #d6d6d6;
-    margin-left: 340px;
+    margin-left: 344px;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    margin-top: -2px;
 }
 
 
@@ -432,6 +439,8 @@ table{
     display: table-cell;
     letter-spacing: -0.5px;
     line-height: 60px;
+    margin-left: 5px;
+    margin-top: -4px;
 }
 .hour10_si {
     position: absolute;
@@ -445,8 +454,9 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 39px;
+    margin-top: 35px;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour11_si {
     position: absolute;
@@ -460,8 +470,9 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 80px;
+    margin-top: 76px;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour12_si {
     position: absolute;
@@ -475,9 +486,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 119px;
+    margin-top: 115px;
     top: 660;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour1_si {
     position: absolute;
@@ -491,9 +503,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 160px;
+    margin-top: 156px;
     top: 720;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour2_si {
     position: absolute;
@@ -507,9 +520,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 199px;
+    margin-top: 195px;
     top: 780;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour3_si {
     position: absolute;
@@ -523,9 +537,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 240px;
+    margin-top: 236px;
     top: 840;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour4_si {
     position: absolute;
@@ -539,9 +554,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 279px;
+    margin-top: 275px;
     top: 900;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour5_si{
     position: absolute;
@@ -556,8 +572,9 @@ table{
     display: table-cell;
     letter-spacing: -0.5px;
     top: 960;
-    margin-top: 320px;
+    margin-top: 316px;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour6_si {
     position: absolute;
@@ -571,9 +588,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 359px;
+    margin-top: 355px;
     top: 1020;
     line-height: 60px;
+    margin-left: 5px;
 }
 
 .hour7_si {
@@ -588,9 +606,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 400px;
+    margin-top: 396px;
     top: 1020;
     line-height: 60px;
+    margin-left: 5px;
 }
 .hour8_si {
     position: absolute;
@@ -604,9 +623,10 @@ table{
     height: 39px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 439px;
+    margin-top: 436px;
     top: 1020;
     line-height: 60px;
+    margin-left: 5px;
 }
 
 .tablebody_si {
@@ -674,6 +694,29 @@ table{
     line-height: 30px;
 }
 
+
+.grid_interest {
+    border: 1px solid #d6d6d6;
+    display: table-cell;
+    height: 20px;
+    font-size: 10px;
+    color: gray;
+    text-align: center;
+    width: 70px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+.grid_interest_selected {
+    display: table-cell;
+    height: 20px;
+    font-size: 10px;
+    color: gray;
+    text-align: center;
+    width: 70px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
 
 
 

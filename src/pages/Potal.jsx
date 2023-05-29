@@ -279,7 +279,9 @@ const Potal = () => {
                 timeTableByDay.push(
                     <div className={(color === "t")? 'grid' : 'grid_selected'} 
                     style={{ backgroundColor: color }}>
+                        <span className="subjectName">
                         {color !== "t" && !subjectList.includes(subject) ? subject : ""}
+                        </span>
                     </div>
                 );
 

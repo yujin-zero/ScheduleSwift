@@ -5,12 +5,17 @@ import "./Start.css"
 const Start = () => {
     let navigate = useNavigate();
 
+    const handleLogo = () => {
+        // 로고 클릭하면 포탈화면으로 이동
+        navigate('/potal');
+        }
+
     // 로컬 스토리지에서 'user_id' 항목을 삭제하는 코드
     localStorage.removeItem('user_id');
 
     return (
         <div className="root">
-            <img src="https://blackboard.sejong.ac.kr/bbcswebdav/institution/login/images/sejong-horizontal.png" 
+            <img src="../dowadream.png" onClick={handleLogo} 
             className='logo_start'
             alt="sejong-univ-logo horizontal version" id="logo-top" ></img>
             <div className="content_start">

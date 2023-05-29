@@ -491,6 +491,7 @@ table {
     margin-top: 659px;
     top: 1020;
     line-height: 60px;
+    border-radius: 0 0 0 20px;
 }
 
 .tablebody {
@@ -564,10 +565,12 @@ table {
     text-align: center;
     width: 100px;
     box-sizing: border-box;
-    font-size: 12px;
-    line-height: 30px;
+    font-size: 13px;
 }
 
+.non{
+    border-radius: 20px 0 0 0;
+}
 
 .mon {
     width: 23px;
@@ -620,4 +623,5 @@ table {
     margin-left: 466px;
     color: #a6a6a6;
     border: 1px solid #d6d6d6;
+    border-radius: 0 20px 0 0;
 }
