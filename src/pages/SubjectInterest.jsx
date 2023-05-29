@@ -284,8 +284,11 @@ const SubjectInterest = () => {
                 let [color,subject] = timeTableColorList[dayIndex][timeIndex];
 
                 timeTableByDay.push(
-                    <div className="grid_apply" style={{backgroundColor: color}}>
+                    <div className={(color === "t")? 'grid_interest' : 'grid_interest_selected'}
+                    style={{backgroundColor: color}}>
+                        <span className="subjectName">
                         {color !== "t" && !subjectList.includes(subject) ? subject : ""}
+                        </span>
                     </div>
                 );
 
@@ -336,8 +339,10 @@ const SubjectInterest = () => {
         });
     
         alert('수강과목이 담겼습니다!');
+        setCheckedCourses([]);
     
         fetchData();
+        window.location.reload();
     };
     
     // 등록된 사항을 바로 보여주도록
@@ -401,6 +406,7 @@ const SubjectInterest = () => {
     //alert(semester);
     fetchData();
     setDeleteCourses([]);
+    window.location.reload();
 
   }
 

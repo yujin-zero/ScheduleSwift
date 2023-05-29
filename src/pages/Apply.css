@@ -309,6 +309,7 @@ h3{
     width: 50px;
     box-sizing: border-box;
     border-top: 1px solid #e3e3e3;
+    position: relative;
 }
 
 
@@ -320,6 +321,12 @@ h3{
     text-align: center;
     width: 50px;
     box-sizing: border-box;
+    position: relative;
+}
+
+.subjectName{
+    position: relative;
+    z-index: 1;
 }
 
 
