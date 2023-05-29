@@ -291,7 +291,9 @@ const Apply = () => {
                 timeTableByDay.push(
                     <div className={(color === "t") ? 'grid_apply' : 'grid_apply_selected'}
                      style={{backgroundColor: color}}>
+                        <span className="subjectName">
                         {color !== "t" && !subjectList.includes(subject) ? subject : ""}
+                        </span>
                     </div>
                 );
 
@@ -472,6 +474,7 @@ const Apply = () => {
         //alert(id);
         //alert(semester);
         fetchData();
+        window.location.reload();
     };
 
     
@@ -506,6 +509,7 @@ const Apply = () => {
         //alert(id);
         //alert(semester);
         fetchData();
+        window.location.reload();
     };
     
     
@@ -530,6 +534,7 @@ const Apply = () => {
         console.error(err);
         alert('과목 삭제에 실패했습니다.');
         }
+        window.location.reload();
     };
 
 
