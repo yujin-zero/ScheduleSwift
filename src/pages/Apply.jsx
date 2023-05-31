@@ -545,7 +545,6 @@ const Apply = () => {
             </div>
             <div className="apply_body">
                 <div className="apply_left">
-
                         <div className="apply_class_header">
                             <div id="apply_square"></div>
                             <h3>수강신청</h3>
@@ -776,7 +775,7 @@ const Apply = () => {
                             <div className="dowadream_tablehead">
                                 <table>
                                         <tr>
-                                            <td></td>
+                                            <td className="non_apply"></td>
                                             <th className="mon_apply">
                                                 <span>월</span>
                                             </th>

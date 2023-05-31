@@ -8,7 +8,6 @@ import axios from 'axios';
 const SubjectInterest = () => {
     const navigate = useNavigate();
     
-
     const handleLogo = () => {
     // 로고 클릭하면 포탈화면으로 이동
     navigate('/potal');
@@ -17,7 +16,6 @@ const SubjectInterest = () => {
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
     const id = localStorage.getItem('user_id');
-    const [selectedIndices, set_selectedIndices] = useState([]);
 
     const [nowTime, setNowTime] = useState(Date.now());
     
@@ -317,34 +315,45 @@ const SubjectInterest = () => {
     
     // 현재까지 체크된 인덱스 값들이 checkedCourses에 다 저장되어있음.
 
+
+    const [conflictingCourse, setConflictingCourse] = useState(null); // 시간이 겹치는 과목
+    const [showConfirmation, setShowConfirmation] = useState(false); // 변경 여부 확인 모달 표시 여부
+    const [selectedCourses, setSelectedCourses] = useState([]); // 선택한 과목 정보
+
     // 담기 버튼이 눌렸을 때
     const handle_add = (event) => {
         event.preventDefault();
     
         // 선택한 과목 정보 가져오기
         const selectedCourses = checkedCourses.map((index) => courses[index]);
-    
+
+        // 시간이 겹치는 과목 확인
+        const timeConflicts = [];
         selectedCourses.forEach((course) => {
-        const { subject, class1, credit, t_lecture } = course;
-        const data = { id, department, subject, t_lecture, class1, credit };
-    
-        axios
-            .post('/apply/mycourse', data)
-            .then((res) => {
-            console.log(res.data);
-            })
-            .catch((err) => {
-            console.error(err);
-            });
+            const { subject, class1, t_lecture } = course;
+            const data = { id, department, subject, t_lecture, class1};
+
+              axios
+                .post('/apply/mycourse', data)
+                .then((res) => {
+                console.log(res.data);
+                })
+                .catch((err) => {
+                console.error(err);
+                });
+         
+        
+                alert('수강과목이 담겼습니다!');
+                setCheckedCourses([]);
+            
+                fetchData();
+                window.location.reload();
+   
+            
         });
-    
-        alert('수강과목이 담겼습니다!');
-        setCheckedCourses([]);
-    
-        fetchData();
-        window.location.reload();
+          
     };
-    
+        
     // 등록된 사항을 바로 보여주도록
     const fetchData = async () => {
         try {
@@ -561,7 +570,7 @@ const SubjectInterest = () => {
 
         <div className="subjectInterest_left">
             <div className="subjectInterest_dept">
-                <span className="si_rect"> </span>
+                <span className="LeftRect"> </span>
                 <span className="serch_dept">학과 검색</span>
                     <select id="department" className="join_input_content_si" value={department} onChange={handleDropdownChange}>
                     <option value="">-- 학과를 선택해주세요. --</option>
@@ -746,93 +755,93 @@ const SubjectInterest = () => {
         </div>
 
         <div className="subjectInterest_right">
-            <div className="gorequestSeat">
+          
+
+            <div className="subjectInterest_timetable_content">
+                <span className="rightRect"></span>
+                <span className="studenttimetable">시간표</span>
+                <div className="gorequestSeat">
                 <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원요청</button>
-            </div>
+                </div>
 
-            <div className="time">
-                
-            <span className="mytime">{id}님 시간표</span>
-                <div className="potal_timetable_content_si">
-                
-                    <div className="for_size">
-                            <div className="mytimetable_si">
-                                <div className="tablehead_si">
-                                    <table className="for_header_size">
-                                        <tr>
-                                            <td className="non_si"></td>
-                                            <th className="mon_si">
-                                                <span>월</span>
-                                            </th>
-                                            <th className="thu_si">
-                                                <span>화</span>
-                                            </th>
-                                            <th className="wed_si">
-                                                <span>수</span>
-                                            </th>
-                                            <th className="thr_si">
-                                                <span>목</span>
-                                            </th>
-                                            <th className="fri_si">
-                                                <span>금</span>
-                                            </th>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div className="tablebody_si">
-                                <table>
+                <div className="subjectInterest_timetable">
+                        <div className="subjectInterest_name">
+                            <div className="subjectInterest_tablehead">
+                                <table className="for_header_size">
                                     <tr>
-                                        <th>
-                                            <div className="hours_si">
-                                                <div className="hour9_si">
-                                                    <span>9</span>
-                                                </div>
-                                                <div className="hour10_si">
-                                                    <span>10</span>
-                                                </div>
-                                                <div className="hour11_si">
-                                                    <span>11</span>
-                                                </div>
-                                                <div className="hour12_si">
-                                                    <span>12</span>
-                                                </div>
-                                                <div className="hour1_si">
-                                                    <span>1</span>
-                                                </div>
-                                                <div className="hour2_si">
-                                                    <span>2</span>
-                                                </div>
-                                                <div className="hour3_si">
-                                                    <span>3</span>
-                                                </div>
-                                                <div className="hour4_si">
-                                                    <span>4</span>
-                                                </div>
-                                                <div className="hour5_si">
-                                                    <span>5</span>
-                                                </div>
-                                                <div className="hour6_si">
-                                                    <span>6</span>
-                                                </div>
-                                                <div className="hour7_si">
-                                                    <span>7</span>
-                                                </div>
-                                                <div className="hour8_si">
-                                                    <span>8</span>
-                                                </div>
-                                            </div>
+                                        <td className="non_si"></td>
+                                        <th className="mon_si">
+                                            <span>월</span>
                                         </th>
-                                        {timeTable}
+                                        <th className="thu_si">
+                                            <span>화</span>
+                                        </th>
+                                        <th className="wed_si">
+                                            <span>수</span>
+                                        </th>
+                                        <th className="thr_si">
+                                            <span>목</span>
+                                        </th>
+                                        <th className="fri_si">
+                                            <span>금</span>
+                                        </th>
                                     </tr>
-                                       
-                                        
                                 </table>
                             </div>
                         </div>
+
+                        <div className="subjectInterest_tablebody">
+                            <table>
+                                <tr>
+                                    <th>
+                                        <div className="hours_si">
+                                            <div className="hour9_si">
+                                                <span>9</span>
+                                            </div>
+                                            <div className="hour10_si">
+                                                <span>10</span>
+                                            </div>
+                                            <div className="hour11_si">
+                                                <span>11</span>
+                                            </div>
+                                            <div className="hour12_si">
+                                                <span>12</span>
+                                            </div>
+                                            <div className="hour1_si">
+                                                <span>1</span>
+                                            </div>
+                                            <div className="hour2_si">
+                                                <span>2</span>
+                                            </div>
+                                            <div className="hour3_si">
+                                                <span>3</span>
+                                            </div>
+                                            <div className="hour4_si">
+                                                <span>4</span>
+                                            </div>
+                                            <div className="hour5_si">
+                                                <span>5</span>
+                                            </div>
+                                            <div className="hour6_si">
+                                                <span>6</span>
+                                            </div>
+                                            <div className="hour7_si">
+                                                <span>7</span>
+                                            </div>
+                                            <div className="hour8_si">
+                                                <span>8</span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    {timeTable}
+                                </tr>
+                                    
+                                    
+                            </table>
+                        </div>
                     </div>
-            </div>
+                </div>
+        
         </div>
       </div>
 

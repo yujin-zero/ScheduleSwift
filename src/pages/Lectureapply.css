@@ -17,12 +17,11 @@
 .lectureapply_left{
     position: absolute;
     width: 18%;
-    height: auto;
+    height: 100%;
     background-color: white;
     text-align: left;
     border-right: 1px solid rgb(197, 197, 197);
 }
-
 
 .semester{
     width:75%;
