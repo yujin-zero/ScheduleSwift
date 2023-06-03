@@ -468,7 +468,6 @@ const Potal = () => {
         fetchGetGraduation();
     }, [id]);
 
-
   
     return (
         <div className="Potal_root">
@@ -623,18 +622,19 @@ const Potal = () => {
                                     <th>전공학점계</th>
                                     <th>수강학점</th>
                                 </tr>
+                                
                                 <tr>
                                     <td>{getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
                                     <td>{getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
                                     <td>{getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수'||item.class1 === '교양필수'||item.class1 === '교양선택').reduce((total, item) => total + item.total_credit, 0)}</td>
                                     <td>{getGrade.filter(item => item.class1 === '전공필수' || item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
                                     <td>{getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수'||item.class1 === '교양필수'||item.class1 === '교양선택'||item.class1 === '전공선택'||item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
-
+                                
                                 </tr>
                             </table>
                         </div>
                         <div className="potal_info3">
-                            <h3>졸업학점 / 남은학점</h3>
+                            <h3>남은학점 / 졸업학점</h3>
                             <table>
                                 <tr>
                                     <th>공통교양필수</th>
@@ -643,10 +643,10 @@ const Potal = () => {
                                     <th>전공필수</th>
                                 </tr>
                                 <tr>
-                                    <td>{parseInt(Grade.a) - getGrade.filter(item => item.class1 === '공통교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
-                                    <td>{parseInt(Grade.b)-getGrade.filter(item => item.class1 === '균형교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
-                                    <td>{parseInt(Grade.c)-getGrade.filter(item => item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
-                                    <td>{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{parseInt(Grade.a) - getGrade.filter(item => item.class1 === '공통교양필수').reduce((total, item) => total + item.total_credit, 0)<=0?<span style={{color:'red'}}>pass</span>:parseInt(Grade.a) - getGrade.filter(item => item.class1 === '공통교양필수').reduce((total, item) => total + item.total_credit, 0)}{parseInt(Grade.a) - getGrade.filter(item => item.class1 === '공통교양필수').reduce((total, item) => total + item.total_credit, 0)<=0?"":"/"+Grade.a}</td>
+                                    <td>{parseInt(Grade.b)-getGrade.filter(item => item.class1 === '균형교양필수').reduce((total, item) => total + item.total_credit, 0)<=0?<span style={{color:'red'}}>pass</span>:parseInt(Grade.b)-getGrade.filter(item => item.class1 === '균형교양필수').reduce((total, item) => total + item.total_credit, 0)}{parseInt(Grade.b)-getGrade.filter(item => item.class1 === '균형교양필수').reduce((total, item) => total + item.total_credit, 0)<=0?"":"/"+Grade.b}</td>
+                                    <td>{parseInt(Grade.c)-getGrade.filter(item => item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)<=0?<span style={{color:'red'}}>pass</span>:parseInt(Grade.c)-getGrade.filter(item => item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}{parseInt(Grade.c)-getGrade.filter(item => item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)<=0?"":"/"+Grade.c}</td>
+                                    <td>{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)<=0?<span style={{color:'red'}}>pass</span>:parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)<=0?"":"/"+Grade.e}</td>
                                 </tr>
                                 <tr>
                                     <th>전공선택</th>
@@ -656,10 +656,10 @@ const Potal = () => {
                                 </tr>
                                 <tr>
                                     
-                                    <td>{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
-                                    <td>{(parseInt(Grade.a)+parseInt(Grade.b)+parseInt(Grade.c))-getGrade.filter(item => item.class1 === '공통교양필수'|| item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}</td>
-                                    <td>{(parseInt(Grade.d))-getGrade.filter(item => item.class1 === '전공필수'|| item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}</td>
-                                    <td>{130 - getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수' || item.class1 === '학문기초교양필수' || item.class1 === '교양필수' || item.class1 === '교양선택' || item.class1 === '전공선택' || item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}</td>
+                                    <td>{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)<=0 ? <span style={{color:'red'}}>pass</span>:parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}{parseInt(Grade.e)-getGrade.filter(item => item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)<=0 ? "":"/"+Grade.f}</td>
+                                    <td>{(parseInt(Grade.a)+parseInt(Grade.b)+parseInt(Grade.c))-getGrade.filter(item => item.class1 === '공통교양필수'|| item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)<=0 ? <span style={{color:'red'}}>pass</span>:(parseInt(Grade.a)+parseInt(Grade.b)+parseInt(Grade.c))-getGrade.filter(item => item.class1 === '공통교양필수'|| item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)}{(parseInt(Grade.a)+parseInt(Grade.b)+parseInt(Grade.c))-getGrade.filter(item => item.class1 === '공통교양필수'|| item.class1 === '균형교양필수'||item.class1 === '학문기초교양필수').reduce((total, item) => total + item.total_credit, 0)<=0 ? "":"/"+(parseInt(Grade.a)+parseInt(Grade.b)+parseInt(Grade.c))}</td>
+                                    <td>{(parseInt(Grade.d))-getGrade.filter(item => item.class1 === '전공필수'|| item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)<=0 ? <span style={{color:'red'}}>pass</span>:(parseInt(Grade.d))-getGrade.filter(item => item.class1 === '전공필수'|| item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)}{(parseInt(Grade.d))-getGrade.filter(item => item.class1 === '전공필수'|| item.class1 === '전공선택').reduce((total, item) => total + item.total_credit, 0)<=0 ? "":"/"+Grade.d}</td>
+                                    <td>{130 - getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수' || item.class1 === '학문기초교양필수' || item.class1 === '교양필수' || item.class1 === '교양선택' || item.class1 === '전공선택' || item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)<=0?<span style={{color:'red'}}>pass</span>:130 - getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수' || item.class1 === '학문기초교양필수' || item.class1 === '교양필수' || item.class1 === '교양선택' || item.class1 === '전공선택' || item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)}{130 - getGrade.filter(item => item.class1 === '공통교양필수' || item.class1 === '균형교양필수' || item.class1 === '학문기초교양필수' || item.class1 === '교양필수' || item.class1 === '교양선택' || item.class1 === '전공선택' || item.class1 === '전공필수').reduce((total, item) => total + item.total_credit, 0)<=0?"":"/"+130}</td>
                                 </tr>
                             </table>
                         </div>

@@ -341,15 +341,11 @@ const SubjectInterest = () => {
                 .catch((err) => {
                 console.error(err);
                 });
-         
         
                 alert('수강과목이 담겼습니다!');
                 setCheckedCourses([]);
-            
                 fetchData();
                 window.location.reload();
-   
-            
         });
           
     };
@@ -755,8 +751,6 @@ const SubjectInterest = () => {
         </div>
 
         <div className="subjectInterest_right">
-          
-
             <div className="subjectInterest_timetable_content">
                 <span className="rightRect"></span>
                 <span className="studenttimetable">시간표</span>
