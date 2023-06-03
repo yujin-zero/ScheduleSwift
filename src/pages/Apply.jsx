@@ -21,6 +21,7 @@ const Apply = () => {
     const [selectedCourse, setSelectedCourses] = useState([]);
     const [selectedIndices, set_selectedIndices] = useState([]);
     const [addsubject, setAddsubject] = useState([]);
+    const [abbsubjectSeat, setAbbsubjectSeat] = useState([]);
 
     const [applyLectureList, setApplyLectureList] = useState(); // 수강신청한 과목 받아오기
     const [timeTable, setTimeTable] = useState();
@@ -160,13 +161,14 @@ const Apply = () => {
     const colorList = ["#F7A4A4", "#FEBE8C", "#FFFBC1", "#B6E2A1", "#FA7070", "#FBF2CF", "#C6EBC5", "#A1C298"];
 
 
-    // 로그인한 학생의 관심과목 가져오기
+    // 로그인한 학생의 관심과목 가져오기 및 여석 정보 가져오기
     useEffect(() => {
         const fetchData = async() => {
             try {
                 const response = await axios.post('/user/addSubject',{id});
                 const data = response.data;
                 setAddsubject(data);
+
             }catch(error) {
                 console.error('Error fetching courses:',error);
             }
@@ -442,6 +444,9 @@ const Apply = () => {
         return index;
     }
 
+    const [noTimeCourses, setNoTimeCourses] = useState([]);
+
+  
   
     // 신청버튼이 눌렸을 때.
     const handleButtonClick = async (index) => {
@@ -451,34 +456,31 @@ const Apply = () => {
         const { subject, class1, t_lecture, credit, seat } = selectedCourse;
         const data = { id, department, subject, class1, t_lecture, credit, seat };
         try {
-            await axios.post('/api/apply_course', data);
-            // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
-            setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
-            alert('수강신청 되었습니다!');
+          await axios.post('/api/apply_course', data);
+          // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
+          setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
+          alert('수강신청 되었습니다!');
         } catch (err) {
-            console.error(err);
-            alert('수강신청에 실패했습니다.');
+          console.error(err);
+          alert('수강신청에 실패했습니다.');
         }
-
-         // 등록된 사항을 바로 보여주도록
+      
+        // 등록된 사항을 바로 보여주도록
         const fetchData = async() => {
-        try {
-            const response = await axios.post('/api/my_subject',{id} );
+          try {
+            const response = await axios.post('/api/my_subject', { id });
             const data = response.data;
             set_my_subject(data);
-        }
-        catch(error) {
-            console.error('Error fetching courses:',error);
-            }
+          } catch (error) {
+            console.error('Error fetching courses:', error);
+          }
         };
-        //alert(id);
-        //alert(semester);
+      
         fetchData();
         window.location.reload();
-    };
-
+      };
     
- // 신청버튼이 눌렸을 때.
+    // 관심과목 신청버튼이 눌렸을 때.
     const handleDirectApply = async (index) => {
         // 선택한 과목의 정보를 가져오기
         const selectedCourse = addsubject[index];
@@ -512,6 +514,8 @@ const Apply = () => {
         window.location.reload();
     };
     
+   
+
     
 
    
@@ -536,6 +540,20 @@ const Apply = () => {
         }
         window.location.reload();
     };
+
+
+    // 여석 연동(course, addSubject,my_subject)
+    useEffect(() => {
+        // addsubject.forEach((item,index) => {
+        //     const findSeatAdd = addsubject[index];
+        //     alert(findSeatAdd);
+        // });
+        //alert(addsubject[0]);
+        
+    });
+
+    
+
 
 
     return (
@@ -663,7 +681,7 @@ const Apply = () => {
                                                 <td>{courses.class1}</td>
                                                 <td>{courses.t_lecture}</td>
                                                 <td>{courses.credit}</td>
-                                                <td>{courses.seat}/{courses.seat}</td>
+                                                <td>{courses.remain_seat}/{courses.seat}</td>
                                             </tr>
                                             ))
                                         ) : (
@@ -707,12 +725,12 @@ const Apply = () => {
                                             <td>{addsubject.class1}</td>
                                             <td>{addsubject.t_lecture}</td>
                                             <td>{addsubject.credit}</td>
-                                            <td>0</td>
+                                            <td></td>
                                         </tr>
                                     ))
                                 ):(
                                     <tr>
-                                        <td colSpan="5">No courses available</td>
+                                        <td colSpan="5" className="nocoures">No courses available</td>
                                     </tr>
                                 )}
                                 </tbody>
@@ -775,22 +793,29 @@ const Apply = () => {
                             <div className="dowadream_tablehead">
                                 <table>
                                         <tr>
-                                            <td className="non_apply"></td>
-                                            <th className="mon_apply">
-                                                <span>월</span>
-                                            </th>
-                                            <th className="thu_apply">
-                                                <span>화</span>
-                                            </th>
-                                            <th className="wed_apply">
-                                                <span>수</span>
-                                            </th>
-                                            <th className="thr_apply">
-                                                <span>목</span>
-                                            </th>
-                                            <th className="fri_apply">
-                                                <span>금</span>
-                                            </th>
+                                            <td className="non_apply">
+                                                <span></span>
+                                            </td>
+                                            <div className="day">
+                                                <th className="mon_apply">
+                                                    <span>월</span>
+                                                </th>
+                                                <th className="thu_apply">
+                                                    <span>화</span>
+                                                </th>
+                                                <th className="wed_apply">
+                                                    <span>수</span>
+                                                </th>
+                                                <th className="thr_apply">
+                                                    <span>목</span>
+                                                </th>
+                                                <th className="fri_apply">
+                                                    <span>금</span>
+                                                </th>
+
+
+                                            </div>
+                                           
                                         </tr>
                                     </table>
                             </div>
@@ -838,12 +863,26 @@ const Apply = () => {
                                             </div>
                                         </th>
                                         {timeTable}
-                                    </tr>
-                                        
+                                    </tr>   
                                 </table>
+                                <div className="noTimeLecture">
+                                {noTimeCourses.map((course, index) => (
+                                    <div className="noTimeSubject" key={index}>
+                                    <span>{course.subject}</span>
+                                    </div>
+                                ))}
+                                </div>  
+
                             </div>
                             
                         </div>
+                       
+                        <div className="showCredit">
+                            {/* <h4>신청내역</h4> */}
+                            <span>신청한 학점:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span>신청 과목 수:&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                        </div>
+                      
                     </div>
                 </div>
             </div>

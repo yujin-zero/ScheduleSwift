@@ -107,7 +107,7 @@ app.get('/user/info', (req,res) => {
 // 학과 선택하면 과목내용들 보여주기
 app.get('/api/courses',(req, res) => {
     const {department} = req.query;
-    const query = 'select distinct subject, class1, credit, t_lecture,seat from course where department = ?';
+    const query = 'select distinct subject, class1, credit, t_lecture,seat,remain_seat from course where department = ?';
 
     connection.query(query,[department],(err,results) => {
         if(err) {
@@ -339,6 +339,7 @@ app.post('/api/my_subject', (req, res) => {
       res.json(results);
     });
 });
+
 
 // 관심과목 보여주기 (증원요청에서)
 app.post('/user/addSubject', (req, res) => {
