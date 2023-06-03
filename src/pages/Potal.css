@@ -625,3 +625,7 @@ table {
     border: 1px solid #d6d6d6;
     border-radius: 0 20px 0 0;
 }
+
+.potal_info3 span{
+    color: red;
+}
