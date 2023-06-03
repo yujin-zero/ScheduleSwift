@@ -21,6 +21,7 @@ const Apply = () => {
     const [selectedCourse, setSelectedCourses] = useState([]);
     const [selectedIndices, set_selectedIndices] = useState([]);
     const [addsubject, setAddsubject] = useState([]);
+    const [abbsubjectSeat, setAbbsubjectSeat] = useState([]);
 
     const [applyLectureList, setApplyLectureList] = useState(); // 수강신청한 과목 받아오기
     const [timeTable, setTimeTable] = useState();
@@ -160,13 +161,14 @@ const Apply = () => {
     const colorList = ["#F7A4A4", "#FEBE8C", "#FFFBC1", "#B6E2A1", "#FA7070", "#FBF2CF", "#C6EBC5", "#A1C298"];
 
 
-    // 로그인한 학생의 관심과목 가져오기
+    // 로그인한 학생의 관심과목 가져오기 및 여석 정보 가져오기
     useEffect(() => {
         const fetchData = async() => {
             try {
                 const response = await axios.post('/user/addSubject',{id});
                 const data = response.data;
                 setAddsubject(data);
+
             }catch(error) {
                 console.error('Error fetching courses:',error);
             }
@@ -539,7 +541,19 @@ const Apply = () => {
         window.location.reload();
     };
 
+
+    // 여석 연동(course, addSubject,my_subject)
+    useEffect(() => {
+        // addsubject.forEach((item,index) => {
+        //     const findSeatAdd = addsubject[index];
+        //     alert(findSeatAdd);
+        // });
+        //alert(addsubject[0]);
+        
+    });
+
     
+
 
 
     return (
@@ -667,7 +681,7 @@ const Apply = () => {
                                                 <td>{courses.class1}</td>
                                                 <td>{courses.t_lecture}</td>
                                                 <td>{courses.credit}</td>
-                                                <td>{courses.seat}/{courses.seat}</td>
+                                                <td>{courses.remain_seat}/{courses.seat}</td>
                                             </tr>
                                             ))
                                         ) : (
@@ -711,7 +725,7 @@ const Apply = () => {
                                             <td>{addsubject.class1}</td>
                                             <td>{addsubject.t_lecture}</td>
                                             <td>{addsubject.credit}</td>
-                                            <td>0</td>
+                                            <td></td>
                                         </tr>
                                     ))
                                 ):(
