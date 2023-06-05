@@ -26,6 +26,24 @@ const Lectureapply = () => {
   const [getGrade, setGetGrade] = useState([]);
 
 
+  // 마우스가 어느행에 있는지
+  const [hoveredRow, setHoveredRow] = useState(null);
+  const handleMouseEnter = (index) => {
+      setHoveredRow(index);
+  };
+  const handleMouseLeave = () => {
+      setHoveredRow(null);
+  };
+
+  const [hoveredRow2, setHoveredRow2] = useState(null);
+  const handleMouseEnter2 = (index) => {
+      setHoveredRow2(index);
+  };
+  const handleMouseLeave2 = () => {
+      setHoveredRow2(null);
+  };
+
+
   const handleDropdownChange = (event) => {
     setDepartment(event.target.value);
     setCheckedCourses([]); // 과를 바꿀때마다 선택된 값 초기화
@@ -243,7 +261,7 @@ const Lectureapply = () => {
               className={semester === '4-1' ? 'selected' : ''}
               onClick={btn4_1}>4학년 1학기</li>
             <li 
-              className={semester === '4-' ? 'selected' : ''}
+              className={semester === '4-2' ? 'selected' : ''}
               onClick={btn4_2}>4학년 2학기</li>
           </ul>
         </div>
@@ -358,7 +376,12 @@ const Lectureapply = () => {
             <tbody>
               {courses.length > 0 ? (
                 courses.map((courses,index) => (
-                  <tr key={index}>
+                  <tr 
+                      key={index}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
+                      className={hoveredRow === index ? 'highlighted' : ''}
+                      >
                     <td>
                       <input 
                         type="checkbox"
@@ -404,7 +427,12 @@ const Lectureapply = () => {
             <tbody>
                 {getGrade.length > 0 ? (
                 getGrade.map((getGrade,index) => (
-                  <tr key={index}>
+                  <tr 
+                    key={index}
+                    onMouseEnter={() => handleMouseEnter2(index)}
+                    onMouseLeave={handleMouseLeave2}
+                    className={hoveredRow2 === index ? 'highlighted' : ''}
+                    >
                     <td>
                       <input 
                         type="checkbox"

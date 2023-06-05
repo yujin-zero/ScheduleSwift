@@ -233,10 +233,10 @@ app.post('/api/addSubject', (req, res) => {
 // 수강신청한 과목 정보를 데이터베이스에 저장
 app.post('/api/apply_course', (req, res) => {
     // 전송된 데이터 가져오기
-    const {id,department, subject, class1, t_lecture, credit, seat } = req.body;
+    const {id,department, subject, class1, t_lecture, credit} = req.body;
 
     // 데이터베이스에 저장할 데이터
-    const data = { id, department,subject, class1, t_lecture, credit, seat };
+    const data = { id, department,subject, class1, t_lecture, credit};
 
     // 데이터베이스에 데이터 저장
     connection.query(
@@ -314,7 +314,7 @@ app.post('/api/delete_course', (req, res) => {
 app.post('/api/my_subject', (req, res) => {
     const { id } = req.body;
     const query =
-      'SELECT subject, class1, t_lecture, credit,seat,department FROM my_subject WHERE id = ?';
+      'SELECT subject, class1, t_lecture, credit,department FROM my_subject WHERE id = ?';
     connection.query(query, [id], (err, results) => {
       if (err) {
         console.error('MySQL query error:', err);
@@ -441,6 +441,52 @@ app.post('/delete/addSubject',(req,res) => {
         }
         res.json(results);
     });
+});
+
+// 관심 과목 여석 가져오기
+app.post('/seat/addSubject',(req,res) => {
+  const {department, subject, t_lecture} = req.body;
+
+  const query = 'select seat, remain_seat from course where department=? and subject=? and t_lecture=?';
+  connection.query(query,[department, subject, t_lecture],(err,results) => {
+    if(err){
+      console.error('MySQL query error:',err);
+      res.status(500).json({error:'Internal server error'});
+      return ;
+    }
+    res.json(results);
+    //console.log(results);
+  });
+});
+
+// 수강신청시 여석 줄이기
+app.post('/seat/course',(req,res) => {
+  const {department, subject, t_lecture} = req.body;
+
+  const query = 'update course set remain_seat = remain_seat-1 where department=? and subject=? and t_lecture=?';
+  connection.query(query,[department,subject,t_lecture],(err,results) => {
+    if(err){
+      console.error('MySQL query error:',err);
+      res.status(500).json({error:'Internal server error'});
+      return ;
+    }
+    res.json(results);
+  });
+});
+
+// 수강신청 취소할 때 여석 늘리기
+app.post('/seat/increase',(req,res) => {
+  const {department, subject, t_lecture} = req.body;
+
+  const query = 'update course set remain_seat = remain_seat+1 where department=? and subject=? and t_lecture=?';
+  connection.query(query,[department,subject,t_lecture],(err,results) => {
+    if(err){
+      console.error('MySQL query error:',err);
+      res.status(500).json({error:'Internal server error'});
+      return ;
+    }
+    res.json(results);
+  });
 });
 
 app.listen(8080,() => {

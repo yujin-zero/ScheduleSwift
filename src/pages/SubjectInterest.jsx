@@ -31,6 +31,23 @@ const SubjectInterest = () => {
         setCheckedCourses([]);
     }
 
+    // 마우스가 어느행에 있는지
+    const [hoveredRow, setHoveredRow] = useState(null);
+    const handleMouseEnter = (index) => {
+        setHoveredRow(index);
+    };
+    const handleMouseLeave = () => {
+        setHoveredRow(null);
+    };
+
+    const [hoveredRow2, setHoveredRow2] = useState(null);
+    const handleMouseEnter2 = (index) => {
+        setHoveredRow2(index);
+    };
+    const handleMouseLeave2 = () => {
+        setHoveredRow2(null);
+    };
+
     const [timeTable, setTimeTable] = useState();
     const [timeTableColorList, setTimeTableColorList] = useState([
         [
@@ -674,7 +691,12 @@ const SubjectInterest = () => {
                         <tbody>
                             {courses.length > 0 ? (
                                 courses.map((courses,index) => (
-                                <tr key={index}>
+                                <tr 
+                                    key={index}
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    onMouseLeave={handleMouseLeave}
+                                    className={hoveredRow === index ? 'highlighted' : ''}
+                                    >
                                     <td>
                                         <input type="checkbox" 
                                         checked = {checkedCourses.includes(index)}
@@ -723,7 +745,12 @@ const SubjectInterest = () => {
                         <tbody>
                             {addSubject.length > 0 ? (
                                 addSubject.map((addSubject, index) => (
-                                <tr key={index}>
+                                <tr 
+                                    key={index}
+                                    onMouseEnter={() => handleMouseEnter2(index)}
+                                    onMouseLeave={handleMouseLeave2}
+                                    className={hoveredRow2 === index ? 'highlighted' : ''}
+                                    >
                                     <td>
                                         <input
                                         type="checkbox"
