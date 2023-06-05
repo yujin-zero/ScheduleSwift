@@ -376,6 +376,7 @@ const Apply = () => {
         fetchData();
     },[department]);
 
+    const [noTimeCourses, setNoTimeCourses] = useState([]);
 
     // 수강신청 한 과목을 보여줌
     useEffect(() => {
@@ -397,14 +398,23 @@ const Apply = () => {
                 const subjects = data.map((item) => item.subject);
                 const times = data.map((item) => item.t_lecture);
                 const lectureData = [];
-                for(let i=0; i<data.length; i++) {
-                    lectureData.push({
-                        subject: subjects[i],
-                        t_lecture: times[i],
-                    });
+
+                for (let i = 0; i < data.length; i++) {
+                    const { subject, t_lecture } = data[i];
+                    const isNoTime = t_lecture === '' || t_lecture === null;
+          
+                    if (isNoTime) {
+                      setNoTimeCourses((prevCourses) => [...prevCourses, subject]);
+                    } else {
+                      lectureData.push({
+                        subject,
+                        t_lecture,
+                      });
+                    }
                     // 과목 이름만 따로 담기
                     appliedSubject.push(subjects[i]);
-                }
+                  }
+
                 setApplyLectureList(lectureData);
                 //alert(appliedSubject);
             }
@@ -634,15 +644,44 @@ const Apply = () => {
         return index;
     }
 
-    const [noTimeCourses, setNoTimeCourses] = useState([]);
+  
+    const [totalCredits, setTotalCredits] = useState(0);
+    const [selectedCourseCount, setSelectedCourseCount] = useState(0);
 
-  
-  
-    // 신청버튼이 눌렸을 때.
+   // 학점 총계 계산 함수
+    const calculateTotalCredits = (courses) => {
+        return courses.reduce((sum, course) => sum + course.credit, 0);
+    };
+
+    // 수강신청 후 학점 총계 및 신청 과목 수 업데이트 함수
+    const updateTotalCreditsAndCount = async () => {
+        try {
+        const response = await axios.post('/api/my_subject', { id });
+        const data = response.data;
+        set_my_subject(data);
+
+        // 학점 총계 계산
+        const totalCredits = calculateTotalCredits(data);
+        setTotalCredits(totalCredits);
+
+        // 신청 과목 수 업데이트
+        setSelectedCourseCount(data.length);
+        } catch (error) {
+        console.error('Error fetching courses:', error);
+        }
+    };
+
+    // 컴포넌트가 마운트될 때 학점 총계 업데이트
+    useEffect(() => {
+        updateTotalCreditsAndCount();
+    }, []);
+    
+    // 신청버튼이 눌렸을 때
     const handleButtonClick = async (index) => {
         // 선택한 과목의 정보를 가져오기
         const selectedCourse = courses[index];
         // 데이터베이스에 과목 정보를 저장
+
         const { subject, class1, t_lecture, credit, remain_seat } = selectedCourse;
 
         // 이미 신청한 과목인지 확인
@@ -709,30 +748,37 @@ const Apply = () => {
         if(check == 1) {
             return;
         }
-
         const data = { id, department, subject, class1, t_lecture, credit };
         const data2 = {department, subject, t_lecture};
         if (remain_seat > 0 ) {
+            
             try {
-                await axios.post('/api/apply_course', data);
-                // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
+            const response = await axios.post('/api/apply_course', data);
+            const message = response.data;
+            if (message === '이미 데이터가 존재합니다') {
+                alert('이미 수강신청한 과목입니다.');
+            } else if (message === '데이터 저장 성공') {
                 setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
+                if (t_lecture === '' || t_lecture === null) {
+                setNoTimeCourses((prevCourses) => [...prevCourses, selectedCourse]);
+                }
                 alert('수강신청 되었습니다!');
-      
+                updateTotalCreditsAndCount();
                 // 신청했을때 여석 줄이기
                 await axios.post('/seat/course',data2);
-
-              } catch (err) {
-                console.error(err);
-                alert('수강신청에 실패했습니다.');
-              }
-        }else{
-            alert('여석이 없는 강의입니다.');
-        }
-        
+            }
+            } catch (err) {
+            console.error(err);
+            alert('수강신청에 실패했습니다.');
+            }
+            }else{
+                alert('여석이 없는 강의입니다.');
+            }
         window.location.reload();
-      };
+    };
     
+
+
     // 관심과목 신청버튼이 눌렸을 때.
     const handleDirectApply = async (index) => {
         // 선택한 과목의 정보를 가져오기
@@ -1184,21 +1230,21 @@ const Apply = () => {
                                     </tr>   
                                 </table>
                                 <div className="noTimeLecture">
-                                {noTimeCourses.map((course, index) => (
-                                    <div className="noTimeSubject" key={index}>
-                                    <span>{course.subject}</span>
-                                    </div>
-                                ))}
-                                </div>  
+                                    {noTimeCourses.map((course, index) => (
+                                        <div className="noTimeSubject" key={index}>
+                                        <span>{course}</span>
+                                        {/* <hr /> */}
+                                        </div>
+                                    ))}
+                                </div>
 
                             </div>
                             
                         </div>
                        
                         <div className="showCredit">
-                            {/* <h4>신청내역</h4> */}
-                            <span>신청한 학점:&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <span>신청 과목 수:&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                            <span>신청한 학점:&nbsp;{totalCredits}&nbsp;&nbsp;&nbsp;</span>
+                            <span>신청 과목 수:&nbsp;{selectedCourseCount}&nbsp;&nbsp;&nbsp;&nbsp; </span>
                         </div>
                       
                     </div>

@@ -199,19 +199,18 @@
 }
 
 .gorequestSeat button{
-    width: 65px;
+    width: 200px;
     height: 25px;
-    background-color: #c30e2e;
+    text-align: center;
     justify-content: center;
-    align-items: center;
     display: flex;
-    color: white;
     border: none;
-    margin-top: 20px;
-    margin-left: 110px;
+    font-size: 15px;
+    margin-top: 580px;
+    margin-left: 78px;
     cursor: pointer;
-    border-radius: 10px;
     font-weight: bold;
+    background: #fff;
     float: right;
     position: fixed;
 }
@@ -222,26 +221,24 @@
     width: 30%;
 }
 
-.studentId{
-    margin-top: 15px;
-    margin-left: 0px;
-    display:inline-block;
-    margin-left: 20px;
-    
-}
+
 .studenttimetable{
-    margin-top: 22px;
+    margin-top: 51px;
     font-size: 20px;
+    margin-left: -33px;
+    position: fixed;
     font-weight: bold;
 }
 
 .rightRect{
     display: flex;
     width: 15px;
-    margin-top: 20px;
-    margin-left: 15px;
+    margin-top: 50px;
+    margin-left: -57px;
     height: 25px;
+    position: fixed;
     background: #c30e2e;
+    position: fixed;
     margin-right: 10px;
 }
 
@@ -278,28 +275,31 @@ table{
     display: flex;
     width: 60%;
     height: 100%;
-    margin-left: -2%;
-    /* background: #fff;  */
-    /* border: 1px solid #000000;  */
+    margin-top: 80px;
+    margin-left: -4%;
+    width: 450px;
+    height: 550px;
+    background: #fff; 
+    border: 1px solid #000000; 
     position: fixed;
 }
 
 .subjectInterest_timetable{
-    margin-left: -10%;
+    margin-left: 15%;
     border-radius:30px;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 
 .subjectInterest_tablehead {
     position: absolute;
     display: flex;
-    width: 100px;
+    width: 80px;
     margin-top: -4px;
 }
 
 .subjectInterest_tablehead tr td {
     position: absolute;
-    width: 38px;
+    width: 28px;
     font-size: 12px;
     margin-left: 9px;
     height: 30px;
@@ -312,7 +312,7 @@ table{
 
 .subjectInterest_tablehead tr th {
     position: absolute;
-    width: 62px;
+    width: 52px;
     font-size: 12px;
     height: 30px;
     display: table-cell;
@@ -329,8 +329,6 @@ table{
 .subjectInterest_tablehead{
     margin-top: 50px;
     margin-left: -7px;
-    
-    
 }
 
 .subjectInterest_tablebody{
@@ -347,7 +345,7 @@ table{
     position: absolute;
     display: flex;
     font-size: 12px;
-    margin-left: 51px;
+    margin-left: 41px;
     margin-top: -2px;
     
 }
@@ -355,7 +353,7 @@ table{
     position: absolute;
     font-size: 12px;
     display: table-cell;
-    margin-left: 117px;
+    margin-left: 97px;
     margin-top: -2px;
   
 }
@@ -363,7 +361,7 @@ table{
     position: absolute;
     font-size: 12px;
     display: table-cell;
-    margin-left: 183px;
+    margin-left: 153px;
     margin-top: -2px;
   
 }
@@ -371,7 +369,7 @@ table{
     position: absolute;
     font-size: 12px;
     display: table-cell;
-    margin-left: 249px;
+    margin-left: 209px;
     margin-top: -2px;
 
 }
@@ -380,7 +378,7 @@ table{
     border-top-right-radius: 20px;
     font-size: 12px;
     display: table-cell;
-    margin-left: 315px;
+    margin-left: 265px;
     margin-top: -2px;
 
 }
@@ -396,8 +394,8 @@ table{
 
 .hours_si span {
     display: flex;
-    margin-left: 22px;
-    margin-top: -13px;
+    margin-left: 14px;
+    margin-top: -15px;
 }
 
 .hour9_si {
@@ -408,8 +406,8 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
     line-height: 60px;
@@ -425,11 +423,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 38px;
+    margin-top: 28px;
     line-height: 60px;
     margin-left: 5px;
  
@@ -442,11 +440,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 78px;
+    margin-top: 58px;
     line-height: 60px;
     margin-left: 5px;
  
@@ -459,11 +457,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 118px;
+    margin-top: 88px;
     line-height: 60px;
     margin-left: 5px;
 }
@@ -475,11 +473,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 158px;
+    margin-top: 118px;
     line-height: 60px;
     margin-left: 5px;
 
@@ -492,11 +490,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 198px;
+    margin-top: 148px;
     line-height: 60px;
     margin-left: 5px;
  
@@ -509,11 +507,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 238px;
+    margin-top: 178px;
     line-height: 60px;
     margin-left: 5px;
  
@@ -526,11 +524,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 278px;
+    margin-top: 208px;
     line-height: 60px;
     margin-left: 5px;
 
@@ -543,11 +541,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 318px;
+    margin-top: 238px;
     line-height: 60px;
     margin-left: 5px;
 
@@ -560,11 +558,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 358px;
+    margin-top: 268px;
     line-height: 60px;
     margin-left: 5px;
   
@@ -578,11 +576,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 398px;
+    margin-top: 298px;
     line-height: 60px;
     margin-left: 5px;
  
@@ -595,11 +593,11 @@ table{
     color: #a6a6a6;
     font-weight: normal;
     text-align: center;
-    width: 40px;
-    height: 38px;
+    width: 30px;
+    height: 28px;
     display: table-cell;
     letter-spacing: -0.5px;
-    margin-top: 438px;
+    margin-top: 328px;
     line-height: 60px;
     margin-left: 5px;
   
@@ -614,7 +612,7 @@ table{
     margin-top: 25px;
     display: flex;
     flex-direction: column;
-    margin-left: 39px;
+    margin-left: 29px;
 
 }
 .grids_thu_si {
@@ -622,7 +620,7 @@ table{
     margin-top: 25px;
     display: flex;
     flex-direction: column;
-    margin-left: 101px;
+    margin-left: 81px;
 
 }
 .grids_wed_si {
@@ -630,7 +628,7 @@ table{
     margin-top: 25px;
     display: flex;
     flex-direction: column;
-    margin-left: 163px;
+    margin-left: 133px;
    
 }
 .grids_thr_si {
@@ -638,7 +636,7 @@ table{
     margin-top: 25px;
     display: flex;
     flex-direction: column;
-    margin-left: 225px;
+    margin-left: 185px;
   
 }
 .grids_fri_si {
@@ -646,7 +644,7 @@ table{
     margin-top: 25px;
     display: flex;
     flex-direction: column;
-    margin-left: 287px;
+    margin-left: 237px;
 
 }
 
@@ -669,24 +667,53 @@ table{
 .grid_interest {
     border: 1px solid #d6d6d6;
     display: table-cell;
-    height: 20px;
+    height: 15px;
     font-size: 10px;
     color: gray;
     text-align: center;
-    width: 66px;
+    width: 56px;
     box-sizing: border-box;
     font-size: 12px;
 }
 
 .grid_interest_selected {
     display: table-cell;
-    height: 20px;
+    height: 15px;
     font-size: 10px;
     color: gray;
     text-align: center;
-    width: 66px;
+    width: 56px;
     box-sizing: border-box;
     font-size: 12px;
+}
+
+.subjectInterest_noTimeSubject{
+    position: absolute;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d6d6d6;
+    color: #a6a6a6;
+    font-weight: normal;
+    text-align: center;
+    width: 310px;
+    height: 40px;
+    display: table-cell;
+    letter-spacing: -0.5px;
+    margin-left: 4px;
+    margin-top:380px;
+    font-size: 10px;
+    font-weight: bold;
+    overflow: scroll;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 10px;
+}
+
+.timetable_label{
+    position: absolute;
+    font-weight: bold;
+    margin-top: 6%;
+    margin-left: 18%;
+    color: #a6a6a6;
 }
 
 

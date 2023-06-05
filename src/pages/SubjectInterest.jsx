@@ -347,7 +347,7 @@ const SubjectInterest = () => {
         // 시간이 겹치는 과목 확인
         const timeConflicts = [];
         selectedCourses.forEach((course) => {
-            const { subject, class1, t_lecture,credit } = course;
+            const { subject, class1, credit,t_lecture } = course;
             const data = { id, department, subject, t_lecture, class1,credit};
 
               axios
@@ -391,46 +391,48 @@ const SubjectInterest = () => {
 
     //삭제버튼이 눌렸을때
     const handle_delete = (event) => {
-    event.preventDefault();
-    //alert("삭제버튼이 눌림");
+        event.preventDefault();
+        //alert("삭제버튼이 눌림");
 
-    const selectedCourses_d = deleteCourses.map(index=>addSubject[index]);
-    //alert(selectedCourses);
-    selectedCourses_d.map(addSubject => {
-      //alert('시작');
-      const {subject} = addSubject;
-      const data = {id, department, subject};
-      // id , department
-      //alert(id);
+        const selectedCourses_d = deleteCourses.map(index=>addSubject[index]);
+        //alert(selectedCourses);
+        selectedCourses_d.map(addSubject => {
+        //alert('시작');
+        const {subject} = addSubject;
+        const data = {id, department, subject};
+        // id , department
+        //alert(id);
 
-      axios.post('/delete/addSubject',data)
-        .then((res) => {
-          console.log(res.data);
+        axios.post('/delete/addSubject',data)
+            .then((res) => {
+            console.log(res.data);
+            })
+            .catch((err) => {
+            console.error(err);
+            });
         })
-        .catch((err) => {
-          console.error(err);
-        });
-    })
-    alert('수강과목에서 삭제되었습니다!');
+        alert('수강과목에서 삭제되었습니다!');
 
-    // 등록된 사항을 바로 보여주도록
-    const fetchData = async() => {
-      try {
-          const response = await axios.post('/api/addSubject',{id} );
-          const data = response.data;
-          setAddSubject(data);
-       }
-       catch(error) {
-          console.error('Error fetching courses:',error);
+        // 등록된 사항을 바로 보여주도록
+        const fetchData = async() => {
+        try {
+            const response = await axios.post('/api/addSubject',{id} );
+            const data = response.data;
+            setAddSubject(data);
         }
-    };
-    //alert(id);
-    //alert(semester);
-    fetchData();
-    setDeleteCourses([]);
-    window.location.reload();
+        catch(error) {
+            console.error('Error fetching courses:',error);
+            }
+        };
+        //alert(id);
+        //alert(semester);
+        fetchData();
+        setDeleteCourses([]);
+        window.location.reload();
 
-  }
+    }
+
+    
 
   
     // 시간 설정
@@ -778,13 +780,10 @@ const SubjectInterest = () => {
         </div>
 
         <div className="subjectInterest_right">
+            <span className="rightRect"></span>
+            <h5 className="studenttimetable">도와드림 창</h5>
             <div className="subjectInterest_timetable_content">
-                <span className="rightRect"></span>
-                <span className="studenttimetable">시간표</span>
-                <div className="gorequestSeat">
-                <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원요청</button>
-                </div>
-
+                <span className="timetable_label">담은 시간표</span>         
                 <div className="subjectInterest_timetable">
                         <div className="subjectInterest_name">
                             <div className="subjectInterest_tablehead">
@@ -860,8 +859,13 @@ const SubjectInterest = () => {
                                     
                             </table>
                         </div>
+                        <div className="subjectInterest_noTimeSubject">
+                        </div>
                     </div>
                 </div>
+                <div className="gorequestSeat">
+                    <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원 요청하기</button>
+                </div>   
         
         </div>
       </div>
