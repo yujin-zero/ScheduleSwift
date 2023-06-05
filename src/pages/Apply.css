@@ -620,4 +620,11 @@ h4{
     margin-left: 53px;
 }
 
+.noTimeSubject hr{
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border-top: 1px solid #d6d6d6;
+
+}
+
 
