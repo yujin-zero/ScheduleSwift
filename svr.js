@@ -120,21 +120,6 @@ app.get('/api/courses',(req, res) => {
 });
 
 
-app.get('/api/courses_notime',(req, res) => {
-    const {department} = req.query;
-    const query = 'select distinct subject, class1, credit from course where department = ?';
-
-    connection.query(query,[department],(err,results) => {
-        if(err) {
-            console.error('MySQL query error:',err);
-            res.status(500).json({error: 'Internal server error'});
-            return;
-        }
-        res.json(results);
-    });
-});
-
-
 // 수강한 과목 등록
 app.post('/apply/course',(req,res) => {
     // 전송된 데이터 가져오기

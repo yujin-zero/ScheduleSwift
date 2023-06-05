@@ -491,7 +491,6 @@ table {
     margin-top: 659px;
     top: 1020;
     line-height: 60px;
-    border-radius: 0 0 0 20px;
 }
 
 .tablebody {
@@ -628,4 +627,27 @@ table {
 
 .potal_info3 span{
     color: red;
+}
+
+.potal_noTimeSubject{
+    position: absolute;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d6d6d6;
+    color: #a6a6a6;
+    font-weight: normal;
+    text-align: center;
+    width: 560px;
+    height: 40px;
+    display: table-cell;
+    letter-spacing: -0.5px;
+    margin-left: 6px;
+    margin-top: 750px;
+    font-size: 10px;
+    font-weight: bold;
+    overflow: scroll;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 10px;
+    
+
 }
