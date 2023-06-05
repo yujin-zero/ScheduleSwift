@@ -3,8 +3,6 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Apply.css"
 import axios from 'axios';
-import { useInterval } from "use-interval";
-import Moment from "react-moment";
 
 const Apply = () => {
     const navigate = useNavigate();
@@ -21,7 +19,38 @@ const Apply = () => {
     const [selectedCourse, setSelectedCourses] = useState([]);
     const [selectedIndices, set_selectedIndices] = useState([]);
     const [addsubject, setAddsubject] = useState([]);
-    const [abbsubjectSeat, setAbbsubjectSeat] = useState([]);
+    const [mouseTime,setMouseTime] = useState(null); // 마우스가 가리키는 시간 값
+    const [overTable,setOverTable] = useState(); // 마우스가 가리키는 시간 네모
+    const [appliedSubject , setAppliedSubject] = useState([]); // 신청한 과목 이름들
+
+    // 마우스가 어느행에 있는지
+    const [hoveredRow, setHoveredRow] = useState(null);
+    const handleMouseEnter = (index,time) => {
+        setHoveredRow(index);
+        //alert(time);
+        setMouseTime(time);
+    };
+    const handleMouseLeave = () => {
+        setHoveredRow(null);
+        setMouseTime(null);
+        setOverTable(null);
+    };
+
+    const [hoveredRow2, setHoveredRow2] = useState(null);
+    const handleMouseEnter2 = (index) => {
+        setHoveredRow2(index);
+    };
+    const handleMouseLeave2 = () => {
+        setHoveredRow2(null);
+    };
+
+    const [hoveredRow3, setHoveredRow3] = useState(null);
+    const handleMouseEnter3 = (index) => {
+        setHoveredRow3(index);
+    };
+    const handleMouseLeave3 = () => {
+        setHoveredRow3(null);
+    };
 
     const [applyLectureList, setApplyLectureList] = useState(); // 수강신청한 과목 받아오기
     const [timeTable, setTimeTable] = useState();
@@ -161,20 +190,169 @@ const Apply = () => {
     const colorList = ["#F7A4A4", "#FEBE8C", "#FFFBC1", "#B6E2A1", "#FA7070", "#FBF2CF", "#C6EBC5", "#A1C298"];
 
 
-    // 로그인한 학생의 관심과목 가져오기 및 여석 정보 가져오기
+    // 로그인한 학생의 관심과목 가져오기 
     useEffect(() => {
         const fetchData = async() => {
             try {
                 const response = await axios.post('/user/addSubject',{id});
                 const data = response.data;
                 setAddsubject(data);
-
+                // 여석 가져오기
+                const updatedAddsubject = await Promise.all(data.map(async (item) => {
+                    const response2 = await axios.post('/seat/addSubject', { department: item.department, subject: item.subject, t_lecture: item.t_lecture });
+                    const data2 = response2.data;
+                    return { ...item, seat: data2[0].seat, remain_seat: data2[0].remain_seat };
+                }));
+                setAddsubject(updatedAddsubject);
             }catch(error) {
                 console.error('Error fetching courses:',error);
             }
         };
         fetchData();
     },[]);
+
+    
+
+    // 마우스 위치한 시간에 네모표시
+    useEffect(() => {
+        const fetchData = async() => {
+            let over = [];
+            if (mouseTime != null && mouseTime != "") {
+                if (mouseTime.includes(",")) { // 자료구조 같은거
+                    //alert("쉼표포함");
+                    let twoTime = mouseTime.split(", ");
+
+                    let nowData = twoTime[0];
+                    let lectureData = nowData.split(" ");
+                    //alert(lectureData);
+                    let dayData = [getDayIndex(lectureData[0])];
+                    //alert(dayData);
+                    let timeData = lectureData[lectureData.length - 1].split("~");
+                    //alert(timeData.length);
+                    let startIndex = getTimeIndex(timeData[0]); // 시작 시간
+                    //alert(startIndex);
+                    let finishIndex = getTimeIndex(timeData[1]); // 끝나는 시간
+                    let timeSpace = finishIndex-startIndex;
+
+                    let setTop = 52 + 15*startIndex +"px";
+                    let setLeft = 100 + 49*dayData[0]+"px";
+                    let setHeight = 15*timeSpace+"px";
+
+                    over.push(
+                        <div style={{
+                            position:"absolute",
+                            top: setTop,
+                            left: setLeft,
+                            width: "48px",
+                            height: setHeight,
+                            border: "2px solid red",
+                            zIndex: "1"
+                        }}></div>
+                    )
+
+                    nowData = twoTime[1];
+                    lectureData = nowData.split(" ");
+                    dayData = [getDayIndex(lectureData[0])];
+                    timeData = lectureData[lectureData.length - 1].split("~");
+                    startIndex = getTimeIndex(timeData[0]); // 시작 시간
+                    finishIndex = getTimeIndex(timeData[1]); // 끝나는 시간
+                    timeSpace = finishIndex-startIndex;
+
+                    setTop = 52 + 15*startIndex +"px";
+                    setLeft = 100 + 49*dayData[0]+"px";
+                    setHeight = 15*timeSpace+"px";
+
+                    over.push(
+                        <div style={{
+                            position:"absolute",
+                            top: setTop,
+                            left: setLeft,
+                            width: "48px",
+                            height: setHeight,
+                            border: "2px solid red",
+                            zIndex: "1"
+                        }}></div>
+                    )
+
+                    
+
+
+                    setOverTable(over);
+                    
+                } else { // 자료구조 안같은거
+                    //alert("쉼표안포함");
+                    let lectureData = mouseTime.split(" ");
+                    // 요일 넣기 
+                    let dayData =
+                        lectureData.length > 2
+                            ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])] // 요일이 두개
+                            : [getDayIndex(lectureData[0])]; // 요일이 하나
+
+                    let timeData = lectureData[lectureData.length - 1].split("~");
+                    //alert(timeData.length);
+                    let startIndex = getTimeIndex(timeData[0]); // 시작 시간
+                    let finishIndex = getTimeIndex(timeData[1]); // 끝나는 시간
+                    let timeSpace = finishIndex-startIndex;
+
+                    
+
+                    if(dayData.length == 1){
+                        //alert("요일하나");
+                        let setTop = 52 + 15*startIndex +"px";
+                        let setLeft = 100 + 49*dayData[0]+"px";
+                        let setHeight = 15*timeSpace - 3 +"px";
+
+                        over.push(
+                            <div style={{
+                                position:"absolute",
+                                top: setTop,
+                                left: setLeft,
+                                width: "48px",
+                                height: setHeight,
+                                border: "2px solid red",
+                                zIndex: "1"
+                            }}></div>
+                        )
+                        setOverTable(over);
+                    }else{
+                        let setTop = 52 + 15*startIndex +"px";
+                        let setLeft = 100 + 49*dayData[0]+"px";
+                        let setHeight = 15*timeSpace+"px";
+
+                        over.push(
+                            <div style={{
+                                position:"absolute",
+                                top: setTop,
+                                left: setLeft,
+                                width: "48px",
+                                height: setHeight,
+                                border: "2px solid red",
+                                zIndex: "1"
+                            }}></div>
+                        )
+
+                        setLeft = 100 + 49*dayData[1]+"px";
+
+                        over.push(
+                            <div style={{
+                                position:"absolute",
+                                top: setTop,
+                                left: setLeft,
+                                width: "48px",
+                                height: setHeight,
+                                border: "2px solid red",
+                                zIndex: "1"
+                            }}></div>
+                        )
+
+                        setOverTable(over);
+                    }
+                }
+            }
+        };
+        fetchData();
+    },[mouseTime]);
+
     
     
     const handleDropdownChange = (event) => {
@@ -206,6 +384,15 @@ const Apply = () => {
             const response = await axios.post('/api/my_subject',{id} );
             const data = response.data;
             set_my_subject(data);
+
+            // 여석 가져오기
+            const updatedMySubject = await Promise.all(data.map(async (item) => {
+                const response2 = await axios.post('/seat/addSubject', { department: item.department, subject: item.subject, t_lecture: item.t_lecture });
+                const data2 = response2.data;
+                return { ...item, seat: data2[0].seat, remain_seat: data2[0].remain_seat };
+            }));
+            set_my_subject(updatedMySubject);
+
             if(data.length>0) {
                 const subjects = data.map((item) => item.subject);
                 const times = data.map((item) => item.t_lecture);
@@ -215,8 +402,11 @@ const Apply = () => {
                         subject: subjects[i],
                         t_lecture: times[i],
                     });
+                    // 과목 이름만 따로 담기
+                    appliedSubject.push(subjects[i]);
                 }
                 setApplyLectureList(lectureData);
+                //alert(appliedSubject);
             }
         }
         catch(error) {
@@ -236,7 +426,7 @@ const Apply = () => {
         applyLectureList &&
             applyLectureList.map((lecture) => {
                 if (lecture.t_lecture != null && lecture.t_lecture != "") {
-                    if (lecture.t_lecture.includes(",")) {
+                    if (lecture.t_lecture.includes(",")) { // 자료구조 같은거
                         let lectureDatas = lecture.t_lecture.split(", ");
 
                         for (let index = 0; index < lectureDatas.length; index++) {
@@ -256,7 +446,7 @@ const Apply = () => {
                                 }
                             });
                         }
-                    } else {
+                    } else { // 자료구조 안같은거
                         let lectureData = lecture.t_lecture.split(" ");
 
                         let dayData =
@@ -453,30 +643,93 @@ const Apply = () => {
         // 선택한 과목의 정보를 가져오기
         const selectedCourse = courses[index];
         // 데이터베이스에 과목 정보를 저장
-        const { subject, class1, t_lecture, credit, seat } = selectedCourse;
-        const data = { id, department, subject, class1, t_lecture, credit, seat };
-        try {
-          await axios.post('/api/apply_course', data);
-          // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
-          setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
-          alert('수강신청 되었습니다!');
-        } catch (err) {
-          console.error(err);
-          alert('수강신청에 실패했습니다.');
+        const { subject, class1, t_lecture, credit, remain_seat } = selectedCourse;
+
+        // 이미 신청한 과목인지 확인
+        if(appliedSubject.includes(subject)) {
+            alert("이미 신청한 과목입니다.");
+            return;
         }
+
+        
+        // 이미 있는 시간인지 확인
+        let check = 0;
+        if (t_lecture.includes(", ")){
+            let splitLectureData = t_lecture.split(", ");
+
+            for(let i =0; i<2; i++){
+                let temp = splitLectureData[i];
+                let lectureData = temp.split(" ");
+                let dayData =
+                    lectureData.length > 2
+                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                        : [getDayIndex(lectureData[0])];
+
+                let timeData = lectureData[lectureData.length - 1].split("~");
+                let startIndex = getTimeIndex(timeData[0]);
+                let finishIndex = getTimeIndex(timeData[1]);
+                
+
+                dayData.map((dayIndex) => {
+                    for (let index = startIndex; index < finishIndex; index++) {
+                        if(timeTableColorList[dayIndex][index] != "transparent"){
+                            alert("이미 신청한 시간입니다.");
+                            check = 1;
+                            return;
+                        }
+                    }
+                });
+            }
+            
+
+
+        }else{
+            let lectureData = t_lecture.split(" ");
+            let dayData =
+                lectureData.length > 2
+                    ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                    : [getDayIndex(lectureData[0])];
+
+            let timeData = lectureData[lectureData.length - 1].split("~");
+            let startIndex = getTimeIndex(timeData[0]);
+            let finishIndex = getTimeIndex(timeData[1]);
+            
+
+            dayData.map((dayIndex) => {
+                for (let index = startIndex; index < finishIndex; index++) {
+                    if(timeTableColorList[dayIndex][index] != "transparent"){
+                        alert("이미 신청한 시간입니다.");
+                        check = 1;
+                        return;
+                    }
+                }
+            });
+        }
+
+        if(check == 1) {
+            return;
+        }
+
+        const data = { id, department, subject, class1, t_lecture, credit };
+        const data2 = {department, subject, t_lecture};
+        if (remain_seat > 0 ) {
+            try {
+                await axios.post('/api/apply_course', data);
+                // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
+                setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
+                alert('수강신청 되었습니다!');
       
-        // 등록된 사항을 바로 보여주도록
-        const fetchData = async() => {
-          try {
-            const response = await axios.post('/api/my_subject', { id });
-            const data = response.data;
-            set_my_subject(data);
-          } catch (error) {
-            console.error('Error fetching courses:', error);
-          }
-        };
-      
-        fetchData();
+                // 신청했을때 여석 줄이기
+                await axios.post('/seat/course',data2);
+
+              } catch (err) {
+                console.error(err);
+                alert('수강신청에 실패했습니다.');
+              }
+        }else{
+            alert('여석이 없는 강의입니다.');
+        }
+        
         window.location.reload();
       };
     
@@ -485,43 +738,101 @@ const Apply = () => {
         // 선택한 과목의 정보를 가져오기
         const selectedCourse = addsubject[index];
         // 데이터베이스에 과목 정보를 저장
-        const { subject, class1, t_lecture, credit, seat, department } = selectedCourse;
-        const data = { id, department, subject, class1, t_lecture, credit, seat };
-        try {
-            await axios.post('/api/apply_course', data);
-            // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
-            setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
-            alert('수강신청 되었습니다!');
-        } catch (err) {
-            console.error(err);
-            alert('수강신청에 실패했습니다.');
+        const { subject, class1, t_lecture, credit,  department, remain_seat } = selectedCourse;
+
+        // 이미 신청한 과목인지 확인
+        if(appliedSubject.includes(subject)) {
+            alert("이미 신청한 과목입니다.");
+            return;
         }
 
-         // 등록된 사항을 바로 보여주도록
-        const fetchData = async() => {
-        try {
-            const response = await axios.post('/api/my_subject',{id} );
-            const data = response.data;
-            set_my_subject(data);
-        }
-        catch(error) {
-            console.error('Error fetching courses:',error);
+         
+        // 이미 있는 시간인지 확인
+        let check = 0;
+        if (t_lecture.includes(", ")){
+            let splitLectureData = t_lecture.split(", ");
+
+            for(let i =0; i<2; i++){
+                let temp = splitLectureData[i];
+                let lectureData = temp.split(" ");
+                let dayData =
+                    lectureData.length > 2
+                        ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                        : [getDayIndex(lectureData[0])];
+
+                let timeData = lectureData[lectureData.length - 1].split("~");
+                let startIndex = getTimeIndex(timeData[0]);
+                let finishIndex = getTimeIndex(timeData[1]);
+                
+
+                dayData.map((dayIndex) => {
+                    for (let index = startIndex; index < finishIndex; index++) {
+                        if(timeTableColorList[dayIndex][index] != "transparent"){
+                            alert("이미 신청한 시간입니다.");
+                            check = 1;
+                            return;
+                        }
+                    }
+                });
             }
-        };
-        //alert(id);
-        //alert(semester);
-        fetchData();
+            
+
+
+        }else{
+            let lectureData = t_lecture.split(" ");
+            let dayData =
+                lectureData.length > 2
+                    ? [getDayIndex(lectureData[0]), getDayIndex(lectureData[1])]
+                    : [getDayIndex(lectureData[0])];
+
+            let timeData = lectureData[lectureData.length - 1].split("~");
+            let startIndex = getTimeIndex(timeData[0]);
+            let finishIndex = getTimeIndex(timeData[1]);
+            
+
+            dayData.map((dayIndex) => {
+                for (let index = startIndex; index < finishIndex; index++) {
+                    if(timeTableColorList[dayIndex][index] != "transparent"){
+                        alert("이미 신청한 시간입니다.");
+                        check = 1;
+                        return;
+                    }
+                }
+            });
+        }
+
+        if(check == 1) {
+            return;
+        }
+
+        const data = { id, department, subject, class1, t_lecture, credit };
+        const data2 = {department, subject, t_lecture};
+        //await axios.post('/seat/course',data2);
+        if(remain_seat > 0 ){
+            try {
+                await axios.post('/api/apply_course', data);
+                // 데이터베이스에 저장이 성공한 경우에만 선택한 과목을 화면에 보여줌
+                setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
+                alert('수강신청 되었습니다!');
+                await axios.post('/seat/course',data2);
+            } catch (err) {
+                console.error(err);
+                alert('수강신청에 실패했습니다.');
+            }
+        }else{
+            alert('수강여석이 없습니다.');
+        }
+       
+
         window.location.reload();
     };
-    
-   
-
-    
 
    
     // 삭제 버튼이 눌렸을 때
     const handleButtonClick_delete = async (index) => {
         const deleteCourse = my_subject[index]; // 수정: my_subject 배열 사용
+        const { subject, t_lecture,  department } = deleteCourse;
+        const data2 = {department, subject, t_lecture};
         
         try {
         // 데이터베이스에서 과목 정보를 삭제하는 요청을 보냅니다.
@@ -534,25 +845,16 @@ const Apply = () => {
         });
         
         alert('과목이 삭제되었습니다.');
+
+        // 해당 과목 여석은 증가시키기
+        await axios.post('/seat/increase',data2);
+
         } catch (err) {
         console.error(err);
         alert('과목 삭제에 실패했습니다.');
         }
         window.location.reload();
     };
-
-
-    // 여석 연동(course, addSubject,my_subject)
-    useEffect(() => {
-        // addsubject.forEach((item,index) => {
-        //     const findSeatAdd = addsubject[index];
-        //     alert(findSeatAdd);
-        // });
-        //alert(addsubject[0]);
-        
-    });
-
-    
 
 
 
@@ -672,7 +974,12 @@ const Apply = () => {
                                     <tbody>
                                         {courses.length > 0 ? (
                                             courses.map((courses,index) => (
-                                            <tr key={index}>
+                                            <tr 
+                                                key={index}
+                                                onMouseEnter={() => handleMouseEnter(index,courses.t_lecture)}
+                                                onMouseLeave={handleMouseLeave}
+                                                className={hoveredRow === index ? 'highlighted' : ''}
+                                                >
                                                 <td>
                                                 <button className={selectedIndices.includes(index) ? 'checked' : ''} 
                                                 onClick={() => handleButtonClick(index)}>신청</button>
@@ -686,7 +993,7 @@ const Apply = () => {
                                             ))
                                         ) : (
                                             <tr>
-                                            <td colSpan="4">No courses available</td>
+                                            <td colSpan="5">No courses available</td>
                                             </tr>
                                         )
                                         }
@@ -716,7 +1023,12 @@ const Apply = () => {
                                 <tbody>
                                 {addsubject.length > 0 ? (
                                     addsubject.map((addsubject,index) => (
-                                        <tr>
+                                        <tr 
+                                            key={index}
+                                            onMouseEnter={() => handleMouseEnter2(index)}
+                                            onMouseLeave={handleMouseLeave2}
+                                            className={hoveredRow2 === index ? 'highlighted' : ''}
+                                            >
                                             <td>
                                                 <button onClick={() => handleDirectApply(index)}>
                                                     신청</button>
@@ -725,7 +1037,7 @@ const Apply = () => {
                                             <td>{addsubject.class1}</td>
                                             <td>{addsubject.t_lecture}</td>
                                             <td>{addsubject.credit}</td>
-                                            <td></td>
+                                            <td>{addsubject.remain_seat}/{addsubject.seat}</td>
                                         </tr>
                                     ))
                                 ):(
@@ -758,7 +1070,12 @@ const Apply = () => {
                             <tbody>
                                 {my_subject.length > 0 ? (
                                 my_subject.map((my_subject,index) => (
-                                <tr key={index}>
+                                <tr 
+                                    key={index}
+                                    onMouseEnter={() => handleMouseEnter3(index)}
+                                    onMouseLeave={handleMouseLeave3}
+                                    className={hoveredRow3 === index ? 'highlighted' : ''}
+                                    >
                                     <td>
                                     <button className="checked" onClick={() => handleButtonClick_delete(index)}>삭제</button> 
                                     </td>
@@ -767,7 +1084,7 @@ const Apply = () => {
                                     <td>{my_subject.class1}</td>
                                     <td>{my_subject.t_lecture}</td>
                                     <td>{my_subject.credit}</td>
-                                    <td>{my_subject.seat}/{my_subject.seat}</td>
+                                    <td>{my_subject.remain_seat}/{my_subject.seat}</td>
                                 </tr>
                                 ))
                             ) : (
@@ -789,6 +1106,7 @@ const Apply = () => {
                         <h3>도와드림 창</h3>
                     </div>
                     <div className="apply_dowadream">
+                        {overTable}
                         <div className="dowadream_timetable">
                             <div className="dowadream_tablehead">
                                 <table>
