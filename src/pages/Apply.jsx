@@ -307,7 +307,7 @@ const Apply = () => {
                                 position:"absolute",
                                 top: setTop,
                                 left: setLeft,
-                                width: "48px",
+                                width: "47px",
                                 height: setHeight,
                                 border: "2px solid red",
                                 zIndex: "1"
@@ -317,14 +317,14 @@ const Apply = () => {
                     }else{
                         let setTop = 52 + 15*startIndex +"px";
                         let setLeft = 100 + 49*dayData[0]+"px";
-                        let setHeight = 15*timeSpace+"px";
+                        let setHeight = 15*timeSpace-3+"px";
 
                         over.push(
                             <div style={{
                                 position:"absolute",
                                 top: setTop,
                                 left: setLeft,
-                                width: "48px",
+                                width: "47px",
                                 height: setHeight,
                                 border: "2px solid red",
                                 zIndex: "1"
@@ -338,7 +338,7 @@ const Apply = () => {
                                 position:"absolute",
                                 top: setTop,
                                 left: setLeft,
-                                width: "48px",
+                                width: "47px",
                                 height: setHeight,
                                 border: "2px solid red",
                                 zIndex: "1"
@@ -351,7 +351,7 @@ const Apply = () => {
             }
         };
         fetchData();
-    },[mouseTime]);
+    },[mouseTime, hoveredRow]);
 
     
     
@@ -390,6 +390,11 @@ const Apply = () => {
             const updatedMySubject = await Promise.all(data.map(async (item) => {
                 const response2 = await axios.post('/seat/addSubject', { department: item.department, subject: item.subject, t_lecture: item.t_lecture });
                 const data2 = response2.data;
+
+                // if (data2.length == 0){
+                //     return { ...item, seat: 1, remain_seat: 2 };
+                // }
+
                 return { ...item, seat: data2[0].seat, remain_seat: data2[0].remain_seat };
             }));
             set_my_subject(updatedMySubject);
@@ -681,7 +686,6 @@ const Apply = () => {
         // 선택한 과목의 정보를 가져오기
         const selectedCourse = courses[index];
         // 데이터베이스에 과목 정보를 저장
-
         const { subject, class1, t_lecture, credit, remain_seat } = selectedCourse;
 
         // 이미 신청한 과목인지 확인
@@ -693,7 +697,7 @@ const Apply = () => {
         
         // 이미 있는 시간인지 확인
         let check = 0;
-        if (t_lecture.includes(", ")){
+        if (t_lecture != null && t_lecture.includes(", ")){
             let splitLectureData = t_lecture.split(", ");
 
             for(let i =0; i<2; i++){
@@ -722,7 +726,7 @@ const Apply = () => {
             
 
 
-        }else{
+        }else if (t_lecture != null){
             let lectureData = t_lecture.split(" ");
             let dayData =
                 lectureData.length > 2
@@ -795,7 +799,7 @@ const Apply = () => {
          
         // 이미 있는 시간인지 확인
         let check = 0;
-        if (t_lecture.includes(", ")){
+        if (t_lecture != null && t_lecture.includes(", ")){
             let splitLectureData = t_lecture.split(", ");
 
             for(let i =0; i<2; i++){
@@ -824,7 +828,7 @@ const Apply = () => {
             
 
 
-        }else{
+        }else if (t_lecture != null){
             let lectureData = t_lecture.split(" ");
             let dayData =
                 lectureData.length > 2

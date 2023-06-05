@@ -156,6 +156,21 @@ app.post('/apply/course',(req,res) => {
 );
 });
 
+app.get('/api/courses_notime',(req, res) => {
+  const {department} = req.query;
+  const query = 'select distinct subject, class1, credit from course where department = ?';
+
+  connection.query(query,[department],(err,results) => {
+      if(err) {
+          console.error('MySQL query error:',err);
+          res.status(500).json({error: 'Internal server error'});
+          return;
+      }
+      res.json(results);
+  });
+});
+
+
 
 // 수강한 과목 보여주기 (학번, 학기에 따라)
 app.post('/api/getGrade', (req,res) => {
@@ -447,46 +462,85 @@ app.post('/delete/addSubject',(req,res) => {
 app.post('/seat/addSubject',(req,res) => {
   const {department, subject, t_lecture} = req.body;
 
-  const query = 'select seat, remain_seat from course where department=? and subject=? and t_lecture=?';
-  connection.query(query,[department, subject, t_lecture],(err,results) => {
-    if(err){
-      console.error('MySQL query error:',err);
-      res.status(500).json({error:'Internal server error'});
-      return ;
-    }
-    res.json(results);
-    //console.log(results);
-  });
+  if (t_lecture == null){
+    const query = 'select seat, remain_seat from course where department=? and subject=?';
+    connection.query(query,[department, subject],(err,results) => {
+      if(err){
+        console.error('MySQL query error:',err);
+        res.status(500).json({error:'Internal server error'});
+        return ;
+      }
+      res.json(results);
+      //console.log(results);
+    });
+  }
+  else{
+    const query = 'select seat, remain_seat from course where department=? and subject=? and t_lecture=?';
+    connection.query(query,[department, subject, t_lecture],(err,results) => {
+      if(err){
+        console.error('MySQL query error:',err);
+        res.status(500).json({error:'Internal server error'});
+        return ;
+      }
+      res.json(results);
+      //console.log(results);
+    });
+  }
 });
 
 // 수강신청시 여석 줄이기
 app.post('/seat/course',(req,res) => {
   const {department, subject, t_lecture} = req.body;
-
-  const query = 'update course set remain_seat = remain_seat-1 where department=? and subject=? and t_lecture=?';
-  connection.query(query,[department,subject,t_lecture],(err,results) => {
-    if(err){
-      console.error('MySQL query error:',err);
-      res.status(500).json({error:'Internal server error'});
-      return ;
-    }
-    res.json(results);
-  });
+  if (t_lecture == null){
+    const query = 'update course set remain_seat = remain_seat-1 where department=? and subject=?';
+    connection.query(query,[department,subject],(err,results) => {
+      if(err){
+        console.error('MySQL query error:',err);
+        res.status(500).json({error:'Internal server error'});
+        return ;
+      }
+      res.json(results);
+    });
+  }
+  else{
+    const query = 'update course set remain_seat = remain_seat-1 where department=? and subject=? and t_lecture=?';
+    connection.query(query,[department,subject,t_lecture],(err,results) => {
+      if(err){
+        console.error('MySQL query error:',err);
+        res.status(500).json({error:'Internal server error'});
+        return ;
+      }
+      res.json(results);
+    }); 
+  }
 });
 
 // 수강신청 취소할 때 여석 늘리기
 app.post('/seat/increase',(req,res) => {
   const {department, subject, t_lecture} = req.body;
 
-  const query = 'update course set remain_seat = remain_seat+1 where department=? and subject=? and t_lecture=?';
-  connection.query(query,[department,subject,t_lecture],(err,results) => {
-    if(err){
-      console.error('MySQL query error:',err);
-      res.status(500).json({error:'Internal server error'});
-      return ;
-    }
-    res.json(results);
-  });
+  if (t_lecture == null){
+    const query = 'update course set remain_seat = remain_seat+1 where department=? and subject=?';
+    connection.query(query,[department,subject],(err,results) => {
+      if(err){
+        console.error('MySQL query error:',err);
+        res.status(500).json({error:'Internal server error'});
+        return ;
+      }
+      res.json(results);
+    });
+  }
+  else{
+    const query = 'update course set remain_seat = remain_seat+1 where department=? and subject=? and t_lecture=?';
+    connection.query(query,[department,subject,t_lecture],(err,results) => {
+      if(err){
+        console.error('MySQL query error:',err);
+        res.status(500).json({error:'Internal server error'});
+        return ;
+      }
+      res.json(results);
+    });
+  }
 });
 
 app.listen(8080,() => {
