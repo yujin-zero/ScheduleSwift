@@ -68,6 +68,7 @@
     margin-left: -3%;
     display: flex;
     justify-content: center;
+    overflow-y: scroll;
 }
 
 .table_style table{
@@ -228,16 +229,6 @@
     background-color: white;
     position: relative;
 }
-
-/* .overlay{
-    position: absolute;
-    top: 52px;
-    left: 100px;
-    width: 48px;
-    height: 13px;
-    border: 1px solid red;
-    z-index: 1;
-} */
 
 #apply_square{
     width: 12px;
