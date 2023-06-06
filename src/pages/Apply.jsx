@@ -759,9 +759,11 @@ const Apply = () => {
             try {
             const response = await axios.post('/api/apply_course', data);
             const message = response.data;
+
             if (message === '이미 데이터가 존재합니다') {
                 alert('이미 수강신청한 과목입니다.');
-            } else if (message === '데이터 저장 성공') {
+            } 
+            else if (message === '데이터 저장 성공') {
                 setSelectedCourses((prevCourses) => [...prevCourses, selectedCourse]);
                 if (t_lecture === '' || t_lecture === null) {
                 setNoTimeCourses((prevCourses) => [...prevCourses, selectedCourse]);
@@ -1246,9 +1248,18 @@ const Apply = () => {
                             
                         </div>
                        
-                        <div className="showCredit">
-                            <span>신청한 학점:&nbsp;{totalCredits}&nbsp;&nbsp;&nbsp;</span>
-                            <span>신청 과목 수:&nbsp;{selectedCourseCount}&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                        <div className="showCredit1">
+                            <span>신청한 학점&nbsp;:&nbsp;{totalCredits}</span>
+                        </div>
+                        <div className="showCredit2">
+                        <span>신청 가능한 학점&nbsp;:&nbsp;{parseInt(18 - totalCredits)} </span>
+                        </div>
+                        <div className="showCredit3">
+                        <span>수강 가능한 학점&nbsp;:&nbsp;18</span>
+                        </div>
+                        <div className="showCredit4">
+                            <span>신청 과목 수&nbsp;:&nbsp;{selectedCourseCount} </span>
+                           
                         </div>
                       
                     </div>
