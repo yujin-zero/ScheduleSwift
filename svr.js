@@ -170,6 +170,21 @@ app.get('/api/courses_notime',(req, res) => {
   });
 });
 
+//시간이 없는 과목 포털 시간표에도 보여주기
+app.get('/api/noTimeSubjects', (req, res) => {
+  const query = 'SELECT subject FROM addSubject WHERE t_lecture IS NULL OR t_lecture = ""';
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('MySQL query error:', err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    const noTimeSubjects = results.map((result) => result.subject);
+    res.json(noTimeSubjects);
+  });
+});
+
 
 
 // 수강한 과목 보여주기 (학번, 학기에 따라)

@@ -212,6 +212,21 @@ const Potal = () => {
         //alert(loveLectureList);
     }, []);
 
+    const [NoTimeSubjectList, setNoTimeSubjectList] = useState([]);
+    const fetchNoTimeSubjects = async () => {
+        try {
+          const response = await axios.get('/api/noTimeSubjects');
+          const data = response.data;
+          setNoTimeSubjectList(data);
+        } catch (error) {
+          console.error('Error fetching noTimeSubjects:', error);
+        }
+      };
+      
+      useEffect(() => {
+        fetchNoTimeSubjects();
+      }, []);
+
     // loveLectureList < 관심과목 map으로 돌면서 timeTableColorList set
     useEffect(() => {
         let tableColorList = [...timeTableColorList];
@@ -581,10 +596,14 @@ const Potal = () => {
                                 </table>
 
                             </div>
+
                             <div className="potal_noTimeSubject">
-                                <span></span>
+                                {NoTimeSubjectList.map((subject, index) => (
+                                    <div key={index}>{subject}</div>
+                                ))}
                                    
-                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
