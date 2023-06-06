@@ -336,101 +336,90 @@ const SubjectInterest = () => {
     const [conflictingCourse, setConflictingCourse] = useState(null); // 시간이 겹치는 과목
     const [showConfirmation, setShowConfirmation] = useState(false); // 변경 여부 확인 모달 표시 여부
     const [selectedCourses, setSelectedCourses] = useState([]); // 선택한 과목 정보
+  
+    const [noTimeCourses, setNoTimeCourses] = useState([]);
 
-    // 담기 버튼이 눌렸을 때
-    const handle_add = (event) => {
-        event.preventDefault();
-    
-        // 선택한 과목 정보 가져오기
-        const selectedCourses = checkedCourses.map((index) => courses[index]);
+ 
+ 
 
-        // 시간이 겹치는 과목 확인
-        const timeConflicts = [];
-        selectedCourses.forEach((course) => {
-            const { subject, class1, credit,t_lecture } = course;
-            const data = { id, department, subject, t_lecture, class1,credit};
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-              axios
-                .post('/apply/mycourse', data)
-                .then((res) => {
-                console.log(res.data);
-                })
-                .catch((err) => {
-                console.error(err);
-                });
-        
-                alert('수강과목이 담겼습니다!');
-                setCheckedCourses([]);
-                fetchData();
-                window.location.reload();
-        });
-          
-    };
-        
-    // 등록된 사항을 바로 보여주도록
     const fetchData = async () => {
         try {
         const response = await axios.post('/api/addSubject', { id });
         const data = response.data;
-        setAddSubject(data); // setAddSubject는 addSubject 상태 변수가 있어야 함
+        setAddSubject(data);
+
+        // 시간이 없는 과목 확인
+        const noTimeCourses = data.filter((course) => {
+            return course.t_lecture === '' || course.t_lecture === null;
+        });
+        setNoTimeCourses(noTimeCourses);
         } catch (error) {
         console.error('Error fetching courses:', error);
         }
     };
 
-
-    const handleCheckboxDelete = (index) => {
-    if (deleteCourses.includes(index)) {
-      setDeleteCourses(deleteCourses.filter((item) => item != index));
-    }
-    else {
-      setDeleteCourses([...deleteCourses, index]);
-    }
-    };
-
-
-    //삭제버튼이 눌렸을때
-    const handle_delete = (event) => {
+    const handle_add = (event) => {
         event.preventDefault();
-        //alert("삭제버튼이 눌림");
 
-        const selectedCourses_d = deleteCourses.map(index=>addSubject[index]);
-        //alert(selectedCourses);
-        selectedCourses_d.map(addSubject => {
-        //alert('시작');
-        const {subject} = addSubject;
-        const data = {id, department, subject};
-        // id , department
-        //alert(id);
+        // 선택한 과목 정보 가져오기
+        const selectedCourses = checkedCourses.map((index) => courses[index]);
 
-        axios.post('/delete/addSubject',data)
+        selectedCourses.forEach((course) => {
+        const { subject, class1, credit, t_lecture } = course;
+        const data = { id, department, subject, t_lecture, class1, credit };
+
+        axios
+            .post('/apply/mycourse', data)
             .then((res) => {
             console.log(res.data);
             })
             .catch((err) => {
             console.error(err);
             });
-        })
-        alert('수강과목에서 삭제되었습니다!');
+        });
 
-        // 등록된 사항을 바로 보여주도록
-        const fetchData = async() => {
-        try {
-            const response = await axios.post('/api/addSubject',{id} );
-            const data = response.data;
-            setAddSubject(data);
-        }
-        catch(error) {
-            console.error('Error fetching courses:',error);
-            }
-        };
-        //alert(id);
-        //alert(semester);
+        alert('수강과목이 담겼습니다!');
+        setCheckedCourses([]);
+        fetchData();
+        window.location.reload();
+    };
+
+    const handle_delete = (event) => {
+        event.preventDefault();
+
+        const selectedCourses_d = deleteCourses.map((index) => addSubject[index]);
+
+        selectedCourses_d.forEach((addSubject) => {
+        const { subject } = addSubject;
+        const data = { id, department, subject };
+
+        axios
+            .post('/delete/addSubject', data)
+            .then((res) => {
+            console.log(res.data);
+            })
+            .catch((err) => {
+            console.error(err);
+            });
+        });
+
+        alert('수강과목에서 삭제되었습니다!');
         fetchData();
         setDeleteCourses([]);
         window.location.reload();
+    };
 
-    }
+    const handleCheckboxDelete = (index) => {
+        if (deleteCourses.includes(index)) {
+        setDeleteCourses(deleteCourses.filter((item) => item !== index));
+        } else {
+        setDeleteCourses([...deleteCourses, index]);
+        }
+    };
 
     
 
@@ -783,7 +772,7 @@ const SubjectInterest = () => {
             <span className="rightRect"></span>
             <h5 className="studenttimetable">도와드림 창</h5>
             <div className="subjectInterest_timetable_content">
-                <span className="timetable_label">담은 시간표</span>         
+                <span className="timetable_label"></span>         
                 <div className="subjectInterest_timetable">
                         <div className="subjectInterest_name">
                             <div className="subjectInterest_tablehead">
@@ -859,12 +848,18 @@ const SubjectInterest = () => {
                                     
                             </table>
                         </div>
-                        <div className="subjectInterest_noTimeSubject">
+                        <div className="subjectInterest_noTimeLecture">
+                        {noTimeCourses.map((course, index) => (
+                            <div className="subjectInterest_noTimeSubject" key={index}>
+                                <span>{course.subject}</span>
+                            </div>
+                        ))}
+                            
                         </div>
                     </div>
                 </div>
                 <div className="gorequestSeat">
-                    <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원 요청하기</button>
+                    <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원 요청</button>
                 </div>   
         
         </div>

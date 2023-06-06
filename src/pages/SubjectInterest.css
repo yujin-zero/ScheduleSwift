@@ -687,7 +687,7 @@ table{
     font-size: 12px;
 }
 
-.subjectInterest_noTimeSubject{
+.subjectInterest_noTimeLecture{
     position: absolute;
     border-width: 1px;
     border-style: solid;
@@ -713,7 +713,14 @@ table{
     font-weight: bold;
     margin-top: 6%;
     margin-left: 18%;
-    color: #a6a6a6;
+}
+
+.subjectInterest_noTimeSubject{
+    margin-top: 1px;
+    justify-content: center;
+    text-align: center;
+    letter-spacing: 5px;
+    
 }
 
 
