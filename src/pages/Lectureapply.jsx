@@ -367,10 +367,10 @@ const Lectureapply = () => {
           <table>
             <thead>
               <tr>
-                <th>선택</th>
-                <th>과목명</th>
-                <th>이수구분</th>
-                <th>학점</th>
+                <th id="select2">선택</th>
+                <th id="subject2">과목명</th>
+                <th id="class12">이수구분</th>
+                <th id="credit2">학점</th>
               </tr>
             </thead>
             <tbody>
@@ -417,11 +417,11 @@ const Lectureapply = () => {
           <table>
             <thead>
               <tr>
-                <th>선택</th>
-                <th>학과</th>
-                <th>과목명</th>
-                <th>이수구분</th>
-                <th>학점</th>
+                <th id="select3">선택</th>
+                <th id="department3">학과</th>
+                <th id="subject3">과목명</th>
+                <th id="class3">이수구분</th>
+                <th id="credit3">학점</th>
               </tr>
             </thead>
             <tbody>

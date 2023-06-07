@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+
+
 const RequestSeat = () => {
     const navigate = useNavigate();
 
@@ -24,7 +26,15 @@ const RequestSeat = () => {
         const fetchData = async() => {
             try {
                 const response = await axios.post('/user/addSubject',{id});
-                const data = response.data;
+                const data = response.data.map(item => ({
+                    id: item.id,
+                    subject: item.subject,
+                    class1: item.class1,
+                    credit: item.credit,
+                    department:item.department,
+                    t_lecture: item.t_lecture,
+                    requestCount: 0 // 요청 횟수 초기화
+                  }));
                 setAddsubject(data);
             }catch(error) {
                 console.error('Error fetching courses:',error);
@@ -33,56 +43,93 @@ const RequestSeat = () => {
         fetchData();
     },[]);
 
-     // 체크박스 변경 이벤트 처리 함수
-     const handleCheckboxChange_rs = (index) => {
-        if (checkedCourses_rs.includes(index)) { // 이미 선택되어있었으면
-            setCheckedCourses_rs(checkedCourses_rs.filter((item) => item !== index));
-        }else { // 선택 안되어있었으면 추가
-            setCheckedCourses_rs([...checkedCourses_rs, index]);
-        }
+    // 로컬 스토리지에서 메시지 가져오기
+    useEffect(() => {
+    const storedMessages = localStorage.getItem("messages");
+    if (storedMessages) {
+        setMessages(JSON.parse(storedMessages));
+    }
+    }, []);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.post('/user/addSubject', { id });
+            const data = response.data;
+            const subjectNames = data.subjects.map(subject => subject.name);
+            setAddsubject(subjectNames);
+          } catch (error) {
+            console.error('Error fetching courses:', error);
+          }
+        };
+        fetchData();
+      }, []);
+
+
+
+      const [showMessageInput, setShowMessageInput] = useState(false);
+      const [currentSubject, setCurrentSubject] = useState(null);
+      const [message, setMessage] = useState('');
+      const [messages, setMessages] = useState([]);
+
+      const [requestMessages, setRequestMessages] = useState([]);
+
+        const addRequestMessage = (message) => {
+        setRequestMessages([...requestMessages, message]);
         };
 
-    // 증원요청 버튼이 눌렸을 때
-    const handle_request = (event) => {
-        event.preventDefault();
-    
-        // 선택한 과목 정보 가져오기
-        const selectedCourses_rs = checkedCourses_rs.map((index) => courses[index]);
-    
-        selectedCourses_rs.forEach((course) => {
-        const { subject, class1, credit, t_lecture } = course;
-        const data = { id, department, subject, t_lecture, class1, credit };
-    
-        axios
-            .post('/apply/mycourse', data)
-            .then((res) => {
-            console.log(res.data);
-            })
-            .catch((err) => {
-            console.error(err);
-            });
-        });
-    
-        alert('증원요청 되었습니다!');
-    
-        fetchData();
-    };
-    
-    // 등록된 사항을 바로 보여주도록
-    const fetchData = async () => {
-        try {
-        const response = await axios.post('/api/addSubject', { id });
-        const data = response.data;
-        setRequestSubject(data); // setAddSubject는 addSubject 상태 변수가 있어야 함
-        } catch (error) {
-        console.error('Error fetching courses:', error);
+     
+
+      useEffect(() => {
+        localStorage.setItem("messages", JSON.stringify(messages));
+      }, [messages]);
+
+     
+      const handleRequest = (subjectName) => {
+        const subject = addsubject.find((item) => item.subject === subjectName);
+        if (subject) {
+          setCurrentSubject(subject);
+          setShowMessageInput(true);
         }
+      };
+
+      
+      const handleMessageSubmit = (message) => {
+        if (currentSubject) {
+          const { subject } = currentSubject;
+          const newMessages = { ...messages };
+          if (!newMessages[subject]) {
+            newMessages[subject] = [];
+          }
+          newMessages[subject].push({ message });
+          setMessages(newMessages);
+          setMessage("");
+    
+          // 요청 횟수 증가
+          const updatedAddsubject = addsubject.map((item) => {
+            if (item.subject === subject) {
+              return { ...item, requestCount: item.requestCount + 1 };
+            }
+            return item;
+          });
+          setAddsubject(updatedAddsubject);
+        }
+      };
+
+    // 메시지 개수 세기
+    const getMessageCount = (subject) => {
+        if (messages[subject]) {
+        return messages[subject].length;
+        }
+        return 0;
     };
 
-
+  
+      
     
-
     return(
+        
       <div className="requestSeat_root">
         <div className="requestSeat_header">
         <img src="../dowadream.png" onClick={handleLogo}></img>
@@ -106,6 +153,7 @@ const RequestSeat = () => {
                             <th>학과</th>
                             <th>강의시간</th>
                             <th>학점</th>
+                            <th>요청횟수</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,15 +161,14 @@ const RequestSeat = () => {
                             addsubject.map((addsubject,index) => (
                                 <tr>
                                     <td>
-                                        <input type="checkbox" 
-                                        checked = {checkedCourses_rs.includes(index)}
-                                        onChange={()=> handleCheckboxChange_rs(index)}/>
+                                    <button onClick={() => handleRequest(addsubject.subject, message)}>요청</button>
                                     </td>
                                     <td>{addsubject.class1}</td>
                                     <td>{addsubject.subject}</td>
                                     <td>{addsubject.department}</td>
                                     <td>{addsubject.t_lecture}</td>
                                     <td>{addsubject.credit}</td>
+                                    <td>{getMessageCount(addsubject.subject)}</td>
                                 </tr>
                             ))
                         ):(
@@ -129,33 +176,58 @@ const RequestSeat = () => {
                                 <td colSpan="5">No courses available</td>
                             </tr>
                         )}
+
+              
                     </tbody>
                 </table>
             </div>
 
-            <div className="rebtn">
-                <button onClick={handle_request}>증원 요청</button>
+                <span className="small_rect12"></span>
+                <span className="myobj1">요청 메세지 보내기</span>
+
+
+            <div className="leavemessage">
+                <div className="leave_contents">
+                    {showMessageInput && currentSubject && (
+                        <div className="messageInput">
+                            <h3>{currentSubject.subject}</h3>
+                            <form onSubmit={(e) => { e.preventDefault(); handleMessageSubmit(message); }}>
+                            <input
+                                type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="메시지를 입력하세요"
+                                className="messageInput"
+                            />
+                            <button type="submit">보내기</button>
+                            </form>
+                        </div>
+                        )}
+                </div>
+
             </div>
 
-            <div className="request">
-                <span>요청 현황</span>
-            </div>
 
-            <div className="request_live">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>분반</th>
-                            <th>교과목명</th>
-                            <th>요청횟수</th>
-                        </tr>
-                    </thead>
-                   
-                    
-                </table>
+            <div className="showmessagediv">
+                {currentSubject && (
+                    <div className="showm">
+                        <h3>{currentSubject.subject}</h3>
+                    </div>
+                    )}
+                {currentSubject && messages[currentSubject.subject] ? (
+                <ul>
+                    {messages[currentSubject.subject].map((msg, index) => (
+                    <li className="listMessage" key={index}>{msg.message}</li>
+                    ))}
+                </ul>
+                ) : (
+                <p className="noMessage">메시지가 없습니다.</p>
+               
+                )}
             </div>
+                
 
-        </div>
+            </div>
       </div>
     )
   } 
