@@ -783,8 +783,6 @@ const Apply = () => {
         window.location.reload();
     };
     
-
-
     // 관심과목 신청버튼이 눌렸을 때.
     const handleDirectApply = async (index) => {
         // 선택한 과목의 정보를 가져오기
@@ -1010,17 +1008,16 @@ const Apply = () => {
                                     <option value="지능기전공학과">지능기전공학과</option>
                                 </select>
 
-
                             <div className="table_style">
                                 <table>
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>과목명</th>
-                                        <th>이수구분</th>
-                                        <th>시간</th>
-                                        <th>학점</th>
-                                        <th>여석</th>
+                                        <th id="select1"></th>
+                                        <th id="subject1">과목명</th>
+                                        <th id="class11">이수구분</th>
+                                        <th id="t_lecture1">시간</th>
+                                        <th id="credit1">학점</th>
+                                        <th id="seat1">여석</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -1073,6 +1070,7 @@ const Apply = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
                                 {addsubject.length > 0 ? (
                                     addsubject.map((addsubject,index) => (
                                         <tr 
@@ -1239,7 +1237,7 @@ const Apply = () => {
                                     {noTimeCourses.map((course, index) => (
                                         <div className="noTimeSubject" key={index}>
                                         <span>{course}</span>
-                                        {/* <hr /> */}
+                                      
                                         </div>
                                     ))}
                                 </div>

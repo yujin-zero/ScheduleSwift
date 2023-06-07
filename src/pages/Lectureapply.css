@@ -226,3 +226,39 @@
 img{
     cursor: pointer;
 }
+
+#select2 {
+    width:5%;
+}
+
+#subject2 {
+    width: 25%;
+}
+
+#class12 {
+    width :10%;
+}
+
+#credit2 {
+    width: 8%;
+}
+
+
+#select3 {
+    width:10%;
+}
+#department3 {
+    width: 25%;
+}
+
+#subject3 {
+    width: 25%;
+}
+
+#class13 {
+    width :10%;
+}
+
+#credit3 {
+    width: 8%;
+}
