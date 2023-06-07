@@ -71,14 +71,13 @@ const RequestSeat = () => {
       const [showMessageInput, setShowMessageInput] = useState(false);
       const [currentSubject, setCurrentSubject] = useState(null);
       const [message, setMessage] = useState('');
-      const [messages, setMessages] = useState([]);
+      const [messages, setMessages] = useState({});
 
       const [requestMessages, setRequestMessages] = useState([]);
 
         const addRequestMessage = (message) => {
         setRequestMessages([...requestMessages, message]);
         };
-
      
 
       useEffect(() => {
@@ -176,7 +175,6 @@ const RequestSeat = () => {
                                 <td colSpan="5">No courses available</td>
                             </tr>
                         )}
-
               
                     </tbody>
                 </table>
@@ -185,31 +183,51 @@ const RequestSeat = () => {
                 <span className="small_rect12"></span>
                 <span className="myobj1">요청 메세지 보내기</span>
 
-
             <div className="leavemessage">
-                <div className="leave_contents">
-                    {showMessageInput && currentSubject && (
-                        <div className="messageInput">
-                            <h3>{currentSubject.subject}</h3>
-                            <form onSubmit={(e) => { e.preventDefault(); handleMessageSubmit(message); }}>
-                            <input
-                                type="text"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                placeholder="메시지를 입력하세요"
-                                className="messageInput"
-                            />
-                            <button type="submit">보내기</button>
-                            </form>
-                        </div>
-                        )}
+            {
+              currentSubject ? 
+              <div className="leave_contents">
+                  {showMessageInput && currentSubject && (
+                      <div className="messageInput">
+                          <h3>{currentSubject.subject}</h3>
+                          <form onSubmit={(e) => { e.preventDefault(); handleMessageSubmit(message); }}>
+                          <input
+                              type="text"
+                              value={message}
+                              onChange={(e) => setMessage(e.target.value)}
+                              placeholder="메시지를 입력하세요"
+                              className="messageInput"
+                          />
+                          <button type="submit">보내기</button>
+                          </form>
+                      </div>
+                    )}
+              </div>
+              :
+              <div className="leave_contents">
+                <div className="messageInput">
+                    <h3>요청할 과목을 선택해주세요</h3>
+                    <form onSubmit={(e) => { e.preventDefault(); handleMessageSubmit(message); }}>
+                    <input
+                        type="text"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="메시지를 입력하세요"
+                        className="messageInput"
+                    />
+                    <button type="submit">보내기</button>
+                    </form>
                 </div>
-
+              </div>
+            }
             </div>
+            
 
-
-            <div className="showmessagediv">
-                {currentSubject && (
+            {
+              currentSubject ? 
+              <div className="showmessagediv">
+                {
+                currentSubject && (
                     <div className="showm">
                         <h3>{currentSubject.subject}</h3>
                     </div>
@@ -222,9 +240,18 @@ const RequestSeat = () => {
                 </ul>
                 ) : (
                 <p className="noMessage">메시지가 없습니다.</p>
-               
+              
                 )}
             </div>
+              :
+              <div className="showmessagediv">
+                    <div className="showm">
+                        <h3>메세지 목록</h3>
+                    </div>
+                <p className="noMessage">메시지가 없습니다.</p>
+            </div>
+            }
+
                 
 
             </div>
