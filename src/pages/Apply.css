@@ -654,12 +654,44 @@ h4{
 
 .noTimeSubject {
     margin-bottom: 1px;
-    border-top: 1px solid #d6d6d6;
     letter-spacing: 5px;
 
 }
 
-
 .highlighted{
     background-color: rgb(232, 232, 232);
 }
+
+
+.apply_interest_content table tbody button{
+    background-color: #a80e2b;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+#select1 {
+    width:12%;
+}
+
+#subject1 {
+    width: 25%;
+}
+
+#class11 {
+    width :15%;
+}
+
+#credit1 {
+    width: 8%;
+}
+
+#t_lecture1 {
+    width: 25%;
+}
+
+#department1{
+    width: 15%;
+}
+
