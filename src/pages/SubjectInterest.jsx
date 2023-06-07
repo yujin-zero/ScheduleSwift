@@ -12,6 +12,9 @@ const SubjectInterest = () => {
     // 로고 클릭하면 포탈화면으로 이동
     navigate('/potal');
     }
+    const handleRequestSeat = () => {
+        navigate('/requestSeat');
+    }
 
     const [department, setDepartment] = useState('');
     const [courses, setCourses] = useState([]);
@@ -858,8 +861,9 @@ const SubjectInterest = () => {
                         </div>
                     </div>
                 </div>
-                <div className="gorequestSeat">
-                    <button id="potal_requestSeat"onClick={() => navigate('/requestSeat')}>증원 요청</button>
+                <div className="gorequestSeat" onClick={handleRequestSeat}>
+                    <span>증원요청</span>
+
                 </div>   
         
         </div>
