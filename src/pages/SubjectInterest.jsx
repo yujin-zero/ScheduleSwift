@@ -860,11 +860,12 @@ const SubjectInterest = () => {
                             
                         </div>
                     </div>
-                </div>
-                <div className="gorequestSeat" onClick={handleRequestSeat}>
+                    <div className="gorequestSeat" onClick={handleRequestSeat}>
                     <span>증원요청</span>
 
-                </div>   
+                    </div>   
+                </div>
+                
         
         </div>
       </div>
